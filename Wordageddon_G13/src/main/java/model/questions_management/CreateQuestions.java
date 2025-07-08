@@ -22,24 +22,39 @@ public class CreateQuestions {
     }
 
     /**
-     * @brief crea un set di domande
+     * @brief crea un set di domande chiamando i metodi
      * @return set di domande da mostrare
      */
     public Set<Question> createQuestions() { return null; }
 
+
+    /**
+     *
+     * @brief si calcola la parola nel testo scelto chiama getcorrectAnswer per calcolare la risposta corretta e si calcola 3 numeri random per le risposte sbagliate
+     * @return la domanda completa di risposta esatta testo domanda e risposta sbagliata
+     */
     private Question createQuestionType1() { return null; }
 
+    /**
+     *
+     * @brief prende la parola corretta chiamndo correctAnswerType_1_2_3() formula la domanda poi chiama getRandomWord per crerare anche le risposte sbagliate e creare la question
+     * @return la domanda completa di  risposta esatta testo domanda e risposte sbagliata
+     */
     private Question createQuestionType2() { return null; }
 
     private Question createQuestionType3() { return null; }
 
     private Question createQuestionType4() { return null; }
 
+    private String correctAnswerType_1_2_3() { return null;}
+
+
     /**
-     *
-     * @return 
+     * @param correctWord parola corretta da aggiungere come prima al set in modo da escluderla dalle risposte sbagliate
+     * @brief prende parole a caso dalla mappa per mostrare le risposte sbagliate
+     * @return un set di 3 stringhe
      */
-    private String getRandomWord() { return null; }
+    private Set<String> getRandomWord(String correctWord) { return null; }
 
     /**
      *
