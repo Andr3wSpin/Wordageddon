@@ -6,6 +6,18 @@ import model.questions_management.Question;
 import java.util.Set;
 
 public class Game {
+    /**
+     * @brief punteggio risposta corretta
+     */
+    private static final int CORRECT_ANSWER = 3;
+    /**
+     * @brief punteggio risposta sbagliata
+     */
+    private static final int WRONG_ANSWER = 3;
+    /**
+     * @brief punteggio risposta non data
+     */
+    private static final int NO_ANSWER = 3;
 
     private final Difficulty difficulty;
     private final int PLAYER_ID;
@@ -30,7 +42,10 @@ public class Game {
 
     /**
      * @brief calcola il punteggio in base alle risposte date
-     * @return punteggio complessivo della partita
+     * @return null
      */
+
+    public void calculateScore(){}
+
     public int getScore() { return score; }
 }
