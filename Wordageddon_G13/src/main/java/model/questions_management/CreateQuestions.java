@@ -22,7 +22,7 @@ public class CreateQuestions {
     }
 
     /**
-     * @brief crea un set di domande chiamando i metodi
+     * Crea un set di domande chiamando il metodo relativo al tipo specifico
      * @return set di domande da mostrare
      */
     public Set<Question> createQuestions() { return null; }
@@ -30,14 +30,15 @@ public class CreateQuestions {
 
     /**
      *
-     * @brief si calcola la parola nel testo scelto chiama getcorrectAnswer per calcolare la risposta corretta e si calcola 3 numeri random per le risposte sbagliate
-     * @return la domanda completa di risposta esatta testo domanda e risposta sbagliata
+     * Ottiene una parola casuale dal testo scelto, ottiene la risposta corretta e
+     * genera 3 numeri random per le risposte sbagliate
+     * @return la domanda completa di risposta esatta, testo domanda e risposte sbagliate
      */
     private Question createQuestionType1() { return null; }
 
     /**
      *
-     * @brief prende la parola corretta chiamndo correctAnswerType_1_2_3() formula la domanda poi chiama getRandomWord per crerare anche le risposte sbagliate e creare la question
+     * Prende la parola corretta chiamndo correctAnswerType_1_2_3() formula la domanda poi chiama getRandomWord per crerare anche le risposte sbagliate e creare la question
      * @return la domanda completa di  risposta esatta testo domanda e risposte sbagliata
      */
     private Question createQuestionType2() { return null; }
@@ -50,15 +51,15 @@ public class CreateQuestions {
 
 
     /**
+     * Prende parole a caso dalla mappa per mostrare le risposte sbagliate
      * @param correctWord parola corretta da aggiungere come prima al set in modo da escluderla dalle risposte sbagliate
-     * @brief prende parole a caso dalla mappa per mostrare le risposte sbagliate
      * @return un set di 3 stringhe
      */
     private Set<String> getRandomWord(String correctWord) { return null; }
 
     /**
      *
-     * @brief ottiene dalla mappa il numero di occorrenze della parola nel file
+     * Ottiene dalla mappa il numero di occorrenze della parola nel file
      * @param word parola scelta casualmente dal sistema
      * @param file file scelto casualmente dal sistema
      * @return risposta corretta di una domanda di Type1

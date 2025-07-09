@@ -7,17 +7,17 @@ import java.util.Set;
 
 public class Game {
     /**
-     * @brief punteggio risposta corretta
+     * Punteggio risposta corretta
      */
     private static final int CORRECT_ANSWER = 3;
     /**
-     * @brief punteggio risposta sbagliata
+     * Punteggio risposta sbagliata
      */
-    private static final int WRONG_ANSWER = 3;
+    private static final int WRONG_ANSWER = -1;
     /**
-     * @brief punteggio risposta non data
+     * Punteggio risposta non data
      */
-    private static final int NO_ANSWER = 3;
+    private static final int NO_ANSWER = 0;
 
     private final Difficulty difficulty;
     private final int PLAYER_ID;
@@ -30,6 +30,11 @@ public class Game {
         this.questions = questions;
     }
 
+    /**
+     * Calcola il punteggio in base alle risposte date
+     */
+    public void calculateScore(){}
+
     public Difficulty getDifficuty() { return difficulty; }
 
     public int getPLAYER_ID() { return PLAYER_ID; }
@@ -39,13 +44,6 @@ public class Game {
     public void setQuestions(Set<Question> questions) { this.questions = questions; }
 
     public void setScore(int score) { this.score = score; }
-
-    /**
-     * @brief calcola il punteggio in base alle risposte date
-     * @return null
-     */
-
-    public void calculateScore(){}
 
     public int getScore() { return score; }
 }
