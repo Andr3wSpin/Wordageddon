@@ -8,37 +8,45 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.media.MediaView?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="618.0" prefWidth="848.0" style="-fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #1a1a2e, #16213e, #0f3460);" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<StackPane prefHeight="450.0" prefWidth="800.0" style="-fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #1a1a2e, #16213e, #0f3460);" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MainMenuController">
    <children>
-      <MediaView fx:id="MediaViewWallPaper" fitHeight="620.0" fitWidth="850.0" layoutX="-1.0" layoutY="-1.0" />
-      <HBox fx:id="NavigationBar" alignment="CENTER" prefHeight="50.0" prefWidth="848.0" spacing="40.0" style="-fx-background-color: rgb(37, 45, 75,0.8);">
+      <MediaView fx:id="MediaViewWallPaper" fitHeight="450.0" fitWidth="800.0" />
+      <VBox alignment="CENTER" prefHeight="214.0" prefWidth="848.0" spacing="30.0">
          <children>
-            <Button fx:id="NavigationBarItem_Gioca" alignment="CENTER" mnemonicParsing="false" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-family: &quot;Microsoft YaHei&quot;; -fx-font-weight: bold;" text="GIOCA" textFill="WHITE">
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor></Button>
-            <Button fx:id="NavigationBarItem_Scores" alignment="CENTER" mnemonicParsing="false" style="-fx-background-color: transaprent; -fx-text-fill: white; -fx-font-family: &quot;Microsoft YaHei&quot;; -fx-font-weight: bold;" text="SCORES">
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor></Button>
-            <Button fx:id="NavigationBarItem_Admin" alignment="CENTER" mnemonicParsing="false" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-family: &quot;Microsoft YaHei&quot;; -fx-font-weight: bold;" text="ADMIN" textFill="RED">
-               <font>
-                  <Font name="System Bold" size="17.0" />
-               </font>
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor></Button>
-         </children>
-      </HBox>
-      <VBox alignment="CENTER" layoutY="190.0" prefHeight="214.0" prefWidth="848.0" spacing="100.0">
-         <children>
+            <HBox fx:id="NavigationBar" alignment="CENTER" prefHeight="64.0" prefWidth="814.0" spacing="40.0">
+               <children>
+                  <Button fx:id="NavigationBarItem_Gioca" alignment="CENTER" mnemonicParsing="false" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-family: &quot;Microsoft YaHei&quot;; -fx-font-weight: bold;" text="GIOCA" textFill="WHITE">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <font>
+                        <Font size="17.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="NavigationBarItem_Scores" alignment="CENTER" mnemonicParsing="false" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-family: &quot;Microsoft YaHei&quot;; -fx-font-weight: bold;" text="SCORES">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <font>
+                        <Font size="17.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="NavigationBarItem_Admin" alignment="CENTER" mnemonicParsing="false" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-family: &quot;Microsoft YaHei&quot;; -fx-font-weight: bold;" text="ADMIN" textFill="RED">
+                     <font>
+                        <Font name="System Bold" size="17.0" />
+                     </font>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Button>
+               </children>
+            </HBox>
             <Text fill="RED" strokeType="OUTSIDE" strokeWidth="0.0" text="Start Game" textAlignment="CENTER" wrappingWidth="361.97078704833984">
                <font>
                   <Font name="Microsoft YaHei Bold" size="60.0" />
@@ -72,28 +80,28 @@
                   </RadioButton>
                </children>
             </HBox>
+            <Button fx:id="Button_StartGame" mnemonicParsing="false" prefHeight="42.0" prefWidth="135.0" style="-fx-border-color: red; -fx-background-color: red; -fx-text-fill: white; -fx-font-family: &quot;Microsoft YaHei&quot;; -fx-font-size: 20; -fx-border-radius: 20; -fx-background-radius: 15;">
+               <graphic>
+                  <StackPane alignment="CENTER_LEFT" prefHeight="33.0" prefWidth="104.0">
+                     <children>
+                        <ImageView fitHeight="38.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../assets/play.png" />
+                           </image>
+                        </ImageView>
+                        <Label fx:id="LableButton_StartGame" alignment="CENTER" prefHeight="27.0" prefWidth="159.0" style="-fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 20;" text="Start">
+                           <padding>
+                              <Insets left="20.0" />
+                           </padding>
+                        </Label>
+                     </children>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </StackPane>
+               </graphic>
+            </Button>
          </children>
       </VBox>
-      <Button fx:id="Button_StartGame" layoutX="552.0" layoutY="513.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="135.0" style="-fx-border-color: red; -fx-background-color: red; -fx-text-fill: white; -fx-font-family: &quot;Microsoft YaHei&quot;; -fx-font-size: 20; -fx-border-radius: 20; -fx-background-radius: 15;">
-         <graphic>
-            <StackPane alignment="CENTER_LEFT" prefHeight="33.0" prefWidth="104.0">
-               <children>
-                  <ImageView fitHeight="38.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../java/Assets/play.png" />
-                     </image>
-                  </ImageView>
-                  <Label fx:id="LableButton_StartGame" alignment="CENTER" prefHeight="27.0" prefWidth="159.0" style="-fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 20;" text="Start">
-                     <padding>
-                        <Insets left="20.0" />
-                     </padding>
-                  </Label>
-               </children>
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-            </StackPane>
-         </graphic>
-      </Button>
    </children>
-</Pane>
+</StackPane>
