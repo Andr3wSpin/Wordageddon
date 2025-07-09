@@ -23,6 +23,7 @@ import java.io.File;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class MainMenuController implements Initializable {
 
@@ -97,6 +98,8 @@ public class MainMenuController implements Initializable {
         Difficulty difficulty=takeDifficulty();
 
         List<File> listFile = FileManager.getFiles();
+        List<String> fileName = listFile.stream().map(file -> file.getName()).collect(Collectors.toList());
+
         int lenghtList = listFile.size();
         int[] randomNumber = new int[0];
         int max =  lenghtList < difficulty.getMaxTexts() ? lenghtList : difficulty.getMaxTexts();
@@ -105,9 +108,9 @@ public class MainMenuController implements Initializable {
             Random random = new Random();
             randomNumber[i]= random.nextInt(lenghtList+1);
          }
-    Set<File> effFile = new HashSet<>();  //prendo i file che mi servono max=getMAxTexts dalla lista di tutti i file
+    Set<String> effFile = new HashSet<>();  //prendo i file che mi servono max=getMAxTexts dalla lista di tutti i file
          for (int i = 0 ; i< difficulty.getMaxTexts();i++){
-          effFile.add(listFile.get(randomNumber[i]));
+          effFile.add(fileName.get(randomNumber[i]));
           }
         Set<QuestionType> questionTypeSet = new HashSet<>();
          //creo l oggetto createQuestion

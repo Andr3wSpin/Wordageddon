@@ -13,7 +13,7 @@ public class CreateQuestions {
     private Map<String, Map<String, Integer>> fileAnalysis;
     private int questionNumber;
 
-    public CreateQuestions(Set<QuestionType> questionTypes, Set<File> choosenFiles,
+    public CreateQuestions(Set<QuestionType> questionTypes, Set<String> choosenFiles,
                            Map<String, Map<String, Integer>> fileAnalysis, int questionNumber) {
 
         this.questionTypes = questionTypes;

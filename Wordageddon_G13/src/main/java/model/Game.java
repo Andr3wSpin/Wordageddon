@@ -24,11 +24,14 @@ public class Game {
     private final int PLAYER_ID;
     private Set<Question> questions;
     private int score;
+    private Set<String> effFile;
 
-    public Game(Difficulty difficulty, int PLAYER_ID, Set<Question> questions, Set<File> effFile) {
+    public Game(Difficulty difficulty, int PLAYER_ID, Set<Question> questions, Set<String> effFile) {
         this.difficulty = difficulty;
         this.PLAYER_ID = PLAYER_ID;
         this.questions = questions;
+        this.effFile=effFile;
+
     }
 
     /**
