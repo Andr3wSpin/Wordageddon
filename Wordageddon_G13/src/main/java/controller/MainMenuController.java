@@ -104,17 +104,17 @@ public class MainMenuController implements Initializable {
         int[] randomNumber = new int[0];
         int max =  lenghtList < difficulty.getMaxTexts() ? lenghtList : difficulty.getMaxTexts();
         //generare n numeri random per scegliere file random dalla lista
-        for (int i = 0 ; i<max;i++){
+        for (int i = 0 ; i < max; i++){
             Random random = new Random();
             randomNumber[i]= random.nextInt(lenghtList+1);
          }
-    Set<String> effFile = new HashSet<>();  //prendo i file che mi servono max=getMAxTexts dalla lista di tutti i file
-         for (int i = 0 ; i< difficulty.getMaxTexts();i++){
+    Set<String> effFile = new HashSet<>();  //prendo i file che mi servono max dalla lista di tutti i file
+         for (int i = 0 ; i < max ;i++){
           effFile.add(fileName.get(randomNumber[i]));
           }
         Set<QuestionType> questionTypeSet = new HashSet<>();
          //creo l oggetto createQuestion
-        if (difficulty.compareTo(Difficulty.EASY) == 0 || effFile.size()==1) {
+        if (difficulty.compareTo(Difficulty.EASY) == 0 || max==1) {
 
             questionTypeSet.add(QuestionType.TYPE1);
             questionTypeSet.add(QuestionType.TYPE4);
