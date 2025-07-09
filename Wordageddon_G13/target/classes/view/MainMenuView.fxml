@@ -80,7 +80,7 @@
                <children>
                   <ImageView fitHeight="38.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../../java/Assets/play..png" />
+                        <Image url="@../../java/Assets/play.png" />
                      </image>
                   </ImageView>
                   <Label fx:id="LableButton_StartGame" alignment="CENTER" prefHeight="27.0" prefWidth="159.0" style="-fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 20;" text="Start">

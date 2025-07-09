@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="490.0" prefWidth="730.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label fx:id="questionLabel" layoutX="204.0" layoutY="157.0" prefHeight="21.0" prefWidth="322.0" text="Domanda" />
+      <Label fx:id="numberQuestionLabel" layoutX="204.0" layoutY="118.0" text="Numero domanda" />
+      <RadioButton fx:id="option3Btn" layoutX="394.0" layoutY="232.0" mnemonicParsing="false" text="option3" />
+      <RadioButton fx:id="option1Btn" layoutX="227.0" layoutY="232.0" mnemonicParsing="false" text="option1" />
+      <RadioButton fx:id="option2Btn" layoutX="227.0" layoutY="282.0" mnemonicParsing="false" text="option2" />
+      <RadioButton fx:id="option4Btn" layoutX="394.0" layoutY="282.0" mnemonicParsing="false" text="option4" />
+      <Button fx:id="nextQuestionBtn" layoutX="608.0" layoutY="337.0" mnemonicParsing="false" text="Next" />
+   </children>
+</Pane>
