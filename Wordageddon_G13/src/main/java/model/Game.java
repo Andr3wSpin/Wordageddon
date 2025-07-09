@@ -3,6 +3,7 @@ package model;
 import model.enums.Difficulty;
 import model.questions_management.Question;
 
+import java.io.File;
 import java.util.Set;
 
 public class Game {
@@ -24,7 +25,7 @@ public class Game {
     private Set<Question> questions;
     private int score;
 
-    public Game(Difficulty difficulty, int PLAYER_ID, Set<Question> questions) {
+    public Game(Difficulty difficulty, int PLAYER_ID, Set<Question> questions, Set<File> effFile) {
         this.difficulty = difficulty;
         this.PLAYER_ID = PLAYER_ID;
         this.questions = questions;

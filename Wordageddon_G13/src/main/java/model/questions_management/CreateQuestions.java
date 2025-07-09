@@ -2,6 +2,7 @@ package model.questions_management;
 
 import model.enums.QuestionType;
 
+import java.io.File;
 import java.util.Map;
 import java.util.Set;
 
@@ -12,7 +13,7 @@ public class CreateQuestions {
     private Map<String, Map<String, Integer>> fileAnalysis;
     private int questionNumber;
 
-    public CreateQuestions(Set<QuestionType> questionTypes, Set<String> choosenFiles,
+    public CreateQuestions(Set<QuestionType> questionTypes, Set<File> choosenFiles,
                            Map<String, Map<String, Integer>> fileAnalysis, int questionNumber) {
 
         this.questionTypes = questionTypes;
