@@ -11,7 +11,7 @@ import java.nio.file.StandardCopyOption;
 
 public  class FileManager {
 
-    private final static Path FILES_DIR_PATH = Paths.get("/data/files/");
+    private final static Path FILES_DIR_PATH = Paths.get("data/files/");
 
     /**
      * Aggiunge alla cartella "files" i file selezionati dall'admin, sostituendo quelli già presenti aventi
@@ -20,6 +20,7 @@ public  class FileManager {
      * @throws IOException se non riesce a creare l'albero di cartelle previste
      */
     public static void addFiles(List<File> files) throws IOException {
+
        if(!Files.isDirectory(FILES_DIR_PATH)) Files.createDirectories(FILES_DIR_PATH);
 
         for(File file : files) {
@@ -34,7 +35,9 @@ public  class FileManager {
      * @param files lista dei file da eliminare
      */
     public static void deleteFiles(List<File> files) {
+        if(!Files.isDirectory(FILES_DIR_PATH)) return;
 
+        for(File file : files) Files.deleteIfExists(file.toPath());
     }
 
     /**
