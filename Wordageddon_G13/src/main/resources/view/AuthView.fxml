@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<Pane fx:id="loginBtn" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="601.0" prefWidth="816.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <TextField fx:id="nomeUtenteTF" layoutX="315.0" layoutY="216.0" promptText="User name" />
+      <TextField fx:id="passwordTF" layoutX="315.0" layoutY="279.0" promptText="Password" />
+      <RadioButton fx:id="signInBtn" layoutX="315.0" layoutY="345.0" mnemonicParsing="false" prefHeight="21.0" prefWidth="91.0" text="Sign-in" />
+      <RadioButton fx:id="signUpBtn" layoutX="424.0" layoutY="345.0" mnemonicParsing="false" text="Sign-up" />
+      <Label layoutX="341.0" layoutY="137.0" prefHeight="31.0" prefWidth="123.0" text="WORDAGEDDON" />
+      <Button layoutX="382.0" layoutY="384.0" mnemonicParsing="false" text="Login" />
+   </children>
+</Pane>
