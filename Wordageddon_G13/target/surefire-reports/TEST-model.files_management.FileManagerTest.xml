@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="model.files_management.FileManagerTest" time="0.032" tests="3" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="model.files_management.FileManagerTest" time="0.031" tests="2" errors="0" skipped="0" failures="0">
   <properties>
     <property name="sun.desktop" value="windows"/>
     <property name="awt.toolkit" value="sun.awt.windows.WToolkit"/>
@@ -18,7 +18,7 @@
     <property name="user.country" value="IT"/>
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="sun.boot.library.path" value="C:\Program Files (x86)\Java\jdk-8\jre\bin"/>
-    <property name="sun.java.command" value="C:\Users\andre\AppData\Local\Temp\surefire7317176237730141765\surefirebooter8402247654709598351.jar C:\Users\andre\AppData\Local\Temp\surefire7317176237730141765 2025-07-09T18-19-01_408-jvmRun1 surefire8464762152566110166tmp surefire_04880438842083676591tmp"/>
+    <property name="sun.java.command" value="C:\Users\andre\AppData\Local\Temp\surefire8477686555620689899\surefirebooter493893719509908714.jar C:\Users\andre\AppData\Local\Temp\surefire8477686555620689899 2025-07-09T20-00-02_041-jvmRun1 surefire8847105626459939859tmp surefire_01906615349381078246tmp"/>
     <property name="surefire.test.class.path" value="C:\Users\andre\Documents\GitHub\Wordageddon\Wordageddon_G13\target\test-classes;C:\Users\andre\Documents\GitHub\Wordageddon\Wordageddon_G13\target\classes;C:\Users\andre\.m2\repository\org\openjfx\javafx-controls\11\javafx-controls-11.jar;C:\Users\andre\.m2\repository\org\openjfx\javafx-controls\11\javafx-controls-11-win.jar;C:\Users\andre\.m2\repository\org\openjfx\javafx-graphics\11\javafx-graphics-11.jar;C:\Users\andre\.m2\repository\org\openjfx\javafx-graphics\11\javafx-graphics-11-win.jar;C:\Users\andre\.m2\repository\org\openjfx\javafx-base\11\javafx-base-11.jar;C:\Users\andre\.m2\repository\org\openjfx\javafx-base\11\javafx-base-11-win.jar;C:\Users\andre\.m2\repository\org\openjfx\javafx-fxml\11\javafx-fxml-11.jar;C:\Users\andre\.m2\repository\org\openjfx\javafx-fxml\11\javafx-fxml-11-win.jar;C:\Users\andre\.m2\repository\org\xerial\sqlite-jdbc\3.50.2.0\sqlite-jdbc-3.50.2.0.jar;C:\Users\andre\.m2\repository\org\junit\jupiter\junit-jupiter-api\5.9.3\junit-jupiter-api-5.9.3.jar;C:\Users\andre\.m2\repository\org\opentest4j\opentest4j\1.2.0\opentest4j-1.2.0.jar;C:\Users\andre\.m2\repository\org\junit\platform\junit-platform-commons\1.9.3\junit-platform-commons-1.9.3.jar;C:\Users\andre\.m2\repository\org\apiguardian\apiguardian-api\1.1.2\apiguardian-api-1.1.2.jar;C:\Users\andre\.m2\repository\org\junit\jupiter\junit-jupiter-engine\5.9.3\junit-jupiter-engine-5.9.3.jar;C:\Users\andre\.m2\repository\org\junit\platform\junit-platform-engine\1.9.3\junit-platform-engine-1.9.3.jar;C:\Users\andre\.m2\repository\junit\junit\4.13.2\junit-4.13.2.jar;C:\Users\andre\.m2\repository\org\hamcrest\hamcrest-core\1.3\hamcrest-core-1.3.jar;"/>
     <property name="sun.cpu.endian" value="little"/>
     <property name="user.home" value="C:\Users\andre"/>
@@ -31,7 +31,7 @@
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
     <property name="java.awt.graphicsenv" value="sun.awt.Win32GraphicsEnvironment"/>
-    <property name="surefire.real.class.path" value="C:\Users\andre\AppData\Local\Temp\surefire7317176237730141765\surefirebooter8402247654709598351.jar"/>
+    <property name="surefire.real.class.path" value="C:\Users\andre\AppData\Local\Temp\surefire8477686555620689899\surefirebooter493893719509908714.jar"/>
     <property name="sun.boot.class.path" value="C:\Program Files (x86)\Java\jdk-8\jre\lib\resources.jar;C:\Program Files (x86)\Java\jdk-8\jre\lib\rt.jar;C:\Program Files (x86)\Java\jdk-8\jre\lib\jsse.jar;C:\Program Files (x86)\Java\jdk-8\jre\lib\jce.jar;C:\Program Files (x86)\Java\jdk-8\jre\lib\charsets.jar;C:\Program Files (x86)\Java\jdk-8\jre\lib\jfr.jar;C:\Program Files (x86)\Java\jdk-8\jre\classes"/>
     <property name="user.script" value=""/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
@@ -61,7 +61,6 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="52.0"/>
   </properties>
-  <testcase name="addFiles" classname="model.files_management.FileManagerTest" time="0.023"/>
-  <testcase name="deleteFiles" classname="model.files_management.FileManagerTest" time="0"/>
+  <testcase name="addFiles" classname="model.files_management.FileManagerTest" time="0.016"/>
   <testcase name="getFiles" classname="model.files_management.FileManagerTest" time="0"/>
 </testsuite>
