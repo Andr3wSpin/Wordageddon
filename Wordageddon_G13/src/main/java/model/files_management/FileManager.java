@@ -10,7 +10,7 @@ public  class FileManager {
     private final static Path FILES_DIR_PATH = Paths.get("/data/files/");
 
     /**
-     * @brief aggiunge alla cartella "files" i file selezionati dall'admin
+     * Aggiunge alla cartella "files" i file selezionati dall'admin
      * @param files lista dei file da aggiungere
      */
     public static void addFiles(List<File> files) {
@@ -18,10 +18,16 @@ public  class FileManager {
     }
 
     /**
-     * @brief elimina dalla cartella "files" i file selezionati dall'admin
+     * Elimina dalla cartella "files" i file selezionati dall'admin
      * @param files lista dei file da eliminare
      */
     public static void deleteFiles(List<File> files) {
 
     }
+
+    /**
+     * Ottiene una lista contenente tutti i file salvati nella cartella "files"
+     * @return lista di file salvati in memoria
+     */
+    public static List<File> getFiles() { return null; }
 }
