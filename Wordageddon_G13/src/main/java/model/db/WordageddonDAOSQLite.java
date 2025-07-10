@@ -41,25 +41,27 @@ public class WordageddonDAOSQLite implements WordageddonDAO {
 
         return false;
     }
-
-    public boolean insertUser(String userName, String password) {
-        String insertQuery = "INSERT INTO users (userName, password) VALUES (?, ?)";
+    @Override
+    public boolean insertUser(String userName, String password, boolean isAdmin) {
+        String insertQuery = "INSERT INTO users (username, password, isAdmin) VALUES (?, ?, ?)";
 
         try (Connection conn = connect();
              PreparedStatement insertStmt = conn.prepareStatement(insertQuery)) {
 
             insertStmt.setString(1, userName);
             insertStmt.setString(2, password);
-            insertStmt.executeUpdate();
-            return true;
+            insertStmt.setBoolean(3, isAdmin);
+
+            int rowsAffected = insertStmt.executeUpdate();
+            return rowsAffected > 0;
 
         } catch (SQLException e) {
-            System.out.println("Errore durante l'inserimento: " + e.getMessage());
+            System.err.println("Errore durante l'inserimento dell'utente: " + e.getMessage());
             return false;
         }
     }
-
-    public boolean updateUser(String attribute, String ID, String newValue) {
+    @Override
+    public boolean updateUser(String attribute, int ID, String newValue) {
         if (!attribute.equals("username") && !attribute.equals("password")) {
             return false;
         }
@@ -70,7 +72,7 @@ public class WordageddonDAOSQLite implements WordageddonDAO {
              PreparedStatement stmt = conn.prepareStatement(query)) {
 
             stmt.setString(1, newValue);
-            stmt.setString(2, ID);
+            stmt.setInt(2, ID);
 
             int rowsUpdated = stmt.executeUpdate(); //ritorna il numero di righe aggiornate con update
             return rowsUpdated > 0; //ritorna le righe aggiornate quindi se >0
@@ -84,60 +86,120 @@ public class WordageddonDAOSQLite implements WordageddonDAO {
 
     @Override
     public List<String> leaderBoard() {
-        String query =
-                "SELECT U.nome, G.dataGame, G.difficulty, G.score " +
-                        "FROM USERS U " +
-                        "JOIN GAMES G ON U.ID = G.userid " +
-                        "WHERE G.score = (" +
-                        "   SELECT MAX(G2.score) FROM GAMES G2 WHERE G2.userid = G.userid" +
-                        ") " +
-                        "GROUP BY U.ID " +
-                        "ORDER BY G.score DESC";
 
-        List<String> leaderboard = new ArrayList<>();
+        String selectQuery = "SELECT u.username, MAX(g.score) AS max_score " +
+                "FROM users u JOIN games g ON u.id = g.user_id " +
+                "GROUP BY u.username " +
+                "ORDER BY max_score DESC";
+
+        List<String> leaderBoardEntries = new ArrayList<>();
+
+        try (Connection conn = connect();
+             PreparedStatement pstmt = conn.prepareStatement(selectQuery);
+             ResultSet rs = pstmt.executeQuery()) {
+
+            while (rs.next()) {
+                String username = rs.getString("username");
+                int maxScore = rs.getInt("max_score");
+                leaderBoardEntries.add(username + " - " + maxScore);
+            }
+
+        } catch (SQLException e) {
+            System.err.println("Errore durante il recupero della leaderboard: " + e.getMessage());
+        }
+        return leaderBoardEntries;
+    }
+
+
+    @Override
+    public List<String> playerScores(String playerId) {
+        List<String> scores = new ArrayList<>();
+        String query = "SELECT score FROM games WHERE user_id = ? ORDER BY score DESC";
+
+        try (Connection conn = connect();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setString(1, playerId);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    int score = rs.getInt("score");
+                    scores.add(String.valueOf(score));
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Errore durante il recupero dei punteggi del giocatore: " + e.getMessage());
+        }
+
+        return scores;
+    }
+
+
+    @Override
+    public List<String> playersList() {
+        List<String> players = new ArrayList<>();
+        String query = "SELECT username FROM users ORDER BY username";
 
         try (Connection conn = connect();
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(query)) {
 
             while (rs.next()) {
-                String nome = rs.getString("nome");//il parametro qua è il nome della colonna
-                String data = rs.getString("dataGame");
-                String difficolta = rs.getString("difficulty");
-                int punteggio = rs.getInt("score");
-
-                String record = String.format(
-                        "%s;%d punti;%s;Difficoltà;%s",
-                        nome, punteggio, data, difficolta
-                );//riga della tabella formattata poi possiamo cambiarlo
-
-                leaderboard.add(record); //mette nella lista le varie righe formattate
+                String username = rs.getString("username");
+                players.add(username);
             }
 
         } catch (SQLException e) {
-            System.out.println("Errore durante il recupero della leaderboard: " + e.getMessage());
+            System.out.println("Errore durante il recupero dei nomi dei giocatori: " + e.getMessage());
         }
 
-        return leaderboard;
+        return players;
     }
 
-    @Override
-    public List<String> playerScores(String player) {
-        return Collections.emptyList();
-    }
 
     @Override
-    public List<String> playersName() {
-        return Collections.emptyList();
+    public float avgScore(int playerId) { // Cambiato da String a int
+        String query = "SELECT AVG(score) AS average_score FROM games WHERE user_id = ?";
+        try (Connection conn = connect();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setInt(1, playerId); // Usiamo setInt() invece di setString()
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    double avg = rs.getDouble("average_score");
+                    if (rs.wasNull()) {
+                        return 0f; // Se non ci sono giochi per quell'utente, la media è 0
+                    }
+                    return (float) avg;
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Errore durante il calcolo della media punteggi: " + e.getMessage()); // Usato System.err
+        }
+        return 0f; // Ritorna 0f se si verifica un errore o se l'utente non ha giochi
     }
 
-    @Override
-    public float avgScore(String player) {
-        return 0;
-    }
 
     @Override
-    public boolean insertScore() {
-        return false;
+    public boolean insertScore(String playerId, String date, int score, String difficulty) {
+        String insertQuery = "INSERT INTO games (user_id, game_date, difficulty, score) VALUES (?, ?, ?, ?)";
+
+        try (Connection conn = connect();
+             PreparedStatement stmt = conn.prepareStatement(insertQuery)) {
+
+            stmt.setString(1, playerId);
+            stmt.setString(2, date);
+            stmt.setString(3, difficulty);
+            stmt.setInt(4, score);
+
+            int rowsInserted = stmt.executeUpdate();
+            return rowsInserted > 0;
+
+        } catch (SQLException e) {
+            System.out.println("Errore durante l'inserimento del punteggio: " + e.getMessage());
+            return false;
+        }
     }
+
 }
