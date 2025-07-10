@@ -2,24 +2,24 @@ package model.questions_management;
 
 import model.enums.QuestionType;
 
-import java.io.File;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 public class CreateQuestions {
 
     private Set<QuestionType> questionTypes;
-    private Set<String> choosenFiles;
+    private List<String> choosenFiles;
     private Map<String, Map<String, Integer>> fileAnalysis;
-    private int questionNumber;
+    private int questionsNumber;
 
-    public CreateQuestions(Set<QuestionType> questionTypes, Set<String> choosenFiles,
-                           Map<String, Map<String, Integer>> fileAnalysis, int questionNumber) {
+    public CreateQuestions(Set<QuestionType> questionTypes, List<String> choosenFiles,
+                           Map<String, Map<String, Integer>> fileAnalysis, int questionsNumber) {
 
         this.questionTypes = questionTypes;
         this.choosenFiles = choosenFiles;
         this.fileAnalysis = fileAnalysis;
-        this.questionNumber = questionNumber;
+        this.questionsNumber = questionsNumber;
     }
 
     /**
@@ -27,7 +27,6 @@ public class CreateQuestions {
      * @return set di domande da mostrare
      */
     public Set<Question> createQuestions() { return null; }
-
 
     /**
      *
