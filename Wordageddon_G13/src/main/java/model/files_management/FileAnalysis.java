@@ -3,6 +3,7 @@ package model.files_management;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 
+import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
@@ -52,8 +53,9 @@ public class FileAnalysis extends Service<Map<String, Map<String, Integer>>> {
     /**
      * Legge la mappa salvata in memoria
      * @return la mappa contenente l'analisi dei documenti
+     * @throws IOException se non riesce ad ottenere il file di analisi dalla memoria
      */
-    public static Map<String, Map<String, Integer>> readAnalysis() {
+    public static Map<String, Map<String, Integer>> readAnalysis() throws IOException {
 
         return null;
     }

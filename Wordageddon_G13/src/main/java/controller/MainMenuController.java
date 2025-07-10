@@ -1,18 +1,17 @@
 package controller;
 
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import model.Game;
+//import model.User;  questa riga è commentata perché al momento user è null, quindi non si può ottenere l'id
 import model.enums.Difficulty;
 import model.enums.QuestionType;
 import model.files_management.FileAnalysis;
@@ -20,10 +19,12 @@ import model.files_management.FileManager;
 import model.questions_management.CreateQuestions;
 
 import java.io.File;
-import java.net.URISyntaxException;
+import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 import java.util.stream.Collectors;
+
+import javafx.application.Platform;
 
 public class MainMenuController implements Initializable {
 
@@ -59,10 +60,24 @@ public class MainMenuController implements Initializable {
 
     private ToggleGroup toggleGroupDifficulty;
 
-
+   // private User user;
+    private Map<String, Map<String, Integer>> fileAnalysis;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
+        StringBuilder msg = new StringBuilder("Impossibile aprire il file di analisi dei documenti!");
+        try {
+            fileAnalysis = FileAnalysis.readAnalysis();
+//            NON DECOMMENTATE QUESTO IF ALTRIMENTI L'APP SI CHIUDE!!
+//            if(fileAnalysis == null) {
+//                showMessage(msg.toString(), Alert.AlertType.ERROR);
+//                Platform.exit();
+//            }
+        } catch (IOException e) {
+            showMessage(msg.toString(), Alert.AlertType.ERROR);
+            Platform.exit();;
+        }
 
         Media media = new Media(Objects.requireNonNull(getClass().getResource("/assets/sfondo.mp4")).toExternalForm());
         MediaPlayer mediaPlayer = new MediaPlayer(media);
@@ -70,89 +85,115 @@ public class MainMenuController implements Initializable {
         mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
         mediaPlayer.play();
 
-         toggleGroupDifficulty = new ToggleGroup();
+        toggleGroupDifficulty = new ToggleGroup();
         RadioButton_Easy.setToggleGroup(toggleGroupDifficulty);
         RadioButton_Medium.setToggleGroup(toggleGroupDifficulty);
         RadioButton_Hard.setToggleGroup(toggleGroupDifficulty);
-
-
-
-
     }
-
-
-
-
-
-
-
 
     /**
-     * @brief al click questo metodo cambia pagina e ti porta alla pagina per inizare a giocare
-     * @param event
+     * Avvia una nuova partita
+     * @param event click del relativo pulsante
      */
-
     @FXML
-    void Button_SetGamePage(ActionEvent event) {
+    private void startGame(ActionEvent event) {
+        Difficulty difficulty = takeDifficulty();
 
-        Difficulty difficulty=takeDifficulty();
-
-        List<File> listFile = FileManager.getFiles();
-        List<String> fileName = listFile.stream().map(file -> file.getName()).collect(Collectors.toList());
-
-        int lenghtList = listFile.size();
-        int[] randomNumber = new int[0];
-        int max =  lenghtList < difficulty.getMaxTexts() ? lenghtList : difficulty.getMaxTexts();
-        //generare n numeri random per scegliere file random dalla lista
-        for (int i = 0 ; i < max; i++){
-            Random random = new Random();
-            randomNumber[i]= random.nextInt(lenghtList+1);
-         }
-    Set<String> effFile = new HashSet<>();  //prendo i file che mi servono max dalla lista di tutti i file
-         for (int i = 0 ; i < max ;i++){
-          effFile.add(fileName.get(randomNumber[i]));
-          }
-        Set<QuestionType> questionTypeSet = new HashSet<>();
-         //creo l oggetto createQuestion
-        if (difficulty.compareTo(Difficulty.EASY) == 0 || max==1) {
-
-            questionTypeSet.add(QuestionType.TYPE1);
-            questionTypeSet.add(QuestionType.TYPE4);
-        }else {
-            questionTypeSet.add(QuestionType.TYPE1);
-            questionTypeSet.add(QuestionType.TYPE2);
-            questionTypeSet.add(QuestionType.TYPE3);
-            questionTypeSet.add(QuestionType.TYPE4);
+        if (difficulty == null) {
+            showMessage("Selezionare una difficoltà.", Alert.AlertType.INFORMATION);
+            event.consume();
+            return;
         }
+        //crea un nuovo task (thread separato) per non bloccare tutto il programma mentre crea la partita
+        Task<Game> gameTask = new Task() {
+            @Override
+            protected Game call() throws Exception {
+                List<File> filesList = FileManager.getFiles();
 
-        CreateQuestions cq = new CreateQuestions(questionTypeSet,effFile, FileAnalysis.readAnalysis(),difficulty.getMaxQuestions());
-                                     //TODO
-        Game g=  new Game(difficulty,1,cq.createQuestions(),effFile);
-        ChangeScene(g);
+                if (filesList.isEmpty())
+                    throw new IOException("Nessun file disponibile.");
 
+                int max = Math.min(filesList.size(), difficulty.getMaxTexts());
+                Set<Integer> randomFileIndexes = new HashSet<>();
+                Random random = new Random();
+
+                /*
+                    genera <max> numeri casuali evitando duplicati
+                 */
+                while (randomFileIndexes.size() < max) {
+                    randomFileIndexes.add(random.nextInt(filesList.size()));
+                }
+
+                List<File> choosenFiles = randomFileIndexes.stream()
+                        .map(filesList::get)
+                        .collect(Collectors.toList());
+
+                Set<QuestionType> questionTypeSet = new HashSet<>();
+                if ((difficulty == Difficulty.EASY) || (max == 1)) {
+                    questionTypeSet.add(QuestionType.TYPE1);
+                    questionTypeSet.add(QuestionType.TYPE4);
+                } else {
+                    questionTypeSet.add(QuestionType.TYPE1);
+                    questionTypeSet.add(QuestionType.TYPE2);
+                    questionTypeSet.add(QuestionType.TYPE3);
+                    questionTypeSet.add(QuestionType.TYPE4);
+                }
+
+                //ottiene i nomi dei soli file selezionati per la partita, non tutti quelli presenti nella cartella
+                List<String> fileNames = choosenFiles.stream()
+                        .map(File::getName)
+                        .collect(Collectors.toList());
+
+                CreateQuestions cq = new CreateQuestions(questionTypeSet, fileNames, fileAnalysis, difficulty.getMaxQuestions());
+                return new Game(difficulty, 1, cq.createQuestions(), choosenFiles);
+            }
+        };
+
+        gameTask.setOnSucceeded(e -> {
+            Game g = gameTask.getValue();
+            changeScene(g);
+        });
+
+        gameTask.setOnFailed(e -> {
+            Throwable ex = gameTask.getException();
+            String msg = "Errore durante la creazione della partita:\n" + ex.getMessage();
+            showMessage(msg, Alert.AlertType.ERROR);
+        });
+
+        new Thread(gameTask).start();
     }
 
-    private void  ChangeScene(Game g){
-        // change scene
+
+    private void  changeScene(Game g){
+        showMessage("Partita creata", Alert.AlertType.INFORMATION);
     }
+
+    /**
+     * Ottiene la difficoltà scelta dall'utente
+     * @return Difficoltà scelta
+     */
     private Difficulty takeDifficulty(){
-        String select=null;
-        Difficulty difficulty;
-        RadioButton selectedRadio=(RadioButton) toggleGroupDifficulty.getSelectedToggle();
-        if(selectedRadio==null){
-            //gestire erroe nell ui
-        }else {
-            select =  selectedRadio.getText();
-        }
-        switch (select){
-            case "EASY" : difficulty=Difficulty.EASY;
-            break;
-            case "MEDIUM" : difficulty=Difficulty.MEDIUM;
+
+        String select;
+        Difficulty difficulty = null;
+        RadioButton selectedRadio = (RadioButton) toggleGroupDifficulty.getSelectedToggle();
+
+        if(selectedRadio == null) return difficulty;
+
+        select = selectedRadio.getText();
+
+        switch(select) {
+            case "EASY":
+                difficulty = Difficulty.EASY;
                 break;
-            case "HARD" : difficulty=Difficulty.HARD;
+            case "MEDIUM":
+                difficulty = Difficulty.MEDIUM;
                 break;
-            default: difficulty=Difficulty.EASY;  //da rivedere
+            case "HARD":
+                difficulty = Difficulty.HARD;
+                break;
         }
+
         return difficulty;
     }
 
@@ -160,7 +201,6 @@ public class MainMenuController implements Initializable {
      * @brief al click questo metodo cambia pagina e ti porta alla pagina di gestione dell admin
      * @param event
      */
-    @FXML
     void Button_SetPageAdmin(ActionEvent event) {
 
     }
@@ -168,24 +208,28 @@ public class MainMenuController implements Initializable {
      * @brief al click questo metodo cambia pagina e ti porta alla pagina per visualizzare gli score
      * @param event
      */
-    @FXML
     void Button_SetScoresPage(ActionEvent event) {
 
     }
 
-
     /**
-     * @brief al click fa inizare la partita solo dopo aver selezionato la difficolta
-     * @param event
+     * Mostra all'utente il messaggio ricevuto
+     * @param msg Messaggio da mostrare all'utente
+     * @param type Tipo di messaggio
      */
-    @FXML
-    void Button_StartGame(ActionEvent event) {
+    private void showMessage(String msg, Alert.AlertType type) {
 
+        Alert alert = new Alert(type);
+        alert.setContentText(msg);
+        alert.showAndWait();
     }
 
-
-
-
+    /**
+     * Riceve l'oggetto user contenente le informazioni dell'utente corrente
+     * @param user L'utente autenticato corrente
+     */
+    //il metodo è commentato perché non viene invocato ancora da nessuna parte -> user = null
+    //public void setUser(User user) { this.user = user; }
 
 
 
@@ -203,48 +247,39 @@ public class MainMenuController implements Initializable {
 
 
     /**
-     * tutti questi metodi servono per gestire le animazionid ei vari pulsanti in hover
+     * tutti questi metodi servono per gestire le animazioni dei vari pulsanti in hover
      */
 
-    @FXML
     void HoverButtonEntred_AdminPageButton(MouseEvent event) {
 
     }
 
-    @FXML
     void HoverButtonEntred_GamePageButton(MouseEvent event) {
 
     }
 
-    @FXML
     void HoverButtonEntred_ScoresPageButton(MouseEvent event) {
 
     }
 
-    @FXML
     void HoverButtonEntred_startButton(MouseEvent event) {
 
     }
 
-    @FXML
     void HoverButtonExit_AdminPageButton(MouseEvent event) {
 
     }
 
-    @FXML
     void HoverButtonExit_GamePageButton(MouseEvent event) {
 
     }
 
-    @FXML
     void HoverButtonExit_ScoresPageButton(MouseEvent event) {
 
     }
 
-    @FXML
     void HoverButtonExit_startButton(MouseEvent event) {
 
     }
-
 
 }
