@@ -1,5 +1,6 @@
 package controller;
 
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -96,65 +97,75 @@ public class MainMenuController implements Initializable {
      */
     @FXML
     private void startGame(ActionEvent event) {
-
         Difficulty difficulty = takeDifficulty();
 
-        if(difficulty == null) {
-
+        if (difficulty == null) {
             showMessage("Selezionare una difficoltà.", Alert.AlertType.INFORMATION);
             event.consume();
             return;
         }
+        //crea un nuovo task (thread separato) per non bloccare tutto il programma mentre crea la partita
+        Task<Game> gameTask = new Task() {
+            @Override
+            protected Game call() throws Exception {
+                List<File> filesList = FileManager.getFiles();
 
-        List<File> filesList = null;
-        try {
-            filesList = FileManager.getFiles();
-        } catch (IOException e) {
+                if (filesList.isEmpty())
+                    throw new IOException("Nessun file disponibile.");
 
-            String msg = "Errore nella lettura dei file di gioco!\nImpossibile avviare la partita.";
+                int max = Math.min(filesList.size(), difficulty.getMaxTexts());
+                Set<Integer> randomFileIndexes = new HashSet<>();
+                Random random = new Random();
+
+                /*
+                    genera <max> numeri casuali evitando duplicati
+                 */
+                while (randomFileIndexes.size() < max) {
+                    randomFileIndexes.add(random.nextInt(filesList.size()));
+                }
+
+                List<File> choosenFiles = randomFileIndexes.stream()
+                        .map(filesList::get)
+                        .collect(Collectors.toList());
+
+                Set<QuestionType> questionTypeSet = new HashSet<>();
+                if ((difficulty == Difficulty.EASY) || (max == 1)) {
+                    questionTypeSet.add(QuestionType.TYPE1);
+                    questionTypeSet.add(QuestionType.TYPE4);
+                } else {
+                    questionTypeSet.add(QuestionType.TYPE1);
+                    questionTypeSet.add(QuestionType.TYPE2);
+                    questionTypeSet.add(QuestionType.TYPE3);
+                    questionTypeSet.add(QuestionType.TYPE4);
+                }
+
+                //ottiene i nomi dei soli file selezionati per la partita, non tutti quelli presenti nella cartella
+                List<String> fileNames = choosenFiles.stream()
+                        .map(File::getName)
+                        .collect(Collectors.toList());
+
+                CreateQuestions cq = new CreateQuestions(questionTypeSet, fileNames, fileAnalysis, difficulty.getMaxQuestions());
+                return new Game(difficulty, 1, cq.createQuestions(), choosenFiles);
+            }
+        };
+
+        gameTask.setOnSucceeded(e -> {
+            Game g = gameTask.getValue();
+            changeScene(g);
+        });
+
+        gameTask.setOnFailed(e -> {
+            Throwable ex = gameTask.getException();
+            String msg = "Errore durante la creazione della partita:\n" + ex.getMessage();
             showMessage(msg, Alert.AlertType.ERROR);
-            event.consume();
-            return;
-        }
+        });
 
-        int listLength = filesList.size();
-        Set<Integer> randomFileIndexes = new HashSet<>();
-        int max = listLength < difficulty.getMaxTexts() ? listLength : difficulty.getMaxTexts();
-
-        Random random = new Random();
-
-        /*
-        genera indici randomici per selezionare i file fino a quando non c'è il numero di indici
-        richiesto evitando duplicati
-        */
-        while(randomFileIndexes.size() < max) randomFileIndexes.add(random.nextInt(listLength));
-
-        List<File> choosenFiles = randomFileIndexes.stream()
-                .map(filesList::get)
-                .collect(Collectors.toList());
-
-        Set<QuestionType> questionTypeSet = new HashSet<>();
-         //creo l oggetto createQuestion
-        if ((difficulty == Difficulty.EASY) || (max == 1)) {
-            questionTypeSet.add(QuestionType.TYPE1);
-            questionTypeSet.add(QuestionType.TYPE4);
-        }else {
-            questionTypeSet.add(QuestionType.TYPE1);
-            questionTypeSet.add(QuestionType.TYPE2);
-            questionTypeSet.add(QuestionType.TYPE3);
-            questionTypeSet.add(QuestionType.TYPE4);
-        }
-
-        List<String> fileNames = choosenFiles.stream().map(File::getName).collect(Collectors.toList());
-
-        CreateQuestions cq = new CreateQuestions(questionTypeSet, fileNames, fileAnalysis,difficulty.getMaxQuestions());
-                                     //TODO
-        Game g = new Game(difficulty,1,cq.createQuestions(),choosenFiles);
-        changeScene(g);
+        new Thread(gameTask).start();
     }
 
+
     private void  changeScene(Game g){
-        // change scene
+        showMessage("Partita creata", Alert.AlertType.INFORMATION);
     }
 
     /**
