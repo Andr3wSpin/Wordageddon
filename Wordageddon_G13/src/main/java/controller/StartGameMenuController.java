@@ -124,7 +124,7 @@ public class StartGameMenuController implements Initializable {
                 Set<QuestionType> questionTypeSet = new HashSet<>();
                 if ((difficulty == Difficulty.EASY) || (max == 1)) {
                     questionTypeSet.add(QuestionType.TYPE1);
-                    questionTypeSet.add(QuestionType.TYPE4);
+                    questionTypeSet.add(QuestionType.TYPE2);
                 } else {
                     questionTypeSet.add(QuestionType.TYPE1);
                     questionTypeSet.add(QuestionType.TYPE2);
