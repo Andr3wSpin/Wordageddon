@@ -13,7 +13,7 @@ public interface WordageddonDAO {
      * @param password La password da verificare.
      * @return true se le credenziali sono valide, false altrimenti.
      */
-    User checkCredentials(String userName, String password);
+    public User checkCredentials(String userName, String password);
 
     /**
      * Inserisce un nuovo utente nel database.
@@ -22,7 +22,7 @@ public interface WordageddonDAO {
      * @param password La password del nuovo utente.
      * @return true se l'inserimento è avvenuto con successo, false altrimenti.
      */
-    User insertUser(String userName, String password, boolean isAdmin);
+    public User insertUser(String userName, String password, boolean isAdmin);
 
     /**
      * Aggiorna un attributo (username o password) di un utente specificato tramite ID.
@@ -32,14 +32,14 @@ public interface WordageddonDAO {
      * @param newValue Il nuovo valore per l'attributo specificato.
      * @return true se l'aggiornamento è avvenuto con successo, false altrimenti.
      */
-    boolean updateUser(String attribute, int ID, String newValue);
+    public boolean updateUser(String attribute, int ID, String newValue);
 
     /**
      * Recupera la classifica dei migliori punteggi, mostrando il miglior punteggio per ogni utente.
      *
      * @return Una lista di stringhe, dove ogni stringa rappresenta un record della classifica formattato con i vari attributi.
      */
-    List<String> leaderBoard();
+    public List<String> leaderBoard();
 
     /**
      * Recupera tutti i punteggi di un determinato giocatore.
@@ -47,14 +47,14 @@ public interface WordageddonDAO {
      * @param ID l'id del giocatore di cui recuperare i punteggi.
      * @return Una lista di stringhe contenente i punteggi del giocatore.
      */
-    List<String> playerScores(String ID);
+    public List<String> playerScores(String ID);
 
     /**
      * Recupera una lista di tutti i nomi utente presenti nel database.
      *
      * @return Una lista di stringhe contenente i nomi di tutti i giocatori.
      */
-    List<String> playersList();
+    public List<String> playersList();
 
     /**
      * Calcola il punteggio medio di un giocatore.
@@ -62,7 +62,7 @@ public interface WordageddonDAO {
      * @param playerId L'id del giocatore di cui calcolare il punteggio medio.
      * @return Il punteggio medio del giocatore.
      */
-    float avgScore(int playerId);
+    public float avgScore(int playerId);
 
     /**
      * Inserisce un nuovo punteggio per una partita di un giocatore specifico.
@@ -73,5 +73,5 @@ public interface WordageddonDAO {
      * @param difficulty la difficoltà scelta per la partita
      * @return           true se l'inserimento del punteggio è avvenuto con successo, false altrimenti
      */
-    boolean insertScore(String playerId, String date, int score, String difficulty);
+    public boolean insertScore(String playerId, String date, int score, String difficulty);
 }

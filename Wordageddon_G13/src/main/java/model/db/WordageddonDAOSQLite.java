@@ -16,7 +16,7 @@ public class WordageddonDAOSQLite implements WordageddonDAO {
     //qua crea la connessione
     //la chiusura è automatica nei vari metodi
     //quando metti la connessione nel try() alla fine chiude automaticamente tutto
-    public Connection connect() {
+    private Connection connect() {
         try {
             return DriverManager.getConnection(DB_URL);
         } catch (SQLException e) {
