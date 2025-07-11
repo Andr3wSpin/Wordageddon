@@ -2,9 +2,8 @@ package model.questions_management;
 
 import model.enums.QuestionType;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class CreateQuestions {
 
@@ -12,11 +11,13 @@ public class CreateQuestions {
     private List<String> choosenFiles;
     private Map<String, Map<String, Integer>> fileAnalysis;
     private int questionsNumber;
+    private final List<QuestionType> orderList;
 
     public CreateQuestions(Set<QuestionType> questionTypes, List<String> choosenFiles,
                            Map<String, Map<String, Integer>> fileAnalysis, int questionsNumber) {
 
         this.questionTypes = questionTypes;
+        orderList=questionTypes.stream().sorted().collect(Collectors.toList());
         this.choosenFiles = choosenFiles;
         this.fileAnalysis = fileAnalysis;
         this.questionsNumber = questionsNumber;
@@ -26,7 +27,28 @@ public class CreateQuestions {
      * Crea un set di domande chiamando il metodo relativo al tipo specifico
      * @return set di domande da mostrare
      */
-    public Set<Question> createQuestions() { return null; }
+    public Set<Question> createQuestions() {
+        Set<Question> questionSet = new HashSet<>();
+
+
+        while (questionSet.size()<questionsNumber-1){
+            int r = new Random().nextInt(orderList.size());
+            switch (r){
+
+                case 0 : questionSet.add(createQuestionType1());
+                break;
+                case 1 : questionSet.add(createQuestionType2());
+                    break;
+                case 2 : questionSet.add(createQuestionType3());
+                    break;
+                case 3 : questionSet.add(createQuestionType4());
+                    break;
+
+            }
+        }
+
+        return questionSet;
+    }
 
     /**
      *

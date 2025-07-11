@@ -3,9 +3,11 @@ package controller;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.control.*;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -26,7 +28,7 @@ import java.util.stream.Collectors;
 
 import javafx.application.Platform;
 
-public class MainMenuController implements Initializable {
+public class StartGameMenuController implements Initializable {
 
     @FXML
     private Button Button_StartGame;
@@ -37,17 +39,6 @@ public class MainMenuController implements Initializable {
     @FXML
     private MediaView MediaViewWallPaper;
 
-    @FXML
-    private HBox NavigationBar;
-
-    @FXML
-    private Button NavigationBarItem_Admin;
-
-    @FXML
-    private Button NavigationBarItem_Gioca;
-
-    @FXML
-    private Button NavigationBarItem_Scores;
 
     @FXML
     private RadioButton RadioButton_Easy;
@@ -59,6 +50,8 @@ public class MainMenuController implements Initializable {
     private RadioButton RadioButton_Medium;
 
     private ToggleGroup toggleGroupDifficulty;
+
+
 
    // private User user;
     private Map<String, Map<String, Integer>> fileAnalysis;
@@ -201,16 +194,7 @@ public class MainMenuController implements Initializable {
      * @brief al click questo metodo cambia pagina e ti porta alla pagina di gestione dell admin
      * @param event
      */
-    void Button_SetPageAdmin(ActionEvent event) {
 
-    }
-    /**
-     * @brief al click questo metodo cambia pagina e ti porta alla pagina per visualizzare gli score
-     * @param event
-     */
-    void Button_SetScoresPage(ActionEvent event) {
-
-    }
 
     /**
      * Mostra all'utente il messaggio ricevuto
@@ -250,36 +234,6 @@ public class MainMenuController implements Initializable {
      * tutti questi metodi servono per gestire le animazioni dei vari pulsanti in hover
      */
 
-    void HoverButtonEntred_AdminPageButton(MouseEvent event) {
 
-    }
-
-    void HoverButtonEntred_GamePageButton(MouseEvent event) {
-
-    }
-
-    void HoverButtonEntred_ScoresPageButton(MouseEvent event) {
-
-    }
-
-    void HoverButtonEntred_startButton(MouseEvent event) {
-
-    }
-
-    void HoverButtonExit_AdminPageButton(MouseEvent event) {
-
-    }
-
-    void HoverButtonExit_GamePageButton(MouseEvent event) {
-
-    }
-
-    void HoverButtonExit_ScoresPageButton(MouseEvent event) {
-
-    }
-
-    void HoverButtonExit_startButton(MouseEvent event) {
-
-    }
 
 }
