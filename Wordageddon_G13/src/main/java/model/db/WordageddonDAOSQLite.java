@@ -56,24 +56,43 @@ public class WordageddonDAOSQLite implements WordageddonDAO {
     }
 
     @Override
-    public boolean insertUser(String userName, String password, boolean isAdmin) {
-        String insertQuery = "INSERT INTO users (username, password, isAdmin) VALUES (?, ?, ?)";
+    public User insertUser(String userName, String password, boolean isAdmin) {
+        String insertSql = "INSERT INTO users (username, password, isAdmin) VALUES (?, ?, ?)";
 
-        try (Connection conn = connect();
-             PreparedStatement insertStmt = conn.prepareStatement(insertQuery)) {
-
+        try (Connection conn = DriverManager.getConnection("jdbc:sqlite:yourdatabase.db");
+             PreparedStatement insertStmt = conn.prepareStatement(insertSql, Statement.RETURN_GENERATED_KEYS)) {//Statement.RETURN_GENERATED_KEYS serve a ritornare la chiave generata dal database
+                                                                                                                //È un flag che passi quando crei la PreparedStatement per dire che vuoi la chiave generata
             insertStmt.setString(1, userName);
             insertStmt.setString(2, password);
             insertStmt.setBoolean(3, isAdmin);
 
-            int rowsAffected = insertStmt.executeUpdate();
-            return rowsAffected > 0;
+            int affectedRows = insertStmt.executeUpdate();
+
+            if (affectedRows == 0) {
+                throw new SQLException("Inserimento utente fallito, nessuna riga inserita.");
+            }
+
+            try (ResultSet generatedKeys = insertStmt.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    int id = generatedKeys.getInt(1);
+                    UserType type = isAdmin ? UserType.ADMIN : UserType.PLAYER;
+                    return new User(id, userName, null, type);
+                } else {
+                    throw new SQLException("Inserimento utente fallito, nessun ID ottenuto.");
+                }
+            }
 
         } catch (SQLException e) {
-            System.err.println("Errore durante l'inserimento dell'utente: " + e.getMessage());
-            return false;
+            // Se l'eccezione è causata da un duplicato, ritorna null
+            if (e.getMessage().contains("UNIQUE") || e.getMessage().contains("unique")) {
+                return null;
+            }
+            System.err.println("errore durante l'inserimento" + e.getMessage());
         }
+
+        return null;
     }
+
     @Override
     public boolean updateUser(String attribute, int ID, String newValue) {
         if (!attribute.equals("username") && !attribute.equals("password")) {
@@ -93,7 +112,7 @@ public class WordageddonDAOSQLite implements WordageddonDAO {
             // vuol dire che ha aggiornato qualcosa
 
         } catch (SQLException e) {
-            System.out.println("Errore durante l'aggiornamento: " + e.getMessage());
+            System.err.println("Errore durante l'aggiornamento: " + e.getMessage());
             return false;
         }
     }
@@ -142,7 +161,7 @@ public class WordageddonDAOSQLite implements WordageddonDAO {
                 }
             }
         } catch (SQLException e) {
-            System.out.println("Errore durante il recupero dei punteggi del giocatore: " + e.getMessage());
+            System.err.println("Errore durante il recupero dei punteggi del giocatore: " + e.getMessage());
         }
 
         return scores;

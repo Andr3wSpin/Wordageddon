@@ -22,7 +22,7 @@ public interface WordageddonDAO {
      * @param password La password del nuovo utente.
      * @return true se l'inserimento è avvenuto con successo, false altrimenti.
      */
-    boolean insertUser(String userName, String password, boolean isAdmin);
+    User insertUser(String userName, String password, boolean isAdmin);
 
     /**
      * Aggiorna un attributo (username o password) di un utente specificato tramite ID.
