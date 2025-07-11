@@ -56,7 +56,14 @@ public class CreateQuestions {
      * genera 3 numeri random per le risposte sbagliate
      * @return la domanda completa di risposta esatta, testo domanda e risposte sbagliate
      */
-    private Question createQuestionType1() { return null; }
+    private Question createQuestionType1() {
+
+        Map<String,Map<String,Integer>> mappaAppoggio = fileAnalysis.entrySet().stream().filter(
+                entry->
+                      choosenFiles.stream().anyMatch(entry.getValue()))::containsKey)
+
+
+        return null; }
 
     /**
      *
