@@ -29,10 +29,10 @@ public class MainController implements Initializable {
     @FXML
     private BorderPane root;
    @FXML
-    void Button_SetPageAdmin(ActionEvent event) {
+    void Button_SetAuth(ActionEvent event) {
        try{
 
-           Parent adminPage = FXMLLoader.load(getClass().getResource("/view/AdminView.fxml"));
+           Parent adminPage = FXMLLoader.load(getClass().getResource("/view/AuthView.fxml"));
             root.setCenter(adminPage);
         } catch (IOException e) {
             throw new RuntimeException(e);
