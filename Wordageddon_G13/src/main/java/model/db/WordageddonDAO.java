@@ -11,7 +11,7 @@ public interface WordageddonDAO {
      *
      * @param userName Il nome utente da verificare.
      * @param password La password da verificare.
-     * @return true se le credenziali sono valide, false altrimenti.
+     * @return User con gli attributi presenti nel DB (ID,username e UserType), null se non è iscritto
      */
     public User checkCredentials(String userName, String password);
 
