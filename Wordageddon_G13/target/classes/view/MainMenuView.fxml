@@ -26,7 +26,7 @@
                   <Font size="17.0" />
                </font>
             </Button>
-            <Button fx:id="NavigationBarItem_Admin" alignment="CENTER" mnemonicParsing="false" onAction="#Button_SetPageAdmin" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-family: &quot;Microsoft YaHei&quot;; -fx-font-weight: bold; -fx-font-size: 17;" text="ADMIN" textFill="RED">
+            <Button fx:id="NavigationBarItem_Auth" alignment="CENTER" mnemonicParsing="false" onAction="#Button_SetAuth" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-family: &quot;Microsoft YaHei&quot;; -fx-font-weight: bold;" text="LOGIN" textFill="RED">
                <font>
                   <Font name="System Bold" size="17.0" />
                </font>

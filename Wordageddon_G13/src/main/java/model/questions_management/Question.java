@@ -16,6 +16,7 @@ public class Question {
         this.answers = answers;
     }
 
+
     public boolean isCorrect() { return correctAnswer.equals(givenAnswer); }
 
     public boolean isGiven() { return !givenAnswer.isEmpty(); }
@@ -29,4 +30,30 @@ public class Question {
     public String getGivenAnswer() { return givenAnswer; }
 
     public void setGivenAnswer(String givenAnswer) { this.givenAnswer = givenAnswer; }
+
+    /**
+     * Restituisce l'esito della domanda, serve per inserire il risultato nella colonna "Results" della tableView
+     */
+    public String getDisplayResult() {
+        if (!isGiven()) {
+            return "Non data";
+        } else if (isCorrect()) {
+            return "Corretta";
+        } else {
+            return "Errata";
+        }
+    }
+
+    /**
+     * Restituisce la stringa della risposta corretta per la colonna "Risposta corretta" della TableView.
+     * Vuota se la risposta data è corretta, altrimenti la risposta corretta.
+     */
+    public String getDisplayCorrectAnswerForTable() {
+        if (isGiven() && isCorrect()) {
+            return "";
+        } else {
+            return correctAnswer;
+        }
+    }
+
 }
