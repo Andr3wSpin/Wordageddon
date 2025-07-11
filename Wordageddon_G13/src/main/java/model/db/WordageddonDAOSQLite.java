@@ -5,32 +5,20 @@ import model.enums.UserType;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class WordageddonDAOSQLite implements WordageddonDAO {
 
 
-    private static final String DB_URL = "jdbc:sqlite:C:\\Users\\paolo\\OneDrive\\Desktop\\Wordageddon\\Wordageddon_G13\\data\\db\\wordageddon.db";
+    private static final String DB_URL = "Wordageddon_G13\\data\\db\\wordageddon.db";
 
-    //qua crea la connessione
-    //la chiusura è automatica nei vari metodi
-    //quando metti la connessione nel try() alla fine chiude automaticamente tutto
-    private Connection connect() {
-        try {
-            return DriverManager.getConnection(DB_URL);
-        } catch (SQLException e) {
-            System.out.println("Errore di connessione: " + e.getMessage());
-            return null;
-        }
-    }
 
     @Override
     public User checkCredentials(String userName, String password) {
         User user = null;
         String sql = "SELECT id, username, isAdmin FROM users WHERE username = ? AND password = ?";
 
-        try (Connection conn = DriverManager.getConnection("jdbc:sqlite:wordageddon_G13\\data\\db\\wordageddonDB.db");
+        try (Connection conn = DriverManager.getConnection(DB_URL);
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setString(1, userName);
@@ -59,7 +47,7 @@ public class WordageddonDAOSQLite implements WordageddonDAO {
     public User insertUser(String userName, String password, boolean isAdmin) {
         String insertSql = "INSERT INTO users (username, password, isAdmin) VALUES (?, ?, ?)";
 
-        try (Connection conn = DriverManager.getConnection("jdbc:sqlite:yourdatabase.db");
+        try (Connection conn = DriverManager.getConnection(DB_URL);
              PreparedStatement insertStmt = conn.prepareStatement(insertSql, Statement.RETURN_GENERATED_KEYS)) {//Statement.RETURN_GENERATED_KEYS serve a ritornare la chiave generata dal database
                                                                                                                 //È un flag che passi quando crei la PreparedStatement per dire che vuoi la chiave generata
             insertStmt.setString(1, userName);
@@ -101,7 +89,7 @@ public class WordageddonDAOSQLite implements WordageddonDAO {
 
         String query = "UPDATE users SET " + attribute + " = ? WHERE ID = ?";
 
-        try (Connection conn = connect();
+        try (Connection conn = DriverManager.getConnection(DB_URL);
              PreparedStatement stmt = conn.prepareStatement(query)) {
 
             stmt.setString(1, newValue);
@@ -127,7 +115,7 @@ public class WordageddonDAOSQLite implements WordageddonDAO {
 
         List<String> leaderBoardEntries = new ArrayList<>();
 
-        try (Connection conn = connect();
+        try (Connection conn = DriverManager.getConnection(DB_URL);
              PreparedStatement pstmt = conn.prepareStatement(selectQuery);
              ResultSet rs = pstmt.executeQuery()) {
 
@@ -149,7 +137,7 @@ public class WordageddonDAOSQLite implements WordageddonDAO {
         List<String> scores = new ArrayList<>();
         String query = "SELECT score FROM games WHERE user_id = ? ORDER BY score DESC";
 
-        try (Connection conn = connect();
+        try (Connection conn = DriverManager.getConnection(DB_URL);
              PreparedStatement stmt = conn.prepareStatement(query)) {
 
             stmt.setString(1, playerId);
@@ -173,7 +161,7 @@ public class WordageddonDAOSQLite implements WordageddonDAO {
         List<String> players = new ArrayList<>();
         String query = "SELECT username FROM users ORDER BY username";
 
-        try (Connection conn = connect();
+        try (Connection conn = DriverManager.getConnection(DB_URL);
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(query)) {
 
@@ -193,7 +181,7 @@ public class WordageddonDAOSQLite implements WordageddonDAO {
     @Override
     public float avgScore(int playerId) { // Cambiato da String a int
         String query = "SELECT AVG(score) AS average_score FROM games WHERE user_id = ?";
-        try (Connection conn = connect();
+        try (Connection conn = DriverManager.getConnection(DB_URL);
              PreparedStatement stmt = conn.prepareStatement(query)) {
 
             stmt.setInt(1, playerId); // Usiamo setInt() invece di setString()
@@ -218,7 +206,7 @@ public class WordageddonDAOSQLite implements WordageddonDAO {
     public boolean insertScore(String playerId, String date, int score, String difficulty) {
         String insertQuery = "INSERT INTO games (user_id, game_date, difficulty, score) VALUES (?, ?, ?, ?)";
 
-        try (Connection conn = connect();
+        try (Connection conn = DriverManager.getConnection(DB_URL);
              PreparedStatement stmt = conn.prepareStatement(insertQuery)) {
 
             stmt.setString(1, playerId);
