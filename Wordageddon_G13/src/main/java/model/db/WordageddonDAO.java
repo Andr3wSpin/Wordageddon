@@ -1,5 +1,7 @@
 package model.db;
 
+import model.User;
+
 import java.util.List;
 
 public interface WordageddonDAO {
@@ -11,7 +13,7 @@ public interface WordageddonDAO {
      * @param password La password da verificare.
      * @return true se le credenziali sono valide, false altrimenti.
      */
-    boolean checkCredentials(String userName, String password);
+    User checkCredentials(String userName, String password);
 
     /**
      * Inserisce un nuovo utente nel database.

@@ -1,5 +1,8 @@
 package model.db;
 
+import model.User;
+import model.enums.UserType;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -23,24 +26,35 @@ public class WordageddonDAOSQLite implements WordageddonDAO {
     }
 
     @Override
-    public boolean checkCredentials(String userName, String password) {
-        String query = "Select password FROM users WHERE userName = ?";
-        try(Connection conn = connect();
-            java.sql.PreparedStatement stmt =  conn.prepareStatement(query))
-        {
-            stmt.setString(1,userName);
-            try (ResultSet rs = stmt.executeQuery()){
-                if(rs.next()) {
-                    String storedPassword = rs.getNString("password");
-                    return storedPassword.equals(password);
-                }
+    public User checkCredentials(String userName, String password) {
+        User user = null;
+        String sql = "SELECT id, username, isAdmin FROM users WHERE username = ? AND password = ?";
+
+        try (Connection conn = DriverManager.getConnection("jdbc:sqlite:wordageddon_G13\\data\\db\\wordageddonDB.db");
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, userName);
+            pstmt.setString(2, password);
+
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                int id = rs.getInt("id");
+                String username = rs.getString("username");
+                boolean isAdmin = rs.getBoolean("isAdmin");
+
+                UserType type = isAdmin ? UserType.ADMIN : UserType.PLAYER;
+
+                user = new User(id, username, null, type); // password è null per sicurezza
             }
-        }catch (SQLException e) {
+
+        } catch (SQLException e) {
             throw new RuntimeException(e.getMessage());
         }
 
-        return false;
+        return user;
     }
+
     @Override
     public boolean insertUser(String userName, String password, boolean isAdmin) {
         String insertQuery = "INSERT INTO users (username, password, isAdmin) VALUES (?, ?, ?)";
