@@ -58,9 +58,7 @@ public class CreateQuestions {
      */
     private Question createQuestionType1() {
 
-        Map<String,Map<String,Integer>> mappaAppoggio = fileAnalysis.entrySet().stream().filter(
-                entry->
-                      choosenFiles.stream().anyMatch(entry.getValue()))::containsKey)
+
 
 
         return null; }

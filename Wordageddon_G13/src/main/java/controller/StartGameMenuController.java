@@ -75,6 +75,7 @@ public class StartGameMenuController implements Initializable {
         Media media = new Media(Objects.requireNonNull(getClass().getResource("/assets/sfondo.mp4")).toExternalForm());
         MediaPlayer mediaPlayer = new MediaPlayer(media);
         MediaViewWallPaper.setMediaPlayer(mediaPlayer);
+        MediaViewWallPaper.setPreserveRatio(false);
         mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
         mediaPlayer.play();
 

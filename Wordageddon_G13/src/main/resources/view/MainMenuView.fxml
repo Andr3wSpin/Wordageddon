@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
 <BorderPane fx:id="root" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MainController">
@@ -26,7 +32,7 @@
                   <Font size="17.0" />
                </font>
             </Button>
-            <Button fx:id="NavigationBarItem_Auth" alignment="CENTER" mnemonicParsing="false" onAction="#Button_SetAuth" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-family: &quot;Microsoft YaHei&quot;; -fx-font-weight: bold;" text="LOGIN" textFill="RED">
+            <Button fx:id="NavigationBarItem_Admin" alignment="CENTER" mnemonicParsing="false" onAction="#Button_SetAdmin" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-family: &quot;Microsoft YaHei&quot;; -fx-font-weight: bold; -fx-background-size: 17;" text="ADMIN" textFill="RED">
                <font>
                   <Font name="System Bold" size="17.0" />
                </font>
@@ -34,7 +40,85 @@
                   <Cursor fx:constant="DEFAULT" />
                </cursor>
             </Button>
+            <Button fx:id="NavigationBarItem_Profile" mnemonicParsing="false" onAction="#setProfilePage" style="-fx-background-color: transparent; -fx-font-size: 17; -fx-font-weight: bold; -fx-font-family: &quot;Microsoft YaHei&quot;; -fx-text-fill: white;" text="PROFILE" />
          </children>
       </HBox>
    </top>
+   <bottom>
+      <HBox fx:id="ScoreNavigationButton" alignment="CENTER" disable="false" prefHeight="75.0" prefWidth="814.0" spacing="200.0" style="-fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #1a1a2e, #16213e, #0f3460), radial-gradient(radius 100%, transparent, #00000066);" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="button_yoursScore" mnemonicParsing="false" onAction="#showYourScore" style="-fx-background-color: transparent; -fx-font-size: 25; -fx-font-weight: bold; -fx-font-family: &quot;Microsoft YaHei&quot;; -fx-text-fill: white;" text="YOUR SCORE" />
+            <Button fx:id="button_GlobalScorres" mnemonicParsing="false" onAction="#ShowGlobalScores" style="-fx-background-color: transparent; -fx-font-size: 25; -fx-font-weight: bold; -fx-font-family: &quot;Microsoft YaHei&quot;; -fx-text-fill: white;" text="GLOBAL SCORES" />
+         </children>
+      </HBox>
+   </bottom>
+   <right>
+      <VBox fx:id="NavigationBarAdmin" alignment="CENTER" prefHeight="200.0" prefWidth="284.0" spacing="60.0" style="-fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #1a1a2e, #16213e, #0f3460), radial-gradient(radius 100%, transparent, #00000066);" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="button_LoadFiles" mnemonicParsing="false" prefHeight="36.0" prefWidth="190.0" style="-fx-border-color: red; -fx-background-color: red; -fx-text-fill: white; -fx-font-family: &quot;Microsoft YaHei&quot;; -fx-font-size: 20; -fx-border-radius: 20; -fx-background-radius: 15;">
+               <graphic>
+                  <StackPane alignment="CENTER_LEFT" prefHeight="33.0" prefWidth="104.0">
+                     <children>
+                        <ImageView fitHeight="31.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../assets/import.png" />
+                           </image>
+                        </ImageView>
+                        <Label fx:id="LableButton_loadFiles" alignment="CENTER" prefHeight="27.0" prefWidth="178.0" style="-fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 15;" text="LOAD FILES">
+                           <padding>
+                              <Insets left="20.0" />
+                           </padding>
+                        </Label>
+                     </children>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </StackPane>
+               </graphic>
+            </Button>
+            <Button fx:id="Button_RemoveFiles" mnemonicParsing="false" prefHeight="30.0" prefWidth="190.0" style="-fx-border-color: red; -fx-background-color: red; -fx-text-fill: white; -fx-font-family: &quot;Microsoft YaHei&quot;; -fx-font-size: 20; -fx-border-radius: 20; -fx-background-radius: 15;">
+               <graphic>
+                  <StackPane alignment="CENTER_LEFT" prefHeight="33.0" prefWidth="104.0">
+                     <children>
+                        <ImageView fitHeight="31.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../assets/delete.png" />
+                           </image>
+                        </ImageView>
+                        <Label fx:id="LableButton_RemoveFiles" alignment="CENTER" prefHeight="20.0" prefWidth="173.0" style="-fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 15;" text="REMOVE FILES">
+                           <padding>
+                              <Insets left="20.0" />
+                           </padding>
+                        </Label>
+                     </children>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </StackPane>
+               </graphic>
+            </Button>
+            <Button fx:id="Button_StartAnalisys" mnemonicParsing="false" prefHeight="25.0" prefWidth="190.0" style="-fx-border-color: red; -fx-background-color: red; -fx-text-fill: white; -fx-font-family: &quot;Microsoft YaHei&quot;; -fx-font-size: 20; -fx-border-radius: 20; -fx-background-radius: 15;">
+               <graphic>
+                  <StackPane alignment="CENTER_LEFT" prefHeight="30.0" prefWidth="164.0">
+                     <children>
+                        <ImageView fitHeight="30.0" fitWidth="31.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../assets/start.png" />
+                           </image>
+                        </ImageView>
+                        <Label fx:id="LableButton_StartAnalisys" alignment="CENTER" prefHeight="28.0" prefWidth="194.0" style="-fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 15;" text="ANALISYS">
+                           <padding>
+                              <Insets left="20.0" />
+                           </padding>
+                        </Label>
+                     </children>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </StackPane>
+               </graphic>
+            </Button>
+         </children>
+      </VBox>
+   </right>
 </BorderPane>
