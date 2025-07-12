@@ -4,6 +4,8 @@ import model.enums.Difficulty;
 import model.questions_management.Question;
 
 import java.io.File;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 
@@ -29,6 +31,7 @@ public class Game {
     private Set<Question> questions;
     private int score;
     private List<File> choosenFiles;
+    private final LocalDateTime date;
 
     public Game(Difficulty difficulty, int PLAYER_ID, Set<Question> questions, List<File> choosenFiles) {
 
@@ -36,6 +39,8 @@ public class Game {
         this.PLAYER_ID = PLAYER_ID;
         this.questions = questions;
         this.choosenFiles = choosenFiles;
+        this.date = LocalDateTime.now();
+
     }
 
     /**
@@ -61,6 +66,8 @@ public class Game {
     public Difficulty getDifficuty() { return difficulty; }
 
     public int getPLAYER_ID() { return PLAYER_ID; }
+
+    public LocalDateTime getDate(){return date;}
 
     public Set<Question> getQuestions() { return questions; }
 

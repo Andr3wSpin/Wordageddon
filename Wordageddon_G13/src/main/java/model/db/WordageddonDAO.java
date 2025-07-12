@@ -1,6 +1,7 @@
 package model.db;
 
 import model.User;
+import model.enums.Difficulty;
 
 import java.util.List;
 
@@ -39,7 +40,7 @@ public interface WordageddonDAO {
      *
      * @return Una lista di stringhe, dove ogni stringa rappresenta un record della classifica formattato con i vari attributi.
      */
-    public List<String> leaderBoard();
+    public List<String> leaderBoard(Difficulty diff);
 
     /**
      * Recupera tutti i punteggi di un determinato giocatore.
@@ -47,7 +48,7 @@ public interface WordageddonDAO {
      * @param ID l'id del giocatore di cui recuperare i punteggi.
      * @return Una lista di stringhe contenente i punteggi del giocatore.
      */
-    public List<String> playerScores(String ID);
+    public List<String> playerScores(int ID, Difficulty difficulty);
 
     /**
      * Recupera una lista di tutti i nomi utente presenti nel database.

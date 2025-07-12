@@ -1,9 +1,11 @@
 package model.db;
 
 import model.User;
+import model.enums.Difficulty;
 import model.enums.UserType;
 
 import java.sql.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -106,46 +108,56 @@ public class WordageddonDAOSQLite implements WordageddonDAO {
     }
 
     @Override
-    public List<String> leaderBoard() {
-
-        String selectQuery = "SELECT u.username, MAX(g.score) AS max_score " +
+    public List<String> leaderBoard(Difficulty diff) {
+        String selectQuery = "SELECT u.username, MAX(g.score) AS max_score, u.game_date " +
                 "FROM users u JOIN games g ON u.id = g.user_id " +
-                "GROUP BY u.username " +
+                "WHERE g.difficulty = ? " +
+                "GROUP BY u.username, u.game_date " +
                 "ORDER BY max_score DESC";
 
         List<String> leaderBoardEntries = new ArrayList<>();
 
         try (Connection conn = DriverManager.getConnection(DB_URL);
-             PreparedStatement pstmt = conn.prepareStatement(selectQuery);
-             ResultSet rs = pstmt.executeQuery()) {
+             PreparedStatement pstmt = conn.prepareStatement(selectQuery)) {
 
-            while (rs.next()) {
-                String username = rs.getString("username");
-                int maxScore = rs.getInt("max_score");
-                leaderBoardEntries.add(username + " - " + maxScore);
+            pstmt.setString(1, diff.toString());
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    String username = rs.getString("username");
+                    int maxScore = rs.getInt("max_score");
+                    leaderBoardEntries.add(username + " - " + maxScore);
+                }
             }
 
         } catch (SQLException e) {
             System.err.println("Errore durante il recupero della leaderboard: " + e.getMessage());
         }
+
         return leaderBoardEntries;
     }
 
 
+
     @Override
-    public List<String> playerScores(String playerId) {
+    public List<String> playerScores(int playerId, Difficulty difficulty) {
         List<String> scores = new ArrayList<>();
-        String query = "SELECT score FROM games WHERE user_id = ? ORDER BY score DESC";
+        String query = "SELECT score FROM games" +
+                       " WHERE user_id = ? WHERE difficulty = ? " +
+                       "ORDER BY score DESC ";
 
         try (Connection conn = DriverManager.getConnection(DB_URL);
              PreparedStatement stmt = conn.prepareStatement(query)) {
 
-            stmt.setString(1, playerId);
+            stmt.setInt(1, playerId);
+            stmt.setString(2, difficulty.toString());
 
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
                     int score = rs.getInt("score");
+
                     scores.add(String.valueOf(score));
+
                 }
             }
         } catch (SQLException e) {
