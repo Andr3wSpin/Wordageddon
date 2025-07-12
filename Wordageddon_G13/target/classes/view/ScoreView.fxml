@@ -12,7 +12,7 @@
          <children>
             <TableView fx:id="scoreTableView" layoutX="257.0" layoutY="264.0" prefHeight="468.0" prefWidth="922.0" />
             <Label fx:id="avgScoreLabel" layoutX="683.0" layoutY="220.0" text="Label" textFill="WHITE" />
-            <Label fx:id="titleLabel" layoutX="644.0" layoutY="129.0" text="Label" textAlignment="CENTER" textFill="WHITE">
+            <Label fx:id="titleLabel" layoutX="588.0" layoutY="127.0" text="Label" textAlignment="CENTER" textFill="WHITE">
                <font>
                   <Font size="48.0" />
                </font></Label>

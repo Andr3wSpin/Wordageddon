@@ -12,7 +12,7 @@ import java.util.List;
 public class WordageddonDAOSQLite implements WordageddonDAO {
 
 
-    private static final String DB_URL = "data/db/wordageddon.db";
+    private static final String DB_URL = "jdbc:sqlite:C:/Users/paolo/OneDrive/Desktop/Wordageddon/Wordageddon_G13/data/db/wordageddonDB.db";
 
 
     @Override
@@ -109,10 +109,10 @@ public class WordageddonDAOSQLite implements WordageddonDAO {
 
     @Override
     public List<String> leaderBoard(Difficulty diff) {
-        String selectQuery = "SELECT u.username, MAX(g.score) AS max_score, u.game_date " +
+        String selectQuery = "SELECT u.username, MAX(g.score) AS max_score " +
                 "FROM users u JOIN games g ON u.id = g.user_id " +
                 "WHERE g.difficulty = ? " +
-                "GROUP BY u.username, u.game_date " +
+                "GROUP BY u.username " +
                 "ORDER BY max_score DESC";
 
         List<String> leaderBoardEntries = new ArrayList<>();
