@@ -12,7 +12,7 @@ import model.User;
 import model.db.WordageddonDAOSQLite;
 import model.enums.Difficulty;
 
-import java.awt.event.ActionEvent;
+import javafx.event.ActionEvent;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
@@ -64,6 +64,7 @@ public class ScoreController implements Initializable {
         this.user = user;
     }
 
+    @FXML
     public void loadLeaderBoard(ActionEvent event) {
         if(easyButton.isSelected())
             showLeaderboard(Difficulty.EASY);
@@ -76,7 +77,7 @@ public class ScoreController implements Initializable {
 
     }
 
-
+    @FXML
     public void loadScores(ActionEvent event) {
         if(easyButton.isSelected())
             showPlayerScores(Difficulty.EASY);
@@ -88,6 +89,12 @@ public class ScoreController implements Initializable {
                     showPlayerScores(Difficulty.HARD);
 
     }
+
+    @FXML
+    public void backHome(ActionEvent event) {
+        //todo
+    }
+
 
     public void showLeaderboard(Difficulty chosenDiff) {
         Difficulty diff;
