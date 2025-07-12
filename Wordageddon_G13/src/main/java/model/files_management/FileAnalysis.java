@@ -7,10 +7,7 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class FileAnalysis extends Service<Map<String, Map<String, Integer>>> implements Serializable {
 
@@ -19,6 +16,7 @@ public class FileAnalysis extends Service<Map<String, Map<String, Integer>>> imp
      */
     private final static Path ANALYSIS_DIR_PATH = Paths.get("/data/analysis/");
     private final static Path FULL_PATH = ANALYSIS_DIR_PATH.resolve("analysis.dat");
+    private String regex = "[\\.:,;?! _-]+";
 
     /**
      * La mappa contiene l'analisi dei files
@@ -42,7 +40,56 @@ public class FileAnalysis extends Service<Map<String, Map<String, Integer>>> imp
      */
     @Override
     protected Task<Map<String, Map<String, Integer>>> createTask() {
-        return null;
+        return new Task<Map<String, Map<String, Integer>>>() {
+            @Override
+            protected Map<String, Map<String, Integer>> call() throws Exception {
+                List<File> files;
+                try {
+                    files = FileManager.getFiles();
+                } catch (IOException e) {
+                    throw new Exception(e.getMessage());
+                }
+
+                for (File file : files) {
+                    analyzeFile(file);
+                }
+
+                saveAnalysis();
+
+                return analysis;
+            }
+        };
+    }
+
+
+    private void analyzeFile(File file) throws IOException {
+
+        Files.lines(file.toPath()).flatMap(line -> Arrays.stream(line.split(regex)))
+                .map(String::toLowerCase)
+                .forEach(word -> {
+                    if(stopwords.contains(word)) return;
+
+                    if(!analysis.containsKey(word)) {
+
+                        Map<String, Integer> innerMap = new HashMap<>();
+                        innerMap.put(file.getName(), 1);
+                        analysis.put(word, innerMap);
+                    }
+                    else {
+                        Map<String, Integer> innerMap = analysis.get(word);
+
+                        if(!innerMap.containsKey(file.getName()))
+                            innerMap.put(file.getName(), 1);
+                        else {
+                            int count = innerMap.get(file.getName());
+
+                            count++;
+
+                            innerMap.put(file.getName(), count);
+                        }
+                    }
+
+                });
     }
 
     /**
