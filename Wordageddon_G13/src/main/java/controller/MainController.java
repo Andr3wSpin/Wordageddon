@@ -138,7 +138,7 @@ public class MainController implements Initializable {
             button_LoadFiles.setVisible(true);
             Button_RemoveFiles.setVisible(true);
             Button_StartAnalisys.setVisible(true);
-           
+
             root.setRight(NavigationBarAdmin);
 
         } catch (IOException e) {

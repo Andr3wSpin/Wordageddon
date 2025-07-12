@@ -58,10 +58,31 @@ public class CreateQuestions {
      */
     private Question createQuestionType1() {
 
+        String testo = QuestionType.TYPE1.getText();
+       int r = new Random().nextInt(fileAnalysis.size());
+       Random random = new Random();
+
+       String parola = new ArrayList<>(fileAnalysis.keySet()).get(r);
+
+       String domanda = testo.replace("'<parola>'", parola);
+       domanda = domanda.replace("'<nome_documento>'",choosenFiles.get(r));
+       Integer correctAnswer = getCorrectAnswer(parola,choosenFiles.get(r));
+
+       Set<String> randomAnswer = new HashSet<>();
+       randomAnswer.add(correctAnswer.toString());
+
+        while (randomAnswer.size() < 4) {
+           Integer rr =  random.nextInt(8);
+
+            randomAnswer.add(rr.toString());
+        }
 
 
+        Question q1 = new Question(domanda, correctAnswer.toString(), randomAnswer);
 
-        return null; }
+
+        return q1;
+    }
 
     /**
      *
@@ -91,5 +112,10 @@ public class CreateQuestions {
      * @param file file scelto casualmente dal sistema
      * @return risposta corretta di una domanda di Type1
      */
-    private int getCorrectAnswer(String word, String file) { return 0; }
+    private int getCorrectAnswer(String word, String file) { int correct ;
+
+       correct =  fileAnalysis.get(word).containsKey(file) ?  fileAnalysis.get(word).get(file) : 0;
+
+            return correct;
+    }
 }
