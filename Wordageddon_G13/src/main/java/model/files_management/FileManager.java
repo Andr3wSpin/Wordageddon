@@ -27,13 +27,13 @@ public  class FileManager {
      */
     public static void addFiles(List<File> files) throws IOException {
 
-       if(!Files.isDirectory(FILES_DIR_PATH)) Files.createDirectories(FILES_DIR_PATH);
+        if(!Files.isDirectory(FILES_DIR_PATH)) Files.createDirectories(FILES_DIR_PATH);
 
-       for(File file : files) {
+        for(File file : files) {
 
-           Path target = FILES_DIR_PATH.resolve(file.getName());
-           Files.copy(file.toPath(), target, StandardCopyOption.REPLACE_EXISTING);
-       }
+            Path target = FILES_DIR_PATH.resolve(file.getName());
+            Files.copy(file.toPath(), target, StandardCopyOption.REPLACE_EXISTING);
+        }
     }
 
     /**

@@ -1,14 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="controller.game_controllers.ResultMenuController"
-            prefHeight="400.0" prefWidth="600.0">
-
-</AnchorPane>
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="659.0" prefWidth="902.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.game_controllers.ResultMenuController">
+    <children>
+        <Label layoutX="363.0" layoutY="25.0" text="Partita terminata">
+            <font>
+                <Font size="24.0" />
+            </font>
+        </Label>
+        <Label layoutX="14.0" layoutY="93.0" text="Risposte Risposte corrette:" />
+        <Label layoutX="400.0" layoutY="93.0" text="Risposte errate:" />
+        <Label layoutX="700.0" layoutY="93.0" text="Risposte non date:" />
+        <Label layoutX="394.0" layoutY="161.0" text="Punteggio totale:" />
+        <Label fx:id="correctAnswersLabel" layoutX="196.0" layoutY="93.0" text="Label" />
+        <Label fx:id="wrongAnswersLabel" layoutX="508.0" layoutY="93.0" text="Label" />
+        <Label fx:id="noAnswersLabel" layoutX="830.0" layoutY="93.0" text="Label" />
+        <Label fx:id="pointsLabel" layoutX="515.0" layoutY="161.0" text="Label" />
+        <TableView fx:id="resultsTableView" layoutY="192.0" prefHeight="397.0" prefWidth="902.0">
+            <columns>
+                <TableColumn fx:id="questionColumn" prefWidth="587.0" text="Domanda" />
+                <TableColumn fx:id="resultColumn" minWidth="0.0" prefWidth="133.0" text="Esito" />
+                <TableColumn fx:id="correctAnswer" minWidth="0.0" prefWidth="180.0" text="Risposta corretta" />
+            </columns>
+        </TableView>
+        <Button fx:id="mainMenuButton" layoutX="799.0" layoutY="605.0" mnemonicParsing="false" text="Main Menu" />
+    </children>
+</Pane>
