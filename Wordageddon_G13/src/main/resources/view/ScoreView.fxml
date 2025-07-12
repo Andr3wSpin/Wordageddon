@@ -1,26 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.StackPane?>
 
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1400.0"
-           style="-fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #1a1a2e, #16213e, #0f3460), radial-gradient(radius 100%, transparent, #00000066);"
-           xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
-           fx:controller="controller.ScoreController">
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1400.0" style="-fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #1a1a2e, #16213e, #0f3460), radial-gradient(radius 100%, transparent, #00000066);" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ScoreController">
    <children>
       <Pane prefHeight="701.0" prefWidth="1299.0">
          <children>
-            <TableView fx:id="scoreTableView" layoutX="239.0" layoutY="264.0" prefHeight="468.0" prefWidth="922.0" />
+            <TableView fx:id="scoreTableView" layoutX="257.0" layoutY="264.0" prefHeight="468.0" prefWidth="922.0" />
             <Label fx:id="avgScoreLabel" layoutX="683.0" layoutY="220.0" text="Label" textFill="WHITE" />
-            <Button fx:id="homeButton" layoutX="1229.0" layoutY="742.0" mnemonicParsing="false" onAction="#backHome" text="Home" />
-            <Label fx:id="titleLabel" layoutX="683.0" layoutY="95.0" text="Label" textFill="WHITE" />
-            <Button fx:id="scoresButton" layoutX="864.0" layoutY="742.0" mnemonicParsing="false" onAction="#loadScores" text="Load Scores" />
+            <Label fx:id="titleLabel" layoutX="644.0" layoutY="129.0" text="Label" textAlignment="CENTER" textFill="WHITE">
+               <font>
+                  <Font size="48.0" />
+               </font></Label>
+            <Button fx:id="scoresButton" layoutX="980.0" layoutY="742.0" mnemonicParsing="false" onAction="#loadScores" text="Reload Scores" />
             <RadioButton fx:id="easyButton" layoutX="269.0" layoutY="747.0" mnemonicParsing="false" text="Easy" textFill="WHITE" />
             <RadioButton fx:id="mediumButton" layoutX="394.0" layoutY="747.0" mnemonicParsing="false" text="Medium" textFill="WHITE" />
             <RadioButton fx:id="hardButton" layoutX="538.0" layoutY="747.0" mnemonicParsing="false" text="Hard" textFill="WHITE" />
-            <Button fx:id="leaderBoardButton" layoutX="980.0" layoutY="742.0" mnemonicParsing="false" onAction="#loadLeaderBoard" text="Load Scores" />
+            <Button fx:id="leaderBoardButton" layoutX="980.0" layoutY="742.0" mnemonicParsing="false" onAction="#loadLeaderBoard" text="Reload Scores" />
          </children>
       </Pane>
    </children>

@@ -56,6 +56,7 @@ public class ScoreController implements Initializable {
         easyButton.setToggleGroup(diffToggleGroup);
         mediumButton.setToggleGroup(diffToggleGroup);
         hardButton.setToggleGroup(diffToggleGroup);
+        showLeaderboard(Difficulty.EASY);
     }
 
 
@@ -88,11 +89,6 @@ public class ScoreController implements Initializable {
                 if (hardButton.isSelected())
                     showPlayerScores(Difficulty.HARD);
 
-    }
-
-    @FXML
-    public void backHome(ActionEvent event) {
-        //todo
     }
 
 
@@ -131,7 +127,7 @@ public class ScoreController implements Initializable {
     }
 
     public void showPlayerScores(Difficulty chosenDiff) {
-
+        titleLabel.setText("Your Scores ");
         scoresButton.setVisible(true);
         leaderBoardButton.setVisible(false);
         Difficulty diff;
@@ -157,7 +153,6 @@ public class ScoreController implements Initializable {
         }
 
         scoreTableView.setItems(data);
-        titleLabel.setText("Your Scores ");
         avgScoreLabel.setText("Your average score: " + accesDB.avgScore(user.getID()));
     }
 }

@@ -12,6 +12,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import model.enums.Difficulty;
 
 import java.io.IOException;
 import java.net.URL;
@@ -65,7 +66,7 @@ public class MainController implements Initializable {
     @FXML
     private VBox NavigationBarAdmin;
 
-
+    private ScoreController controllerScore;
 
 
 
@@ -113,8 +114,12 @@ public class MainController implements Initializable {
    @FXML
   void Button_SetScoresPage(ActionEvent event) {
        try{
-           Parent scorePage = FXMLLoader.load(getClass().getResource("/view/ScoreView.fxml"));
-          root.setCenter(scorePage);
+           FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/ScoreView.fxml"));
+           Parent scorePage = loader.load();
+           root.setCenter(scorePage);
+
+           controllerScore = loader.getController();//salvo il controller dello score per cambiare la tabella dopo
+
            button_yoursScore.setVisible(true);
            button_GlobalScorres.setVisible(true);
            button_LoadFiles.setVisible(false);
@@ -202,10 +207,12 @@ public class MainController implements Initializable {
     @FXML
     void ShowGlobalScores(ActionEvent event) {
 
+        controllerScore.showLeaderboard(Difficulty.EASY);
+
     }
     @FXML
     void showYourScore(ActionEvent event) {
-
+        controllerScore.showPlayerScores(Difficulty.EASY);
     }
 
 
