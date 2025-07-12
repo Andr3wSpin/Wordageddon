@@ -2,7 +2,10 @@ package controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
@@ -11,7 +14,9 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.Objects;
 import java.util.ResourceBundle;
@@ -54,8 +59,14 @@ public class  ProfileViewController implements Initializable {
     }
 
     @FXML
-    void LogOut_Buttton(ActionEvent event) {
+    void LogOut_Buttton(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/AuthView.fxml"));
+        Parent loginPage = loader.load();
 
+        Stage stage = (Stage) Button_LogOut.getScene().getWindow();
+        Scene newScene = new Scene(loginPage);
+        stage.setScene(newScene);
+        stage.show();
     }
 
     @FXML
