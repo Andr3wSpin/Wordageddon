@@ -219,7 +219,6 @@ public class MainController implements Initializable {
     }
     @FXML
     void showYourScore(ActionEvent event) {
-       user = new User(1, "alice", "gay878",UserType.PLAYER);
        controllerScore.setUser(user);
         controllerScore.showPlayerScores(Difficulty.EASY);
     }
