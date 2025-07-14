@@ -6,6 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
@@ -77,11 +78,62 @@ public class MainController implements Initializable {
     private User user;
 
     private AdminController controllerAdmin;
-    private FileAnalysis fa = new FileAnalysis();
+    private FileAnalysis fa;
 
 
     public void setUser (User user){
         this.user = user;
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+
+        loadGamePage();
+        fa = new FileAnalysis();
+        try {
+            fa = fa.readAnalysis();
+            System.out.println("ANALISI LETTA:\n" + fa.getValue());
+        } catch (IOException e) {
+            showMessage(e.getMessage(), Alert.AlertType.ERROR);
+        }
+
+        setCSS();
+    }
+
+    /**
+     * Imposta l'hover sui pulsanti
+     */
+    private void setCSS() {
+
+        for (Node node : NavigationBar.getChildren()) {
+
+            Button button = (Button)node;
+            button.setOnMouseEntered(e -> node.setStyle("-fx-text-fill: red; " +
+                    "-fx-font-weight: bold; " +
+                    "-fx-background-color: transparent; " +
+                    "-fx-font-size: 17px; " +
+                    "-fx-font-family: 'Microsoft YaHei';"));
+            button.setOnMouseExited(e -> node.setStyle("-fx-text-fill: white; " +
+                    "-fx-font-weight: bold; " +
+                    "-fx-background-color: transparent; " +
+                    "-fx-font-size: 17px; " +
+                    "-fx-font-family: 'Microsoft YaHei';"));
+
+        }
+        for (Node node : ScoreNavigationButton.getChildren()) {
+
+            Button button = (Button)node;
+            button.setOnMouseEntered(e -> node.setStyle("-fx-text-fill: red; " +
+                    "-fx-font-weight: bold; " +
+                    "-fx-background-color: transparent; " +
+                    "-fx-font-size: 25px; " +
+                    "-fx-font-family: 'Microsoft YaHei';"));
+            button.setOnMouseExited(e -> node.setStyle("-fx-text-fill: white; " +
+                    "-fx-font-weight: bold; " +
+                    "-fx-background-color: transparent; " +
+                    "-fx-font-size: 25px; " +
+                    "-fx-font-family: 'Microsoft YaHei';"));
+        }
     }
 
     @FXML
@@ -123,42 +175,6 @@ public class MainController implements Initializable {
        loadAdminPage();
     }
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-
-       loadGamePage();
-
-        for (Node node : NavigationBar.getChildren()) {
-
-            Button button = (Button)node;
-             button.setOnMouseEntered(e -> node.setStyle("-fx-text-fill: red; " +
-                     "-fx-font-weight: bold; " +
-                     "-fx-background-color: transparent; " +
-                     "-fx-font-size: 17px; " +
-                     "-fx-font-family: 'Microsoft YaHei';"));
-                button.setOnMouseExited(e -> node.setStyle("-fx-text-fill: white; " +
-                        "-fx-font-weight: bold; " +
-                        "-fx-background-color: transparent; " +
-                        "-fx-font-size: 17px; " +
-                        "-fx-font-family: 'Microsoft YaHei';"));
-
-        }
-        for (Node node : ScoreNavigationButton.getChildren()) {
-
-            Button button = (Button)node;
-            button.setOnMouseEntered(e -> node.setStyle("-fx-text-fill: red; " +
-                    "-fx-font-weight: bold; " +
-                    "-fx-background-color: transparent; " +
-                    "-fx-font-size: 25px; " +
-                    "-fx-font-family: 'Microsoft YaHei';"));
-            button.setOnMouseExited(e -> node.setStyle("-fx-text-fill: white; " +
-                    "-fx-font-weight: bold; " +
-                    "-fx-background-color: transparent; " +
-                    "-fx-font-size: 25px; " +
-                    "-fx-font-family: 'Microsoft YaHei';"));
-        }
-    }
-
     @FXML
     void ShowGlobalScores(ActionEvent event) {
 
@@ -189,25 +205,28 @@ public class MainController implements Initializable {
       loadAdminPage();
     }
 
+
+    private void startAnalysis() {
+        fa.setOnSucceeded(e -> {
+
+            showMessage("Analisi completata.", Alert.AlertType.INFORMATION);
+            System.out.println("MAPPA:\n" + fa.getValue());
+            fa.reset();
+
+        });
+
+        fa.setOnFailed( e->{
+
+            showMessage("Impossibile analizzare i file!", Alert.AlertType.ERROR);
+            fa.reset();
+        });
+
+        fa.start();
+    }
     @FXML
     void button_StartAnalisys(ActionEvent event) {
 
-
-            fa.setOnSucceeded(e -> {
-
-
-            });
-
-            fa.setOnFailed( e->{
-
-
-                System.out.println("erore imposisbile analizzare");
-                fa.reset();
-
-            });
-            fa.start();
-
-
+       startAnalysis();
     }
 
     private void loadAdminPage() {
@@ -269,5 +288,17 @@ public class MainController implements Initializable {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    /**
+     * Mostra all'utente il messaggio ricevuto
+     * @param msg Messaggio da mostrare all'utente
+     * @param type Tipo di messaggio
+     */
+    private void showMessage(String msg, Alert.AlertType type) {
+
+        Alert alert = new Alert(type);
+        alert.setContentText(msg);
+        alert.showAndWait();
     }
 }
