@@ -117,8 +117,8 @@ public class CreateQuestions {
                         String words = (String) arr[1];
                         Integer count = (Integer) arr[2];
 
-                        fileWordCount.put(nomeFile,new HashMap<>());
-                        fileAnalysis.get(nomeFile).put(words,count);
+                        fileWordCount.putIfAbsent(nomeFile,new HashMap<>());
+                        fileWordCount.get(nomeFile).putIfAbsent(words,count);
                 });
 
 
