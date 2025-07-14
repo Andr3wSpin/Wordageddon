@@ -66,15 +66,16 @@ public class ResultMenuController implements Initializable {
 
 
 
-    public void setGame(Game game){
+    public void start(Game game){
         this.game = game;
+        setVariables();
     }
 
     /**
      * @brief scorre la lista di Question ricevuta e conta il numero di risposte giuste, sbagliate o non date
      * poi chiama showResults() per mostrare a video il risultato
      */
-    public void setVariables(){
+    private void setVariables(){
         questions = game.getQuestions();
         game.calculateScore();
         this.totalPoints = game.getScore();
