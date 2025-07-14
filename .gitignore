@@ -1,6 +1,11 @@
 # File binari da ignorare
-data/db/wordageddonDB.db
-data/analysis/analysis.dat
+/data/db/wordageddonDB.db
+/data/analysis/analysis.dat
 
 # Directory di build
-target/
+/target/
+/build/
+
+# File compilati
+*.class
+*.jar

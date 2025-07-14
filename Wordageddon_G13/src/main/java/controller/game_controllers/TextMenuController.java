@@ -11,6 +11,7 @@ import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
 import model.Game;
 import javafx.event.ActionEvent;
+import model.Timer;
 
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -18,50 +19,109 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * Controller per la visualizzazione sequenziale di testi letti da file.
+ * Gestisce la visualizzazione del testo, la navigazione tra i testi e un timer complessivo.
+ */
 public class TextMenuController {
 
+    /**
+     * Area di testo dove viene mostrato il contenuto del file corrente.
+     */
     @FXML
     private TextArea textArea;
 
+    /**
+     * Label che mostra il numero del testo attualmente visualizzato.
+     */
     @FXML
     private Label numberOfFileLabel;
 
+    /**
+     * Label che mostra il tempo rimanente del timer complessivo.
+     */
     @FXML
     private Label timerLabel;
 
+    /**
+     * Pulsante per passare al testo successivo o alla schermata delle domande.
+     */
     @FXML
     private Button nextButton;
 
+    /**
+     * Riferimento all'istanza di gioco contenente i file e le impostazioni.
+     */
     private Game game;
+
+    /**
+     * Lista dei file di testo da mostrare.
+     */
     private List<File> files;
+
+    /**
+     * Indice del file attualmente visualizzato.
+     */
     private int index;
 
+    /**
+     * Timer che gestisce il conto alla rovescia totale.
+     */
+    private Timer timer;
+
+    /**
+     * Metodo di inizializzazione chiamato automaticamente da JavaFX dopo il caricamento del FXML.
+     * Imposta lo stato iniziale dei componenti UI.
+     */
     @FXML
     private void initialize() {
         index = 0;
         nextButton.setText("Show next text");
         textArea.setEditable(false);
-        nextButton.setDisable(true);  // Disabilito fino a caricamento
+        nextButton.setDisable(true);
     }
 
-    public void start(Game game){//BISOGNA CHIAMARE START E PASSARGLI IL GAME PER FAR PARTIRE I TESTI
+    /**
+     * Avvia il controller con una specifica istanza di gioco.
+     * Inizializza la lista dei file, crea il timer e mostra il primo testo.
+     *
+     * @param game istanza di gioco con configurazioni e file da leggere
+     */
+    public void start(Game game){
         numberOfFileLabel.setText("Loading...");
         this.game = game;
+
         files = game.getChoosenFiles();
+
+        timer = new Timer(game.getDifficuty().getReadTimePerFile() * 60 * files.size());
+
+        timer.setOnTick(remainingSeconds -> {
+            int minutes = remainingSeconds / 60;
+            int seconds = remainingSeconds % 60;
+            String text = String.format("%02d:%02d", minutes, seconds);
+
+            javafx.application.Platform.runLater(() -> timerLabel.setText(text));
+        });
 
         if (files == null || files.isEmpty()) {
             textArea.setText("Nessun file disponibile.");
             numberOfFileLabel.setText("Text No. -");
             nextButton.setDisable(true);
         } else {
+            timer.start();
             nextButton.setDisable(false);
             index = 0;
             showText();
         }
     }
 
+    /**
+     * Mostra il contenuto del file corrente nell'area di testo.
+     * Aggiorna anche l'etichetta del numero di file visualizzato.
+     */
     public void showText() {
         numberOfFileLabel.setText("Text N°" + (index + 1));
+
         if (files != null && !files.isEmpty() && index < files.size()) {
             File currentFile = files.get(index);
             try {
@@ -75,6 +135,12 @@ public class TextMenuController {
         }
     }
 
+    /**
+     * Gestisce l'evento di click sul pulsante "next".
+     * Passa al testo successivo o, se è l'ultimo, cambia scena per mostrare le domande.
+     *
+     * @param event evento di azione generato dal pulsante
+     */
     @FXML
     private void handleNextButton(ActionEvent event) {
         index += 1;
@@ -92,10 +158,8 @@ public class TextMenuController {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("QuestionView.fxml"));
                 Parent root = loader.load();
 
-
                 QuestionMenuController questionController = loader.getController();
                 questionController.start(game);
-
 
                 Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 
@@ -104,7 +168,7 @@ public class TextMenuController {
                 stage.show();
 
             } catch (IOException e) {
-                System.err.println(e.getMessage());;
+                System.err.println(e.getMessage());
             }
         }
     }

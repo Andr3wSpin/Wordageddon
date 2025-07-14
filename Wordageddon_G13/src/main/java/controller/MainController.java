@@ -17,6 +17,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import model.User;
 import model.enums.Difficulty;
+import model.enums.UserType;
 import model.files_management.FileAnalysis;
 import model.files_management.FileManager;
 
@@ -88,16 +89,17 @@ public class MainController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        loadGamePage();
-        fa = null;
+        fa = new FileAnalysis();
         try {
-            fa = new FileAnalysis().readAnalysis();
+            fa = fa.readAnalysis();
             System.out.println("ANALISI LETTA:\n" + fa.getAnalysis());
         } catch (IOException e) {
             showMessage(e.getMessage(), Alert.AlertType.ERROR);
         }
 
         setCSS();
+
+        loadGamePage();
     }
 
     /**
@@ -141,7 +143,7 @@ public class MainController implements Initializable {
        try{
 
            Parent  profilePage= FXMLLoader.load(getClass().getResource("/view/ProfileView.fxml"));
-            root.setCenter(profilePage);
+           root.setCenter(profilePage);
            button_yoursScore.setVisible(false);
            button_GlobalScorres.setVisible(false);
            button_LoadFiles.setVisible(false);
@@ -162,8 +164,8 @@ public class MainController implements Initializable {
     }
 
   /**
-    * @brief al click questo metodo cambia pagina e ti porta alla pagina per visualizzare gli score
-    * @param event
+    * Al click questo metodo cambia pagina e ti porta alla pagina per visualizzare gli score
+    *
     */
    @FXML
   void Button_SetScoresPage(ActionEvent event) {
@@ -276,8 +278,14 @@ public class MainController implements Initializable {
     private void loadGamePage(){
 
         try{
-            Parent gamePage = FXMLLoader.load(getClass().getResource("/view/StartGameView.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/StartGameView.fxml"));
+            Parent gamePage = loader.load();
             root.setCenter(gamePage);
+
+            StartGameMenuController sgController = loader.getController();
+            sgController.setUser(new User(2, "Andrea", "BB", UserType.PLAYER));
+            sgController.setFileAnalysis(fa.getAnalysis());
+
             button_yoursScore.setVisible(false);
             button_GlobalScorres.setVisible(false);
             button_LoadFiles.setVisible(false);

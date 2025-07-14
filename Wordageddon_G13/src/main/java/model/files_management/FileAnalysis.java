@@ -56,7 +56,6 @@ public class FileAnalysis extends Service<Map<String, Map<String, Integer>>> {
         };
     }
 
-
     private void analyzeFile(File file) throws IOException {
 
         Files.lines(file.toPath()).flatMap(line -> Arrays.stream(line.split(regex)))
@@ -84,12 +83,12 @@ public class FileAnalysis extends Service<Map<String, Map<String, Integer>>> {
                             innerMap.put(file.getName(), count);
                         }
                     }
-
                 });
     }
 
     /**
      * Salva in memoria la mappa contenente l'analisi dei file
+     * @throws IOException perche si
      */
     private void saveAnalysis() throws IOException {
 

@@ -1,20 +1,25 @@
 package controller;
 
-import app.Wordageddon;
+import controller.game_controllers.TextMenuController;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
+import javafx.stage.Stage;
 import model.Game;
 //import model.User;  questa riga è commentata perché al momento user è null, quindi non si può ottenere l'id
+import model.User;
 import model.enums.Difficulty;
 import model.enums.QuestionType;
 import model.files_management.FileAnalysis;
@@ -28,6 +33,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import javafx.application.Platform;
+import sun.swing.PrintingStatus;
 
 public class StartGameMenuController implements Initializable {
 
@@ -40,7 +46,6 @@ public class StartGameMenuController implements Initializable {
     @FXML
     private MediaView MediaViewWallPaper;
 
-
     @FXML
     private RadioButton RadioButton_Easy;
 
@@ -52,27 +57,14 @@ public class StartGameMenuController implements Initializable {
 
     private ToggleGroup toggleGroupDifficulty;
 
-
-
-   // private User user;
-
+    private User user;
+    private Map<String, Map<String, Integer>> fileAnalysis;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        StringBuilder msg = new StringBuilder("Impossibile aprire il file di analisi dei documenti!");
-
-        Media media = new Media(Objects.requireNonNull(getClass().getResource("/assets/sfondo.mp4")).toExternalForm());
-        MediaPlayer mediaPlayer = new MediaPlayer(media);
-        MediaViewWallPaper.setMediaPlayer(mediaPlayer);
-        MediaViewWallPaper.setPreserveRatio(false);
-        mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
-        mediaPlayer.play();
-
-        toggleGroupDifficulty = new ToggleGroup();
-        RadioButton_Easy.setToggleGroup(toggleGroupDifficulty);
-        RadioButton_Medium.setToggleGroup(toggleGroupDifficulty);
-        RadioButton_Hard.setToggleGroup(toggleGroupDifficulty);
+        initBackground();
+        initRadioButtons();
     }
 
     /**
@@ -82,14 +74,12 @@ public class StartGameMenuController implements Initializable {
     @FXML
     private void startGame(ActionEvent event) {
         Difficulty difficulty = takeDifficulty();
-        Map<String, Map<String, Integer>> fileAnalysis = fa.getAnalysis();
 
         if (difficulty == null) {
             showMessage("Selezionare una difficoltà.", Alert.AlertType.INFORMATION);
             event.consume();
             return;
         }
-        //crea un nuovo task (thread separato) per non bloccare tutto il programma mentre crea la partita
 
         Task<Game> gameTask = new Task() {
             @Override
@@ -99,22 +89,14 @@ public class StartGameMenuController implements Initializable {
                 if (filesList.isEmpty())
                     throw new IOException("Nessun file disponibile.");
 
+                Collections.shuffle(filesList);
+
                 int max = Math.min(filesList.size(), difficulty.getMaxTexts());
-                Set<Integer> randomFileIndexes = new HashSet<>();
-                Random random = new Random();
 
-                /*
-                    genera <max> numeri casuali evitando duplicati
-                 */
-                while (randomFileIndexes.size() < max) {
-                    randomFileIndexes.add(random.nextInt(filesList.size()));
-                }
-
-                List<File> choosenFiles = randomFileIndexes.stream()
-                        .map(filesList::get)
-                        .collect(Collectors.toList());
+                List<File> choosenFiles = filesList.subList(0, max);
 
                 Set<QuestionType> questionTypeSet = new HashSet<>();
+
                 if ((difficulty == Difficulty.EASY) || (max == 1)) {
                     questionTypeSet.add(QuestionType.TYPE1);
                     questionTypeSet.add(QuestionType.TYPE2);
@@ -125,24 +107,23 @@ public class StartGameMenuController implements Initializable {
                     questionTypeSet.add(QuestionType.TYPE4);
                 }
 
-                //ottiene i nomi dei soli file selezionati per la partita, non tutti quelli presenti nella cartella
                 List<String> fileNames = choosenFiles.stream()
                         .map(File::getName)
                         .collect(Collectors.toList());
 
                 CreateQuestions cq = new CreateQuestions(questionTypeSet, fileNames, fileAnalysis, difficulty.getMaxQuestions());
-                return new Game(difficulty, 1, cq.createQuestions(), choosenFiles);
+                return new Game(difficulty, user.getID(), cq.createQuestions(), choosenFiles);
             }
         };
 
         gameTask.setOnSucceeded(e -> {
+            showMessage("La partita è stata creata con successo.", Alert.AlertType.INFORMATION);
             Game g = gameTask.getValue();
             changeScene(g);
         });
 
         gameTask.setOnFailed(e -> {
             Throwable ex = gameTask.getException();
-            ex.printStackTrace();
             String msg = "Errore durante la creazione della partita:\n" + ex.getMessage();
             showMessage(msg, Alert.AlertType.ERROR);
         });
@@ -153,9 +134,15 @@ public class StartGameMenuController implements Initializable {
 
     private void  changeScene(Game g){
 
-        showMessage("Partita creata", Alert.AlertType.INFORMATION);
         try {
-            Wordageddon.setRoot("TextMenuView");
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/TextMenuView.fxml"));
+            Scene textPage = new Scene(loader.load());
+
+            Stage stage = (Stage) Button_StartGame.getScene().getWindow();
+            stage.setScene(textPage);
+
+            TextMenuController tmController = loader.getController();
+            tmController.start(g);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -191,10 +178,35 @@ public class StartGameMenuController implements Initializable {
     }
 
     /**
-     * @brief al click questo metodo cambia pagina e ti porta alla pagina di gestione dell admin
-     * @param event
+     * Inizializza lo sfondo della schermata
      */
+    private void initBackground() {
 
+        Media media = new Media(Objects.requireNonNull(getClass().getResource("/assets/sfondo.mp4")).toExternalForm());
+        MediaPlayer mediaPlayer = new MediaPlayer(media);
+        MediaViewWallPaper.setMediaPlayer(mediaPlayer);
+        MediaViewWallPaper.setPreserveRatio(false);
+        mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+        mediaPlayer.play();
+    }
+
+    /**
+     * Inizializza i radio button
+     */
+    private void initRadioButtons() {
+
+        toggleGroupDifficulty = new ToggleGroup();
+        RadioButton_Easy.setToggleGroup(toggleGroupDifficulty);
+        RadioButton_Medium.setToggleGroup(toggleGroupDifficulty);
+        RadioButton_Hard.setToggleGroup(toggleGroupDifficulty);
+    }
+
+    public void setUser(User user) { this.user = user; }
+
+    public void setFileAnalysis(Map<String, Map<String, Integer>> fileAnalysis) {
+
+        this.fileAnalysis = fileAnalysis;
+    }
 
     /**
      * Mostra all'utente il messaggio ricevuto
@@ -207,33 +219,4 @@ public class StartGameMenuController implements Initializable {
         alert.setContentText(msg);
         alert.showAndWait();
     }
-
-    /**
-     * Riceve l'oggetto user contenente le informazioni dell'utente corrente
-     * @param user L'utente autenticato corrente
-     */
-    //il metodo è commentato perché non viene invocato ancora da nessuna parte -> user = null
-    //public void setUser(User user) { this.user = user; }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    /**
-     * tutti questi metodi servono per gestire le animazioni dei vari pulsanti in hover
-     */
-
-
-
 }
