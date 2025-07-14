@@ -10,8 +10,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
 import model.Game;
+import javafx.event.ActionEvent;
 
-import java.awt.event.ActionEvent;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.io.File;
@@ -44,7 +44,7 @@ public class TextMenuController {
         nextButton.setDisable(true);  // Disabilito fino a caricamento
     }
 
-    public void start(Game game){
+    public void start(Game game){//BISOGNA CHIAMARE START E PASSARGLI IL GAME PER FAR PARTIRE I TESTI
         numberOfFileLabel.setText("Loading...");
         this.game = game;
         files = game.getChoosenFiles();
