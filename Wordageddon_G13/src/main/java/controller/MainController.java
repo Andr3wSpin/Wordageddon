@@ -205,19 +205,35 @@ public class MainController implements Initializable {
 
     @FXML
     void button_StartAnalisys(ActionEvent event) {
-        try {
-            List<File> totFile = FileManager.getFiles();
-            for (File f : totFile){
-                fa.analyzeFile(f);
-            }
-            loadAdminPage();
-        } catch (IOException e) {
-            System.out.println("errore in start Analysis");
-            throw new RuntimeException(e);
 
-        }
+
+            fa.setOnSucceeded(e -> {
+                try {
+                    List<File> totFile = FileManager.getFiles();
+                    for (File f : totFile) {
+                        fa.analyzeFile(f);
+                    }
+                    loadAdminPage();
+                } catch (IOException ex) {
+                    System.out.println("errore in start Analysis");
+
+                    throw new RuntimeException(ex);
+                }
+
+            });
+
+            fa.setOnFailed( e->{
+
+
+                System.out.println("erore imposisbile analizzare");
+                fa.reset();
+
+            });
+            fa.start();
+
 
     }
+
     private void loadAdminPage() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/AdminView.fxml"));

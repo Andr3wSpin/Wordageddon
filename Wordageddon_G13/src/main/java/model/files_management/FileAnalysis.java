@@ -67,6 +67,7 @@ public class FileAnalysis extends Service<Map<String, Map<String, Integer>>> imp
         Files.lines(file.toPath()).flatMap(line -> Arrays.stream(line.split(regex)))
                 .map(String::toLowerCase)
                 .forEach(word -> {
+                    //System.out.println("sto analizzando parola per parola");
                     if(stopwords.contains(word)) return;
 
                     if(!analysis.containsKey(word)) {
