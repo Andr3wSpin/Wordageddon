@@ -69,7 +69,6 @@ public class MainController implements Initializable {
     private VBox NavigationBarAdmin;
 
     private ScoreController controllerScore;
-
     private User user;
 
 
@@ -174,7 +173,7 @@ public class MainController implements Initializable {
             throw new RuntimeException(e);
         }
 
-      
+
 
 
         for (Node node : NavigationBar.getChildren()) {
@@ -213,7 +212,6 @@ public class MainController implements Initializable {
 
     @FXML
     void ShowGlobalScores(ActionEvent event) {
-
         controllerScore.showLeaderboard(Difficulty.EASY);
 
     }
@@ -222,6 +220,4 @@ public class MainController implements Initializable {
        controllerScore.setUser(user);
         controllerScore.showPlayerScores(Difficulty.EASY);
     }
-
-
 }
