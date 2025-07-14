@@ -59,6 +59,7 @@ public class CreateQuestions {
     private Question createQuestionType1() {
 
         String testo = QuestionType.TYPE1.getText();
+        System.out.println(fileAnalysis);
        int r = new Random().nextInt(fileAnalysis.size());
        Random random = new Random();
 
@@ -70,7 +71,6 @@ public class CreateQuestions {
 
        Set<String> randomAnswer = new HashSet<>();
        randomAnswer.add(correctAnswer.toString());
-
         while (randomAnswer.size() < 4) {
            Integer rr =  random.nextInt(8);
 

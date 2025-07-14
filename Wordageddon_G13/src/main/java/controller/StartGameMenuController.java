@@ -1,5 +1,6 @@
 package controller;
 
+import app.Wordageddon;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -54,7 +55,7 @@ public class StartGameMenuController implements Initializable {
 
 
    // private User user;
-    private Map<String, Map<String, Integer>> fileAnalysis;
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -81,6 +82,7 @@ public class StartGameMenuController implements Initializable {
     @FXML
     private void startGame(ActionEvent event) {
         Difficulty difficulty = takeDifficulty();
+        Map<String, Map<String, Integer>> fileAnalysis = fa.getAnalysis();
 
         if (difficulty == null) {
             showMessage("Selezionare una difficoltà.", Alert.AlertType.INFORMATION);
@@ -88,6 +90,7 @@ public class StartGameMenuController implements Initializable {
             return;
         }
         //crea un nuovo task (thread separato) per non bloccare tutto il programma mentre crea la partita
+
         Task<Game> gameTask = new Task() {
             @Override
             protected Game call() throws Exception {
@@ -139,6 +142,7 @@ public class StartGameMenuController implements Initializable {
 
         gameTask.setOnFailed(e -> {
             Throwable ex = gameTask.getException();
+            ex.printStackTrace();
             String msg = "Errore durante la creazione della partita:\n" + ex.getMessage();
             showMessage(msg, Alert.AlertType.ERROR);
         });
@@ -148,7 +152,13 @@ public class StartGameMenuController implements Initializable {
 
 
     private void  changeScene(Game g){
+
         showMessage("Partita creata", Alert.AlertType.INFORMATION);
+        try {
+            Wordageddon.setRoot("TextMenuView");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
