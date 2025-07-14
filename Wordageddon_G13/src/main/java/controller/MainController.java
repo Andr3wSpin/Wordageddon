@@ -77,7 +77,7 @@ public class MainController implements Initializable {
     private User user;
 
     private AdminController controllerAdmin;
-    private FileAnalysis fa;
+    private FileAnalysis fa = new FileAnalysis();
 
 
     public void setUser (User user){
@@ -218,31 +218,37 @@ public class MainController implements Initializable {
         }
 
     }
-    private  void loadAdminPage(){
-        try{
-            Parent adminPage = FXMLLoader.load(getClass().getResource("/view/AdminView.fxml"));
+    private void loadAdminPage() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/AdminView.fxml"));
+            Parent adminPage = loader.load();
+
+
+            controllerAdmin = loader.getController();
+
+            // Mostra la pagina admin
             root.setCenter(adminPage);
             button_yoursScore.setVisible(false);
             button_GlobalScorres.setVisible(false);
             button_LoadFiles.setVisible(true);
             Button_RemoveFiles.setVisible(true);
             Button_StartAnalisys.setVisible(true);
-
             root.setRight(NavigationBarAdmin);
 
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
-    private  void loadScorePage(){
 
-        try{
+
+    private void loadScorePage() {
+        try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/ScoreView.fxml"));
             Parent scorePage = loader.load();
+
+            controllerScore = loader.getController();
+
             root.setCenter(scorePage);
-
-            controllerScore = loader.getController();//salvo il controller dello score per cambiare la tabella dopo
-
             button_yoursScore.setVisible(true);
             button_GlobalScorres.setVisible(true);
             button_LoadFiles.setVisible(false);
@@ -255,6 +261,7 @@ public class MainController implements Initializable {
             throw new RuntimeException(e);
         }
     }
+
     private void loadGamePage(){
 
         try{
