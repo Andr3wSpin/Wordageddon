@@ -85,9 +85,14 @@ public class ResultMenuController implements Initializable {
     }
 
     /**
+<<<<<<< HEAD
      * Calcola le statistiche relative alle risposte dell'utente.
      * Conta il numero di risposte corrette, sbagliate e non date.
      * Chiama {@link #showResults()} per aggiornare l'interfaccia.
+=======
+     * Scorre la lista di Question ricevuta e conta il numero di risposte giuste, sbagliate o non date
+     * poi chiama showResults() per mostrare a video il risultato
+>>>>>>> f42735fe8222deb3f1a4d6fb7450e73cbe087648
      */
     private void setVariables(){
         questions = game.getQuestions();
