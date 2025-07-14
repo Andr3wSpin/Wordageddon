@@ -162,8 +162,8 @@ public class MainController implements Initializable {
     }
 
   /**
-    * @brief al click questo metodo cambia pagina e ti porta alla pagina per visualizzare gli score
-    * @param event
+    * Al click questo metodo cambia pagina e ti porta alla pagina per visualizzare gli score
+    *
     */
    @FXML
   void Button_SetScoresPage(ActionEvent event) {

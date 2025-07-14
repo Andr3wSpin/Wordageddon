@@ -72,7 +72,7 @@ public class ResultMenuController implements Initializable {
     }
 
     /**
-     * @brief scorre la lista di Question ricevuta e conta il numero di risposte giuste, sbagliate o non date
+     * Scorre la lista di Question ricevuta e conta il numero di risposte giuste, sbagliate o non date
      * poi chiama showResults() per mostrare a video il risultato
      */
     private void setVariables(){

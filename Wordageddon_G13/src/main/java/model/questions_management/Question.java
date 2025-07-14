@@ -33,6 +33,7 @@ public class Question {
 
     /**
      * Restituisce l'esito della domanda, serve per inserire il risultato nella colonna "Results" della tableView
+     * @return Risultato
      */
     public String getDisplayResult() {
         if (!isGiven()) {
@@ -47,6 +48,7 @@ public class Question {
     /**
      * Restituisce la stringa della risposta corretta per la colonna "Risposta corretta" della TableView.
      * Vuota se la risposta data è corretta, altrimenti la risposta corretta.
+     * @return Risposta corretta
      */
     public String getDisplayCorrectAnswerForTable() {
         if (isGiven() && isCorrect()) {

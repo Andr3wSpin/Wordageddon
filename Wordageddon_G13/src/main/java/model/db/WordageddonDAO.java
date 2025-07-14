@@ -21,6 +21,7 @@ public interface WordageddonDAO {
      *
      * @param userName Il nome utente del nuovo utente.
      * @param password La password del nuovo utente.
+     * @param isAdmin E' true se l'utente è admin, altrimenti false
      * @return true se l'inserimento è avvenuto con successo, false altrimenti.
      */
     public User insertUser(String userName, String password, boolean isAdmin);
@@ -37,7 +38,7 @@ public interface WordageddonDAO {
 
     /**
      * Recupera la classifica dei migliori punteggi, mostrando il miglior punteggio per ogni utente.
-     *
+     * @param diff Difficoltà selezionata
      * @return Una lista di stringhe, dove ogni stringa rappresenta un record della classifica formattato con i vari attributi.
      */
     public List<String> leaderBoard(Difficulty diff);
@@ -46,6 +47,7 @@ public interface WordageddonDAO {
      * Recupera tutti i punteggi di un determinato giocatore.
      *
      * @param ID l'id del giocatore di cui recuperare i punteggi.
+     * @param difficulty Difficolta
      * @return Una lista di stringhe contenente i punteggi del giocatore.
      */
     public List<String> playerScores(int ID, Difficulty difficulty);
