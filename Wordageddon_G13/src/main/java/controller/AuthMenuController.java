@@ -76,6 +76,18 @@ private void handleRegisterClick() {
         alert.showAndWait();
     }
 }
+
+    /*
+     * Hugo, si añades un objeto WordageddonDAOSqlite,
+     * puedes enviar todas las query que necesites.
+     * Dentro hay un método llamado checkCredentials
+     * que verifica si existe un usuario con el nombre
+     * y la contraseña que le pasas (los que están en los textField).
+     *
+     * Si tienes alguna pregunta sobre la clase WordageddonDAOSqlite,
+     * puedes preguntarme a mí (Paolo).
+     */
+
 @FXML
 private void handleLoginButtonAction(ActionEvent event) {
     String username = nomeUtenteTF.getText();
@@ -87,7 +99,7 @@ private void handleLoginButtonAction(ActionEvent event) {
     } else {
         // Puedes reemplazar esto con validación real
         showAlert("Login riuscito", "Benvenuto, " + username + "!");
-        
+
     }
 }
 
