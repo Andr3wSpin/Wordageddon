@@ -17,7 +17,7 @@ public class CreateQuestions {
                            Map<String, Map<String, Integer>> fileAnalysis, int questionsNumber) {
 
         this.questionTypes = questionTypes;
-        orderList=questionTypes.stream().sorted().collect(Collectors.toList());
+        this.orderList = questionTypes.stream().sorted().collect(Collectors.toList());
         this.choosenFiles = choosenFiles;
         this.fileAnalysis = fileAnalysis;
         this.questionsNumber = questionsNumber;
@@ -30,20 +30,22 @@ public class CreateQuestions {
     public Set<Question> createQuestions() {
         Set<Question> questionSet = new HashSet<>();
 
-
-        while (questionSet.size()<questionsNumber-1){
+        while (questionSet.size() < questionsNumber-1){
             int r = new Random().nextInt(orderList.size());
             switch (r){
 
-                case 0 : questionSet.add(createQuestionType1());
-                break;
-                case 1 : questionSet.add(createQuestionType2());
+                case 0:
+                    questionSet.add(createQuestionType1());
                     break;
-                case 2 : questionSet.add(createQuestionType3());
+                case 1:
+                    questionSet.add(createQuestionType2());
                     break;
-                case 3 : questionSet.add(createQuestionType4());
+                case 2:
+                    questionSet.add(createQuestionType3());
                     break;
-
+                case 3:
+                    questionSet.add(createQuestionType4());
+                    break;
             }
         }
 
@@ -59,27 +61,25 @@ public class CreateQuestions {
     private Question createQuestionType1() {
 
         String testo = QuestionType.TYPE1.getText();
-       int r = new Random().nextInt(fileAnalysis.size());
-       Random random = new Random();
+        int wordIndex = new Random().nextInt(fileAnalysis.size());
+        Random random = new Random();
 
-       String parola = new ArrayList<>(fileAnalysis.keySet()).get(r);
+        String parola = new ArrayList<>(fileAnalysis.keySet()).get(wordIndex);
 
-       String domanda = testo.replace("'<parola>'", parola);
-       domanda = domanda.replace("'<nome_documento>'",choosenFiles.get(r));
-       Integer correctAnswer = getCorrectAnswer(parola,choosenFiles.get(r));
+        String domanda = testo.replace("'<parola>'", parola);
+        domanda = domanda.replace("'<nome_documento>'",choosenFiles.get(random.nextInt(choosenFiles.size())));
+        Integer correctAnswer = getCorrectAnswer(parola,choosenFiles.get(random.nextInt(choosenFiles.size())));
 
-       Set<String> randomAnswer = new HashSet<>();
-       randomAnswer.add(correctAnswer.toString());
+        Set<String> randomAnswer = new HashSet<>();
+        randomAnswer.add(correctAnswer.toString());
 
         while (randomAnswer.size() < 4) {
-           Integer rr =  random.nextInt(8);
+           Integer rr = random.nextInt(8);
 
             randomAnswer.add(rr.toString());
         }
 
-
         Question q1 = new Question(domanda, correctAnswer.toString(), randomAnswer);
-
 
         return q1;
     }
