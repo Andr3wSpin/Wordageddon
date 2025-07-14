@@ -6,9 +6,8 @@ import javafx.concurrent.Task;
 import java.io.*;
 import java.nio.file.Files;
 import java.util.*;
-import java.util.stream.Collectors;
 
-public class FileAnalysis extends Service<Map<String, Map<String, Integer>>> implements Serializable {
+public class FileAnalysis extends Service<Map<String, Map<String, Integer>>> {
 
     private String regex = "[\\.:,;?! _-]+";
 
@@ -22,13 +21,10 @@ public class FileAnalysis extends Service<Map<String, Map<String, Integer>>> imp
      */
     private Set<String> stopwords;
 
-    private FileAnalysisData savedData;
-
     public FileAnalysis() {
 
         analysis = new HashMap<>();
         stopwords = new HashSet<>();
-        savedData = new FileAnalysisData(analysis, stopwords);
     }
 
     /**
@@ -97,6 +93,7 @@ public class FileAnalysis extends Service<Map<String, Map<String, Integer>>> imp
      */
     private void saveAnalysis() throws IOException {
 
+        FileAnalysisData savedData = new FileAnalysisData(analysis, stopwords);
         savedData.saveAnalysis();
     }
 
@@ -109,12 +106,17 @@ public class FileAnalysis extends Service<Map<String, Map<String, Integer>>> imp
 
         FileAnalysisData savedData = FileAnalysisData.readAnalysis();
 
-        if(savedData == null) return new FileAnalysis();
+        if(savedData != null) {
 
-        this.analysis = savedData.getAnalysis();
-        this.stopwords = savedData.getStopwords();
+            this.analysis = savedData.getAnalysis();
+            this.stopwords = savedData.getStopwords();
+        }
 
         return this;
+    }
+
+    public Map<String, Map<String, Integer>> getAnalysis() {
+        return analysis;
     }
 
     /**
