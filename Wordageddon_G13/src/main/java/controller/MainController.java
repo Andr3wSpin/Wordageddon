@@ -12,7 +12,10 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import model.enums.Difficulty;
+import model.files_management.FileManager;
 
 import java.io.IOException;
 import java.net.URL;
@@ -215,5 +218,24 @@ public class MainController implements Initializable {
         controllerScore.showPlayerScores(Difficulty.EASY);
     }
 
+    @FXML
+    void LoadFilesAdminPage(ActionEvent event) {
+        Stage stage = (Stage) root.getScene().getWindow();
+        FileChooser fileChooser = new FileChooser();
+        try {
+            FileManager.addFiles(fileChooser.showOpenMultipleDialog(stage));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    @FXML
+    void button_RemoveFiles(ActionEvent event) {
+
+    }
+
+    @FXML
+    void button_StartAnalisys(ActionEvent event) {
+
+    }
 
 }

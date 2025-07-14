@@ -55,7 +55,7 @@
    <right>
       <VBox fx:id="NavigationBarAdmin" alignment="CENTER" prefHeight="200.0" prefWidth="284.0" spacing="60.0" style="-fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #1a1a2e, #16213e, #0f3460), radial-gradient(radius 100%, transparent, #00000066);" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="button_LoadFiles" mnemonicParsing="false" prefHeight="36.0" prefWidth="190.0" style="-fx-border-color: red; -fx-background-color: red; -fx-text-fill: white; -fx-font-family: &quot;Microsoft YaHei&quot;; -fx-font-size: 20; -fx-border-radius: 20; -fx-background-radius: 15;">
+            <Button fx:id="button_LoadFiles" mnemonicParsing="false" onAction="#LoadFilesAdminPage" prefHeight="36.0" prefWidth="190.0" style="-fx-border-color: red; -fx-background-color: red; -fx-text-fill: white; -fx-font-family: &quot;Microsoft YaHei&quot;; -fx-font-size: 20; -fx-border-radius: 20; -fx-background-radius: 15;">
                <graphic>
                   <StackPane alignment="CENTER_LEFT" prefHeight="33.0" prefWidth="104.0">
                      <children>
@@ -76,7 +76,7 @@
                   </StackPane>
                </graphic>
             </Button>
-            <Button fx:id="Button_RemoveFiles" mnemonicParsing="false" prefHeight="30.0" prefWidth="190.0" style="-fx-border-color: red; -fx-background-color: red; -fx-text-fill: white; -fx-font-family: &quot;Microsoft YaHei&quot;; -fx-font-size: 20; -fx-border-radius: 20; -fx-background-radius: 15;">
+            <Button fx:id="Button_RemoveFiles" mnemonicParsing="false" onAction="#button_RemoveFiles" prefHeight="30.0" prefWidth="190.0" style="-fx-border-color: red; -fx-background-color: red; -fx-text-fill: white; -fx-font-family: &quot;Microsoft YaHei&quot;; -fx-font-size: 20; -fx-border-radius: 20; -fx-background-radius: 15;">
                <graphic>
                   <StackPane alignment="CENTER_LEFT" prefHeight="33.0" prefWidth="104.0">
                      <children>
@@ -97,7 +97,7 @@
                   </StackPane>
                </graphic>
             </Button>
-            <Button fx:id="Button_StartAnalisys" mnemonicParsing="false" prefHeight="25.0" prefWidth="190.0" style="-fx-border-color: red; -fx-background-color: red; -fx-text-fill: white; -fx-font-family: &quot;Microsoft YaHei&quot;; -fx-font-size: 20; -fx-border-radius: 20; -fx-background-radius: 15;">
+            <Button fx:id="Button_StartAnalisys" mnemonicParsing="false" onAction="#button_StartAnalisys" prefHeight="25.0" prefWidth="190.0" style="-fx-border-color: red; -fx-background-color: red; -fx-text-fill: white; -fx-font-family: &quot;Microsoft YaHei&quot;; -fx-font-size: 20; -fx-border-radius: 20; -fx-background-radius: 15;">
                <graphic>
                   <StackPane alignment="CENTER_LEFT" prefHeight="30.0" prefWidth="164.0">
                      <children>
