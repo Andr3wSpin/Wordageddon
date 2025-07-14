@@ -89,10 +89,10 @@ public class MainController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
 
         loadGamePage();
-        fa = new FileAnalysis();
+        fa = null;
         try {
-            fa = fa.readAnalysis();
-            System.out.println("ANALISI LETTA:\n" + fa.getValue());
+            fa = new FileAnalysis().readAnalysis();
+            System.out.println("ANALISI LETTA:\n" + fa.getAnalysis());
         } catch (IOException e) {
             showMessage(e.getMessage(), Alert.AlertType.ERROR);
         }
