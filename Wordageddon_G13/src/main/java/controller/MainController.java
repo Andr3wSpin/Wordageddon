@@ -191,6 +191,7 @@ public class MainController implements Initializable {
         FileChooser fileChooser = new FileChooser();
         try {
             FileManager.addFiles(fileChooser.showOpenMultipleDialog(stage));
+            loadAdminPage();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
