@@ -48,7 +48,8 @@ class FileAnalysisData implements Serializable {
         try(ObjectInputStream ois = new ObjectInputStream(new FileInputStream(FULL_PATH.toString()))) {
             savedData = (FileAnalysisData) ois.readObject();
         } catch(Exception e) {
-            throw new IOException("Si è verificato un errore durante la lettura del file di analisi!");
+            //throw new IOException("Si è verificato un errore durante la lettura del file di analisi!");
+            throw new IOException(e.getMessage());
         }
 
         return savedData;

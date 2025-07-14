@@ -47,6 +47,8 @@ public class FileAnalysis extends Service<Map<String, Map<String, Integer>>> imp
                     throw new Exception(e.getMessage());
                 }
 
+                analysis.clear();
+
                 for (File file : files) {
                     analyzeFile(file);
                 }
@@ -103,17 +105,16 @@ public class FileAnalysis extends Service<Map<String, Map<String, Integer>>> imp
      * @return la mappa contenente l'analisi dei documenti
      * @throws IOException se non riesce ad ottenere il file di analisi dalla memoria
      */
-    public Map<String, Map<String, Integer>> readAnalysis() throws IOException {
+    public FileAnalysis readAnalysis() throws IOException {
 
         FileAnalysisData savedData = FileAnalysisData.readAnalysis();
 
-        if(savedData == null)
-            throw new IOException("Si è verificato un errore durante la lettura del file di analisi!");
+        if(savedData == null) return new FileAnalysis();
 
         this.analysis = savedData.getAnalysis();
         this.stopwords = savedData.getStopwords();
 
-        return analysis;
+        return this;
     }
 
     /**
