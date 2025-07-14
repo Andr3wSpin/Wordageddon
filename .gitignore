@@ -1,2 +1,5 @@
 # Database locale da ignorare
 data/db/wordageddonDB.db
+
+# Directory di build
+target/

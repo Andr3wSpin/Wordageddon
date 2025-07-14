@@ -105,21 +105,10 @@ public class MainController implements Initializable {
 
     @FXML
     void setGamePage(ActionEvent event) {
-   try{
-       Parent gamePage = FXMLLoader.load(getClass().getResource("/view/StartGameView.fxml"));
-       root.setCenter(gamePage);
-       button_yoursScore.setVisible(false);
-       button_GlobalScorres.setVisible(false);
-       button_LoadFiles.setVisible(false);
-       Button_RemoveFiles.setVisible(false);
-       Button_StartAnalisys.setVisible(false);
 
-       root.setRight(null);
-
-   } catch (IOException e) {
-       throw new RuntimeException(e);
-   }
+        loadGamePage();
     }
+
   /**
     * @brief al click questo metodo cambia pagina e ti porta alla pagina per visualizzare gli score
     * @param event
@@ -167,11 +156,8 @@ public class MainController implements Initializable {
                     "-fx-background-color: transparent; " +
                     "-fx-font-size: 25px; " +
                     "-fx-font-family: 'Microsoft YaHei';"));
-
         }
-
     }
-
 
     @FXML
     void ShowGlobalScores(ActionEvent event) {
@@ -208,17 +194,7 @@ public class MainController implements Initializable {
 
 
             fa.setOnSucceeded(e -> {
-                try {
-                    List<File> totFile = FileManager.getFiles();
-                    for (File f : totFile) {
-                        fa.analyzeFile(f);
-                    }
-                    loadAdminPage();
-                } catch (IOException ex) {
-                    System.out.println("errore in start Analysis");
 
-                    throw new RuntimeException(ex);
-                }
 
             });
 

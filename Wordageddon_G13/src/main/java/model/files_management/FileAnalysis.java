@@ -5,17 +5,11 @@ import javafx.concurrent.Task;
 
 import java.io.*;
 import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class FileAnalysis extends Service<Map<String, Map<String, Integer>>> implements Serializable {
 
-    /**
-     * Percorso della cartella contenente il file analysis.dat
-     */
-    private final static Path ANALYSIS_DIR_PATH = Paths.get("/data/analysis/");
-    private final static Path FULL_PATH = ANALYSIS_DIR_PATH.resolve("analysis.dat");
     private String regex = "[\\.:,;?! _-]+";
 
     /**
@@ -28,10 +22,13 @@ public class FileAnalysis extends Service<Map<String, Map<String, Integer>>> imp
      */
     private Set<String> stopwords;
 
+    private FileAnalysisData savedData;
+
     public FileAnalysis() {
 
         analysis = new HashMap<>();
         stopwords = new HashSet<>();
+        savedData = new FileAnalysisData(analysis, stopwords);
     }
 
     /**
@@ -62,7 +59,7 @@ public class FileAnalysis extends Service<Map<String, Map<String, Integer>>> imp
     }
 
 
-    public  void analyzeFile(File file) throws IOException {
+    private void analyzeFile(File file) throws IOException {
 
         Files.lines(file.toPath()).flatMap(line -> Arrays.stream(line.split(regex)))
                 .map(String::toLowerCase)
@@ -98,14 +95,7 @@ public class FileAnalysis extends Service<Map<String, Map<String, Integer>>> imp
      */
     private void saveAnalysis() throws IOException {
 
-        if(!Files.exists(ANALYSIS_DIR_PATH) || !(Files.isDirectory(ANALYSIS_DIR_PATH)))
-            Files.createDirectories(ANALYSIS_DIR_PATH);
-
-        try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(FULL_PATH.toString()))) {
-            oos.writeObject(this);
-        } catch(IOException e) {
-            throw new IOException("Si è verificato un errore durante il salvataggio del file di analisi!");
-        }
+        savedData.saveAnalysis();
     }
 
     /**
@@ -113,19 +103,17 @@ public class FileAnalysis extends Service<Map<String, Map<String, Integer>>> imp
      * @return la mappa contenente l'analisi dei documenti
      * @throws IOException se non riesce ad ottenere il file di analisi dalla memoria
      */
-    public static Map<String, Map<String, Integer>> readAnalysis() throws IOException {
+    public Map<String, Map<String, Integer>> readAnalysis() throws IOException {
 
-        FileAnalysis fa = null;
+        FileAnalysisData savedData = FileAnalysisData.readAnalysis();
 
-        if(!Files.exists(ANALYSIS_DIR_PATH) || !(Files.isDirectory(ANALYSIS_DIR_PATH))) return null;
-
-        try(ObjectInputStream ois = new ObjectInputStream(new FileInputStream(FULL_PATH.toString()))) {
-            fa = (FileAnalysis) ois.readObject();
-        } catch(Exception e) {
+        if(savedData == null)
             throw new IOException("Si è verificato un errore durante la lettura del file di analisi!");
-        }
 
-        return fa.analysis;
+        this.analysis = savedData.getAnalysis();
+        this.stopwords = savedData.getStopwords();
+
+        return analysis;
     }
 
     /**

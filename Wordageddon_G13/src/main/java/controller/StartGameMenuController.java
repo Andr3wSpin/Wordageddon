@@ -60,28 +60,7 @@ public class StartGameMenuController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
 
         StringBuilder msg = new StringBuilder("Impossibile aprire il file di analisi dei documenti!");
-//        try {
-//            fileAnalysis = FileAnalysis.readAnalysis();
-//
-//            if(fileAnalysis == null) {
-//
-//                FileAnalysis fa = new FileAnalysis();
-//
-//                fa.setOnSucceeded(e -> {
-//                    Map<String, Map<String, Integer>> map = fa.getValue();
-//                    System.out.println(map);
-//                });
-//
-//                fa.setOnFailed(e -> {
-//                    showMessage("Errore analisi file", Alert.AlertType.ERROR);
-//                });
-//
-//                fa.start();
-//            } else System.out.println(fileAnalysis);
-//        } catch (IOException e) {
-//            showMessage(msg.toString(), Alert.AlertType.ERROR);
-//            Platform.exit();;
-//        }
+
         Media media = new Media(Objects.requireNonNull(getClass().getResource("/assets/sfondo.mp4")).toExternalForm());
         MediaPlayer mediaPlayer = new MediaPlayer(media);
         MediaViewWallPaper.setMediaPlayer(mediaPlayer);
