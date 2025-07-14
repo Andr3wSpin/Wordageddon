@@ -62,7 +62,7 @@ public class FileAnalysis extends Service<Map<String, Map<String, Integer>>> imp
     }
 
 
-    private void analyzeFile(File file) throws IOException {
+    public  void analyzeFile(File file) throws IOException {
 
         Files.lines(file.toPath()).flatMap(line -> Arrays.stream(line.split(regex)))
                 .map(String::toLowerCase)

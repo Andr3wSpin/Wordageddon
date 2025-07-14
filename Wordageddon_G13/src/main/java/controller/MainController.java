@@ -12,12 +12,17 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import model.User;
 import model.enums.Difficulty;
-import model.enums.UserType;
+import model.files_management.FileAnalysis;
+import model.files_management.FileManager;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class MainController implements Initializable {
@@ -71,6 +76,13 @@ public class MainController implements Initializable {
     private ScoreController controllerScore;
     private User user;
 
+    private AdminController controllerAdmin;
+    private FileAnalysis fa;
+
+
+    public void setUser (User user){
+        this.user = user;
+    }
 
     @FXML
     void setProfilePage(ActionEvent event) {
@@ -108,73 +120,24 @@ public class MainController implements Initializable {
        throw new RuntimeException(e);
    }
     }
-
-    public void setUser (User user){
-        this.user = user;
-    }
-
   /**
     * @brief al click questo metodo cambia pagina e ti porta alla pagina per visualizzare gli score
     * @param event
     */
    @FXML
   void Button_SetScoresPage(ActionEvent event) {
-       try{
-           FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/ScoreView.fxml"));
-           Parent scorePage = loader.load();
-           root.setCenter(scorePage);
-
-           controllerScore = loader.getController();//salvo il controller dello score per cambiare la tabella dopo
-
-           button_yoursScore.setVisible(true);
-           button_GlobalScorres.setVisible(true);
-           button_LoadFiles.setVisible(false);
-           Button_RemoveFiles.setVisible(false);
-           Button_StartAnalisys.setVisible(false);
-           root.setBottom(ScoreNavigationButton);
-           root.setRight(null);
-
-       } catch (IOException e) {
-           throw new RuntimeException(e);
-      }
+       loadScorePage();
    }
 
     @FXML
     void Button_SetAdmin(ActionEvent event) {
-        try{
-            Parent adminPage = FXMLLoader.load(getClass().getResource("/view/AdminView.fxml"));
-            root.setCenter(adminPage);
-            button_yoursScore.setVisible(false);
-            button_GlobalScorres.setVisible(false);
-            button_LoadFiles.setVisible(true);
-            Button_RemoveFiles.setVisible(true);
-            Button_StartAnalisys.setVisible(true);
-
-            root.setRight(NavigationBarAdmin);
-
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+       loadAdminPage();
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        try{
-            Parent gamePage = FXMLLoader.load(getClass().getResource("/view/StartGameView.fxml"));
-            root.setCenter(gamePage);
-            button_yoursScore.setVisible(false);
-            button_GlobalScorres.setVisible(false);
-            button_LoadFiles.setVisible(false);
-            Button_RemoveFiles.setVisible(false);
-            Button_StartAnalisys.setVisible(false);
 
-            root.setRight(null);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-
-
+       loadGamePage();
 
         for (Node node : NavigationBar.getChildren()) {
 
@@ -212,11 +175,99 @@ public class MainController implements Initializable {
 
     @FXML
     void ShowGlobalScores(ActionEvent event) {
+
         controllerScore.showLeaderboard(Difficulty.EASY);
     }
     @FXML
     void showYourScore(ActionEvent event) {
-       controllerScore.setUser(user);
         controllerScore.showPlayerScores(Difficulty.EASY);
+        controllerScore.setUser(user);
+    }
+
+    @FXML
+    void LoadFilesAdminPage(ActionEvent event) {
+        Stage stage = (Stage) root.getScene().getWindow();
+        FileChooser fileChooser = new FileChooser();
+        try {
+            FileManager.addFiles(fileChooser.showOpenMultipleDialog(stage));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
+    @FXML
+    void button_RemoveFiles(ActionEvent event) {
+      controllerAdmin.RemoveSelectedFile();
+      loadAdminPage();
+    }
+
+    @FXML
+    void button_StartAnalisys(ActionEvent event) {
+        try {
+            List<File> totFile = FileManager.getFiles();
+            for (File f : totFile){
+                fa.analyzeFile(f);
+            }
+            loadAdminPage();
+        } catch (IOException e) {
+            System.out.println("errore in start Analysis");
+            throw new RuntimeException(e);
+
+        }
+
+    }
+    private  void loadAdminPage(){
+        try{
+            Parent adminPage = FXMLLoader.load(getClass().getResource("/view/AdminView.fxml"));
+            root.setCenter(adminPage);
+            button_yoursScore.setVisible(false);
+            button_GlobalScorres.setVisible(false);
+            button_LoadFiles.setVisible(true);
+            Button_RemoveFiles.setVisible(true);
+            Button_StartAnalisys.setVisible(true);
+
+            root.setRight(NavigationBarAdmin);
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    private  void loadScorePage(){
+
+        try{
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/ScoreView.fxml"));
+            Parent scorePage = loader.load();
+            root.setCenter(scorePage);
+
+            controllerScore = loader.getController();//salvo il controller dello score per cambiare la tabella dopo
+
+            button_yoursScore.setVisible(true);
+            button_GlobalScorres.setVisible(true);
+            button_LoadFiles.setVisible(false);
+            Button_RemoveFiles.setVisible(false);
+            Button_StartAnalisys.setVisible(false);
+            root.setBottom(ScoreNavigationButton);
+            root.setRight(null);
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    private void loadGamePage(){
+
+        try{
+            Parent gamePage = FXMLLoader.load(getClass().getResource("/view/StartGameView.fxml"));
+            root.setCenter(gamePage);
+            button_yoursScore.setVisible(false);
+            button_GlobalScorres.setVisible(false);
+            button_LoadFiles.setVisible(false);
+            Button_RemoveFiles.setVisible(false);
+            Button_StartAnalisys.setVisible(false);
+
+            root.setRight(null);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
