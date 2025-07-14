@@ -89,7 +89,7 @@ public class TextMenuController {
             showText();
         } else if (index == files.size()) {
             try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/controller/game_controllers/QuestionView.fxml"));
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("QuestionView.fxml"));
                 Parent root = loader.load();
 
 
