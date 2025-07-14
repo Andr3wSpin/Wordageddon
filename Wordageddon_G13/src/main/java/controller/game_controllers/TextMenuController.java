@@ -18,6 +18,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
+
 public class TextMenuController {
 
     @FXML
@@ -41,7 +42,7 @@ public class TextMenuController {
         index = 0;
         nextButton.setText("Show next text");
         textArea.setEditable(false);
-        nextButton.setDisable(true);  // Disabilito fino a caricamento
+        nextButton.setDisable(true);
     }
 
     public void start(Game game){//BISOGNA CHIAMARE START E PASSARGLI IL GAME PER FAR PARTIRE I TESTI

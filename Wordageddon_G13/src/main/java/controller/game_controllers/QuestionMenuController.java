@@ -45,10 +45,10 @@ public class QuestionMenuController {
     private Game game;
     private List<Question> questions;
 
-    public void setGame(Game game){
-        this.game=game;
-    }
-
+    /**
+     * Inizializza i componenti dell'interfaccia. Configura il gruppo di bottoni
+     * per le risposte e imposta i testi iniziali.
+     */
     @FXML
     private void initialize() {
         optionButtons = new ArrayList<>();
@@ -75,12 +75,20 @@ public class QuestionMenuController {
         option4Btn.setText("Option 4");
 
     }
-
+    /**
+     * Avvia la visualizzazione del quiz con le domande fornite dal gioco.
+     *
+     * @param game l'oggetto Game contenente le domande
+     */
     public void start(Game game){
         this.questions = new ArrayList<>(game.getQuestions());
         this.game = game;
         showQuestion();
     }
+
+    /**
+     * Mostra la domanda corrente e le sue possibili risposte.
+     */
     private void showQuestion(){
         Set<String> answers = new HashSet<>();
         numberQuestionLabel.setText("Question N°"+(index+1));
@@ -96,6 +104,11 @@ public class QuestionMenuController {
 
     }
 
+    /**
+     * Gestisce il click sul bottone "Next question" o "Go to summary".
+     * Salva la risposta selezionata all'interno dell'attributo givenAnswer della risposta corrente,
+     * passa alla domanda successiva o mostra la schermata dei risultati se il quiz è finito.
+     */
     @FXML
     private void nextQuestion() {
 

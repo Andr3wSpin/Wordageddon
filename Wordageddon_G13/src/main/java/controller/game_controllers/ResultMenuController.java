@@ -16,9 +16,14 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.Set;
 
+/**
+ * Controller per la schermata in cui viene mostrato l'esito di una partita.
+ * Mostra le statistiche del giocatore (risposte corrette, errate, non date, punteggio)
+ * e una tabella riepilogativa con l’esito per ogni domanda con eventuali risposte corrette in caso di errore.
+ */
 public class ResultMenuController implements Initializable {
 
-    // --- Elementi UI iniettati dal FXML ---
+
     @FXML
     private Label correctAnswersLabel;
 
@@ -54,7 +59,10 @@ public class ResultMenuController implements Initializable {
     private Set<Question> questions;
     private Game game;
 
-
+    /**
+     * Inizializza il controller e configura le colonne della tabella in cui verranno
+     * mostrati i risultati del quiz.
+     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         questionColumn.setCellValueFactory(new PropertyValueFactory<>("question"));
@@ -65,15 +73,21 @@ public class ResultMenuController implements Initializable {
     }
 
 
-
+    /**
+     * Avvia il controller con l'istanza {@link Game} ricevuta.
+     * Fa partire il calcolo dei dati riguardanti la partita (domande corrette, sbagliate, non date e punteggio).
+     *
+     * @param game la partita per cui mostrare i risultati
+     */
     public void start(Game game){
         this.game = game;
         setVariables();
     }
 
     /**
-     * @brief scorre la lista di Question ricevuta e conta il numero di risposte giuste, sbagliate o non date
-     * poi chiama showResults() per mostrare a video il risultato
+     * Calcola le statistiche relative alle risposte dell'utente.
+     * Conta il numero di risposte corrette, sbagliate e non date.
+     * Chiama {@link #showResults()} per aggiornare l'interfaccia.
      */
     private void setVariables(){
         questions = game.getQuestions();
@@ -97,6 +111,11 @@ public class ResultMenuController implements Initializable {
         }
         showResults();
     }
+
+    /**
+     * Aggiorna l’interfaccia con i risultati calcolati in precedenza.
+     * Popola poi la tabella con l'elenco delle domande e relativi esiti.
+     */
     private void showResults() {
         correctAnswersLabel.setText(String.valueOf(correctAnswersCount));
         wrongAnswersLabel.setText(String.valueOf(wrongAnswersCount));
@@ -107,7 +126,9 @@ public class ResultMenuController implements Initializable {
             resultsTableView.getItems().setAll(new ArrayList<>(questions)); //mette tutte le domande del set nella lista
         }
     }
-
+    /**
+     * Gestisce il click sul pulsante "Main Menu" rimandando l'utente al Menu Principale.
+     */
     private void handleMainMenuButton () {
 
     }
