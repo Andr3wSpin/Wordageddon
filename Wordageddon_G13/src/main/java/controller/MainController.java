@@ -213,7 +213,6 @@ public class MainController implements Initializable {
     @FXML
     void ShowGlobalScores(ActionEvent event) {
         controllerScore.showLeaderboard(Difficulty.EASY);
-
     }
     @FXML
     void showYourScore(ActionEvent event) {

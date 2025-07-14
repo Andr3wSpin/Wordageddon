@@ -52,7 +52,7 @@ public class ResultMenuController implements Initializable {
     private int noAnswersCount;
     private int totalPoints;
     private Set<Question> questions;
-    private Game currentGame;
+    private Game game;
 
 
     @Override
@@ -64,14 +64,20 @@ public class ResultMenuController implements Initializable {
 
     }
 
+
+
+    public void setGame(Game game){
+        this.game = game;
+    }
+
     /**
      * @brief scorre la lista di Question ricevuta e conta il numero di risposte giuste, sbagliate o non date
      * poi chiama showResults() per mostrare a video il risultato
      */
-    public void setVariables(Set<Question> questions){
-        this.questions = questions;
-        currentGame.calculateScore();
-        this.totalPoints = currentGame.getScore();
+    public void setVariables(){
+        questions = game.getQuestions();
+        game.calculateScore();
+        this.totalPoints = game.getScore();
         this.correctAnswersCount = 0;
         this.wrongAnswersCount = 0;
         this.noAnswersCount = 0;
