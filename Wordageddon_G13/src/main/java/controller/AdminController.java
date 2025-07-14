@@ -91,9 +91,10 @@ public class AdminController implements Initializable {
 
 
 
-    private void RemoveSelectedFile (){
+    public void RemoveSelectedFile (){
       if (selectedFiles.isEmpty()) return;
        fileCaricati.removeAll(selectedFiles);
+       selectedFiles.clear();
         try {
             Parent pageAdmin = FXMLLoader.load(getClass().getResource("/view/AdminView.fxml"));
 
