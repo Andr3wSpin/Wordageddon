@@ -12,7 +12,9 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import model.User;
 import model.enums.Difficulty;
+import model.enums.UserType;
 
 import java.io.IOException;
 import java.net.URL;
@@ -68,7 +70,7 @@ public class MainController implements Initializable {
 
     private ScoreController controllerScore;
 
-
+    private User user;
 
 
     @FXML
@@ -107,6 +109,11 @@ public class MainController implements Initializable {
        throw new RuntimeException(e);
    }
     }
+
+    public void setUser (User user){
+        this.user = user;
+    }
+
   /**
     * @brief al click questo metodo cambia pagina e ti porta alla pagina per visualizzare gli score
     * @param event
@@ -212,6 +219,8 @@ public class MainController implements Initializable {
     }
     @FXML
     void showYourScore(ActionEvent event) {
+       user = new User(1, "alice", "gay878",UserType.PLAYER);
+       controllerScore.setUser(user);
         controllerScore.showPlayerScores(Difficulty.EASY);
     }
 

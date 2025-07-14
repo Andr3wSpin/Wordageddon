@@ -142,8 +142,8 @@ public class WordageddonDAOSQLite implements WordageddonDAO {
     @Override
     public List<String> playerScores(int playerId, Difficulty difficulty) {
         List<String> scores = new ArrayList<>();
-        String query = "SELECT score FROM games" +
-                       " WHERE user_id = ? WHERE difficulty = ? " +
+        String query = "SELECT score FROM games " +
+                       " WHERE user_id = ? AND difficulty = ? " +
                        "ORDER BY score DESC ";
 
         try (Connection conn = DriverManager.getConnection(DB_URL);
