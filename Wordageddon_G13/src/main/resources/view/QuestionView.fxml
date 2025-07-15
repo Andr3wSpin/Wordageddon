@@ -1,21 +1,67 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="490.0" prefWidth="730.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.game_controllers.QuestionMenuController">
+<Pane prefHeight="800.0" prefWidth="1400.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.game_controllers.QuestionMenuController">
    <children>
-      <Label fx:id="questionLabel" layoutX="233.0" layoutY="170.0" prefHeight="21.0" prefWidth="322.0" text="Domanda" />
-      <Label fx:id="numberQuestionLabel" layoutX="304.0" layoutY="62.0" text="Numero domanda" />
-      <RadioButton fx:id="option3Btn" layoutX="447.0" layoutY="232.0" mnemonicParsing="false" text="option3" />
-      <RadioButton fx:id="option1Btn" layoutX="227.0" layoutY="232.0" mnemonicParsing="false" text="option1" />
-      <RadioButton fx:id="option2Btn" layoutX="233.0" layoutY="332.0" mnemonicParsing="false" text="option2" />
-      <RadioButton fx:id="option4Btn" layoutX="447.0" layoutY="332.0" mnemonicParsing="false" text="option4" />
-      <Button fx:id="nextQuestionBtn" layoutX="610.0" layoutY="396.0" mnemonicParsing="false" onAction="#nextQuestion" text="Next" />
-      <Label layoutX="377.0" layoutY="98.0" text="Label" />
-      <Label layoutX="312.0" layoutY="98.0" text="Time left:" />
+      <VBox alignment="CENTER" prefHeight="800.0" prefWidth="1400.0" spacing="50.0" style="-fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #1a1a2e, #16213e, #0f3460);">
+         <children>
+            <Label fx:id="numberQuestionLabel" text="Numero domanda" textFill="WHITE">
+               <font>
+                  <Font size="21.0" />
+               </font>
+            </Label>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Label fx:id="questionLabel" prefHeight="55.0" prefWidth="1159.0" text="Domanda" textFill="WHITE">
+                     <font>
+                        <Font name="Microsoft YaHei Bold" size="22.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="100.0">
+               <children>
+                  <RadioButton fx:id="option2Btn" mnemonicParsing="false" text="option2" textFill="#f7f4f4">
+                     <font>
+                        <Font name="System Bold" size="23.0" />
+                     </font>
+                  </RadioButton>
+                  <RadioButton fx:id="option4Btn" mnemonicParsing="false" text="option4" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="24.0" />
+                     </font>
+                  </RadioButton>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="100.0">
+               <children>
+                  <RadioButton fx:id="option3Btn" mnemonicParsing="false" text="option3" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="23.0" />
+                     </font>
+                  </RadioButton>
+                  <RadioButton fx:id="option1Btn" mnemonicParsing="false" text="option1" textFill="#fafafa">
+                     <font>
+                        <Font name="System Bold" size="24.0" />
+                     </font>
+                  </RadioButton>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Label text="Label" textFill="WHITE" />
+                  <Label text="Time left:" textFill="WHITE" />
+               </children>
+            </HBox>
+            <Button fx:id="nextQuestionBtn" mnemonicParsing="false" onAction="#nextQuestion" prefHeight="40.0" prefWidth="194.0" style="-fx-text-fill: white; -fx-font-family: &quot;Microsoft YaHei&quot;; -fx-font-size: 20; -fx-border-radius: 20; -fx-background-radius: 17; -fx-background-color: red; -fx-font-weight: bold;" text="Next" />
+         </children>
+      </VBox>
    </children>
 </Pane>
