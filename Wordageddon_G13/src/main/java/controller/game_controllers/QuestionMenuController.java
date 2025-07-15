@@ -136,10 +136,8 @@ public class QuestionMenuController {
 
                 controller.start(game);
 
-                Stage currentStage = (Stage) nextQuestionBtn.getScene().getWindow();
-                currentStage.close();
+                Stage stage = (Stage) nextQuestionBtn.getScene().getWindow();
 
-                Stage stage = new Stage();
                 stage.setScene(new Scene(root));
                 stage.show();
 
