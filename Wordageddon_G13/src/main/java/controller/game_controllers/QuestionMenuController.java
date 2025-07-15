@@ -111,7 +111,7 @@ public class QuestionMenuController {
      */
     @FXML
     private void nextQuestion() {
-
+        optionsGroup.selectToggle(null);
         RadioButton selectedRadioButton = (RadioButton) optionsGroup.getSelectedToggle();
         if (selectedRadioButton == null) {
             questions.get(index).setGivenAnswer("");
