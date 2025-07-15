@@ -63,23 +63,7 @@ public class CreateQuestions {
     private Question createQuestionType1() {
 
         String testo = QuestionType.TYPE1.getText();
-        int wordIndex = new Random().nextInt(fileAnalysis.size());
-        Random random = new Random();
-
-        String parola = new ArrayList<>(fileAnalysis.keySet()).get(wordIndex);
-
-        String domanda = testo.replace("'<parola>'", parola);
-        domanda = domanda.replace("'<nome_documento>'",choosenFiles.get(random.nextInt(choosenFiles.size())));
-        Integer correctAnswer = getCorrectAnswer(parola,choosenFiles.get(random.nextInt(choosenFiles.size())));
-
-        Set<String> randomAnswer = new HashSet<>();
-        randomAnswer.add(correctAnswer.toString());
-
-        while (randomAnswer.size() < 4) {
-           Integer rr = random.nextInt(8);
-
-            randomAnswer.add(rr.toString());
-        }
+        choosenFiles
 
         Question q1 = new Question(domanda, correctAnswer.toString(), randomAnswer);
 
@@ -104,7 +88,7 @@ public class CreateQuestions {
         Map<String,Map <String,Integer>> fileWordCount = new HashMap<>();
 
         Set<String> randomAnswer = new HashSet<>();
-
+/*   serve per invertire la vecchia mappa
         fileAnalysis.entrySet().stream().flatMap(
           entry -> entry.getValue().entrySet().stream().map(
                   f->
@@ -121,7 +105,7 @@ public class CreateQuestions {
 
                         fileWordCount.putIfAbsent(nomeFile,new HashMap<>());
                         fileWordCount.get(nomeFile).putIfAbsent(words,count);
-                });
+                });*/
 
 
 
