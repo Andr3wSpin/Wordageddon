@@ -78,9 +78,7 @@ public class ScoreController implements Initializable {
      *
      * @param user l'oggetto User da associare al controller.
      */
-    public void setUser(User user){
-        this.user = user;
-    }
+    public void setUser(User user){this.user = user;}
     /**
      * Carica la leaderboard globale in base alla difficoltà selezionata.
      * Chiamato quando si preme il pulsante "Leaderboard".
