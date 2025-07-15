@@ -1,2 +1,11 @@
-# Database locale da ignorare
-data/db/wordageddonDB.db
+# File binari da ignorare
+/data/db/wordageddonDB.db
+/data/analysis/analysis.dat
+
+# Directory di build
+/target/
+/build/
+
+# File compilati
+*.class
+*.jar

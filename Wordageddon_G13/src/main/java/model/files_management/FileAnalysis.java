@@ -5,17 +5,10 @@ import javafx.concurrent.Task;
 
 import java.io.*;
 import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.*;
 
-public class FileAnalysis extends Service<Map<String, Map<String, Integer>>> implements Serializable {
+public class FileAnalysis extends Service<Map<String, Map<String, Integer>>> {
 
-    /**
-     * Percorso della cartella contenente il file analysis.dat
-     */
-    private final static Path ANALYSIS_DIR_PATH = Paths.get("/data/analysis/");
-    private final static Path FULL_PATH = ANALYSIS_DIR_PATH.resolve("analysis.dat");
     private String regex = "[\\.:,;?! _-]+";
 
     /**
@@ -50,6 +43,8 @@ public class FileAnalysis extends Service<Map<String, Map<String, Integer>>> imp
                     throw new Exception(e.getMessage());
                 }
 
+                analysis.clear();
+
                 for (File file : files) {
                     analyzeFile(file);
                 }
@@ -61,50 +56,29 @@ public class FileAnalysis extends Service<Map<String, Map<String, Integer>>> imp
         };
     }
 
-
     private void analyzeFile(File file) throws IOException {
 
         Files.lines(file.toPath()).flatMap(line -> Arrays.stream(line.split(regex)))
                 .map(String::toLowerCase)
                 .forEach(word -> {
-                    if(stopwords.contains(word)) return;
+                    if (stopwords.contains(word)) return;
 
-                    if(!analysis.containsKey(word)) {
+                    analysis.putIfAbsent(file.getName(), new HashMap<>());
 
-                        Map<String, Integer> innerMap = new HashMap<>();
-                        innerMap.put(file.getName(), 1);
-                        analysis.put(word, innerMap);
-                    }
-                    else {
-                        Map<String, Integer> innerMap = analysis.get(word);
-
-                        if(!innerMap.containsKey(file.getName()))
-                            innerMap.put(file.getName(), 1);
-                        else {
-                            int count = innerMap.get(file.getName());
-
-                            count++;
-
-                            innerMap.put(file.getName(), count);
-                        }
-                    }
-
+                    Map<String, Integer> innerMap = analysis.get(file.getName());
+                    
+                    innerMap.put(word, innerMap.getOrDefault(word, 0) + 1);
                 });
     }
 
     /**
      * Salva in memoria la mappa contenente l'analisi dei file
+     * @throws IOException perche si
      */
     private void saveAnalysis() throws IOException {
 
-        if(!Files.exists(ANALYSIS_DIR_PATH) || !(Files.isDirectory(ANALYSIS_DIR_PATH)))
-            Files.createDirectories(ANALYSIS_DIR_PATH);
-
-        try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(FULL_PATH.toString()))) {
-            oos.writeObject(this);
-        } catch(IOException e) {
-            throw new IOException("Si è verificato un errore durante il salvataggio del file di analisi!");
-        }
+        FileAnalysisData savedData = new FileAnalysisData(analysis, stopwords);
+        savedData.saveAnalysis();
     }
 
     /**
@@ -112,19 +86,21 @@ public class FileAnalysis extends Service<Map<String, Map<String, Integer>>> imp
      * @return la mappa contenente l'analisi dei documenti
      * @throws IOException se non riesce ad ottenere il file di analisi dalla memoria
      */
-    public static Map<String, Map<String, Integer>> readAnalysis() throws IOException {
+    public FileAnalysis readAnalysis() throws IOException {
 
-        FileAnalysis fa = null;
+        FileAnalysisData savedData = FileAnalysisData.readAnalysis();
 
-        if(!Files.exists(ANALYSIS_DIR_PATH) || !(Files.isDirectory(ANALYSIS_DIR_PATH))) return null;
+        if(savedData != null) {
 
-        try(ObjectInputStream ois = new ObjectInputStream(new FileInputStream(FULL_PATH.toString()))) {
-            fa = (FileAnalysis) ois.readObject();
-        } catch(Exception e) {
-            throw new IOException("Si è verificato un errore durante la lettura del file di analisi!");
+            this.analysis = savedData.getAnalysis();
+            this.stopwords = savedData.getStopwords();
         }
 
-        return fa.analysis;
+        return this;
+    }
+
+    public Map<String, Map<String, Integer>> getAnalysis() {
+        return analysis;
     }
 
     /**

@@ -16,6 +16,26 @@ public class Question {
         this.answers = answers;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+
+        if(obj == null) return false;
+
+        if(this == obj) return true;
+
+        if(!(obj instanceof Question)) return false;
+
+        Question q = (Question) obj;
+
+        return this.question.equals(q.question);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return this.question.hashCode();
+    }
+
 
     public boolean isCorrect() { return correctAnswer.equals(givenAnswer); }
 
@@ -33,6 +53,7 @@ public class Question {
 
     /**
      * Restituisce l'esito della domanda, serve per inserire il risultato nella colonna "Results" della tableView
+     * @return Risultato
      */
     public String getDisplayResult() {
         if (!isGiven()) {
@@ -47,6 +68,7 @@ public class Question {
     /**
      * Restituisce la stringa della risposta corretta per la colonna "Risposta corretta" della TableView.
      * Vuota se la risposta data è corretta, altrimenti la risposta corretta.
+     * @return Risposta corretta
      */
     public String getDisplayCorrectAnswerForTable() {
         if (isGiven() && isCorrect()) {

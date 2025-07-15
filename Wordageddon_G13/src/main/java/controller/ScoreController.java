@@ -18,6 +18,11 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
+/**
+ * Controller per la schermata di visualizzazione punteggi e leaderboard.
+ * Permette all'utente di vedere i propri punteggi per difficoltà o la classifica globale.
+ * Richiede un oggetto {@link model.User} impostato tramite {@code setUser()}.
+ */
 public class ScoreController implements Initializable {
 
     @FXML
@@ -46,9 +51,18 @@ public class ScoreController implements Initializable {
 
     private ToggleGroup diffToggleGroup;
 
+
     private User user;
     private final WordageddonDAOSQLite accesDB = new WordageddonDAOSQLite();
 
+
+    /**
+     * Inizializza il controller e imposta il comportamento dei pulsanti di difficoltà.
+     * Carica di default la leaderboard per la difficoltà EASY.
+     *
+     * @param location  non utilizzato.
+     * @param resources non utilizzato.
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
@@ -56,15 +70,22 @@ public class ScoreController implements Initializable {
         easyButton.setToggleGroup(diffToggleGroup);
         mediumButton.setToggleGroup(diffToggleGroup);
         hardButton.setToggleGroup(diffToggleGroup);
+        diffToggleGroup.selectToggle(null);
         showLeaderboard(Difficulty.EASY);
     }
 
-
-    //BISOGNA PRIMA SETTARE USER ALTRIMENTI NON SA DI CHI CARICARE I PUNTEGGI
-    public void setUser(User user){
-        this.user = user;
-    }
-
+    /**
+     * Imposta l'utente corrente per il quale visualizzare i punteggi personali.
+     *
+     * @param user l'oggetto User da associare al controller.
+     */
+    public void setUser(User user){this.user = user;}
+    /**
+     * Carica la leaderboard globale in base alla difficoltà selezionata.
+     * Chiamato quando si preme il pulsante "Leaderboard".
+     *
+     * @param event l'evento di azione generato dal pulsante.
+     */
     @FXML
     public void loadLeaderBoard(ActionEvent event) {
         if(easyButton.isSelected())
@@ -77,7 +98,12 @@ public class ScoreController implements Initializable {
             showLeaderboard(Difficulty.HARD);
 
     }
-
+    /**
+     * Carica i punteggi personali dell'utente in base alla difficoltà selezionata.
+     * Chiamato quando si preme il pulsante "Your Scores".
+     *
+     * @param event l'evento di azione generato dal pulsante.
+     */
     @FXML
     public void loadScores(ActionEvent event) {
         if(easyButton.isSelected())
@@ -91,7 +117,12 @@ public class ScoreController implements Initializable {
 
     }
 
-
+    /**
+     * Mostra la classifica globale per la difficoltà specificata.
+     * Popola la tabella con le coppie username - punteggio massimo.
+     * Al primo caricamento setta in automatico la difficoltà a EASY
+     * @param chosenDiff la difficoltà selezionata (EASY, MEDIUM o HARD).
+     */
     public void showLeaderboard(Difficulty chosenDiff) {
         Difficulty diff;
         if (chosenDiff == null)
@@ -125,7 +156,12 @@ public class ScoreController implements Initializable {
         titleLabel.setText("Global Leaderboard");
         avgScoreLabel.setText("");
     }
-
+    /**
+     * Mostra i punteggi personali dell'utente per la difficoltà specificata.
+     * Popola la tabella con tutti i punteggi salvati e mostra la media.
+     *
+     * @param chosenDiff la difficoltà selezionata (EASY, MEDIUM o HARD).
+     */
     public void showPlayerScores(Difficulty chosenDiff) {
         titleLabel.setText("Your Scores ");
         scoresButton.setVisible(true);
