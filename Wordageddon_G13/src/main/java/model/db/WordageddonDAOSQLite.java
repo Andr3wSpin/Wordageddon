@@ -12,7 +12,7 @@ import java.util.List;
 public class WordageddonDAOSQLite implements WordageddonDAO {
 
 
-    private static final String DB_URL = "jdbc:sqlite:C:/Users/paolo/OneDrive/Desktop/Wordageddon/Wordageddon_G13/data/db/wordageddonDB.db";
+    private static final String DB_URL = "jdbc:sqlite:data/db/wordageddonDB.db";
 
 
     @Override
