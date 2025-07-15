@@ -13,7 +13,7 @@
    <children>
       <TextArea fx:id="textArea" layoutY="99.0" prefHeight="615.0" prefWidth="1145.0" />
       <Label fx:id="numberOfFileLabel" layoutX="71.0" layoutY="39.0" text="Label" />
-      <Button fx:id="nextButton" layoutX="1026.0" layoutY="34.0" mnemonicParsing="false" text="Next" />
-      <Label fx:id="timerLable" layoutX="555.0" layoutY="39.0" text="Label" />
+      <Button fx:id="nextButton" layoutX="1026.0" layoutY="34.0" mnemonicParsing="false" onAction="#nextText" text="Next" />
+      <Label fx:id="timerLabel" layoutX="555.0" layoutY="39.0" text="Label" />
    </children>
 </Pane>

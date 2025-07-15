@@ -129,7 +129,7 @@ public class QuestionMenuController {
             showQuestion();
         } else {
             try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("ResultMenuView.fxml"));
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/ResultMenuView.fxml"));
                 Parent root = loader.load();
 
                 ResultMenuController controller = loader.getController();

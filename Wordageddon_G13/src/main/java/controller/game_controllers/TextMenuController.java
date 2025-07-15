@@ -113,6 +113,9 @@ public class TextMenuController {
             index = 0;
             showText();
         }
+        if (files.size() == 1) {
+            nextButton.setText("Go to questions");
+        }
     }
 
     /**
@@ -141,35 +144,50 @@ public class TextMenuController {
      *
      * @param event evento di azione generato dal pulsante
      */
+
     @FXML
-    private void handleNextButton(ActionEvent event) {
-        index += 1;
+    private void nextText(ActionEvent event) {
         if (files == null || files.isEmpty()) {
             nextButton.setDisable(true);
             return;
         }
-        if (index < files.size()) {
-            if (index == files.size() - 1) {
-                nextButton.setText("Go to questions");
-            }
-            showText();
-        } else if (index == files.size()) {
-            try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("QuestionView.fxml"));
-                Parent root = loader.load();
 
-                QuestionMenuController questionController = loader.getController();
-                questionController.start(game);
+        if (index >= files.size() - 1) {
+            loadQuestion();
+            return;
+        }
 
-                Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 
-                Scene scene = new Scene(root);
-                stage.setScene(scene);
-                stage.show();
+        index++;
 
-            } catch (IOException e) {
-                System.err.println(e.getMessage());
-            }
+        if (index == files.size() - 1) {
+            nextButton.setText("Go to questions");
+        }
+
+        showText();
+    }
+
+
+
+
+
+
+    private void loadQuestion() {
+        System.out.println("prova");
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/QuestionView.fxml"));
+            Parent root = loader.load();
+
+            QuestionMenuController questionController = loader.getController();
+            questionController.start(game);
+
+            Stage stage = (Stage) nextButton.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            System.err.println(e.getMessage());
         }
     }
+
 }
+
