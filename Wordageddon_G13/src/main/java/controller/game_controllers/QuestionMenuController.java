@@ -114,7 +114,7 @@ public class QuestionMenuController {
 
         RadioButton selectedRadioButton = (RadioButton) optionsGroup.getSelectedToggle();
         if (selectedRadioButton == null) {
-            questions.get(index).setGivenAnswer(null);
+            questions.get(index).setGivenAnswer("");
         } else {
             questions.get(index).setGivenAnswer(selectedRadioButton.getText());
         }

@@ -2,171 +2,176 @@ package model.questions_management;
 
 import model.enums.QuestionType;
 
+import javax.jnlp.IntegrationService;
 import java.util.*;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 public class CreateQuestions {
 
-    private Set<QuestionType> questionTypes;
     private List<String> choosenFiles;
     private Map<String, Map<String, Integer>> fileAnalysis;
     private int questionsNumber;
-    private final List<QuestionType> orderList;
+    private final List<QuestionType> questionTypes;
 
     public CreateQuestions(Set<QuestionType> questionTypes, List<String> choosenFiles,
                            Map<String, Map<String, Integer>> fileAnalysis, int questionsNumber) {
 
-        this.questionTypes = questionTypes;
-        this.orderList = questionTypes.stream().sorted().collect(Collectors.toList());
+        this.questionTypes = questionTypes.stream().collect(Collectors.toList());
         this.choosenFiles = choosenFiles;
         this.fileAnalysis = fileAnalysis;
         this.questionsNumber = questionsNumber;
     }
 
     /**
-     * Crea un set di domande chiamando il metodo relativo al tipo specifico
+     * Crea un set di domande chiamando il metodo relativo al tipo specifico.
      * @return set di domande da mostrare
      */
-    public Set<Question> createQuestions( Consumer<Integer> progressUpdater) {
+    public Set<Question> createQuestions(Consumer<Integer> progressUpdater) {
         Set<Question> questionSet = new HashSet<>();
 
-        while (questionSet.size() < questionsNumber){
+        while (questionSet.size() < questionsNumber) {
+            System.out.println("while tipo domande");
             progressUpdater.accept(questionSet.size() + 1);
-            int r = new Random().nextInt(orderList.size());
-            switch (r){
 
-                case 0:
-                    questionSet.add(createQuestionType1());
-                    break;
-                case 1:
-                    questionSet.add(createQuestionType2());
-                    break;
-                case 2:
-                    questionSet.add(createQuestionType3());
-                    break;
-                case 3:
-                    questionSet.add(createQuestionType4());
-                    break;
+            QuestionType qt = questionTypes.get(new Random().nextInt(questionTypes.size()));
+            Question q = null;
+
+            switch (qt) {
+                case TYPE1: q = createQuestionType1(); break;
+                case TYPE2: q = createQuestionType2(); break;
+                case TYPE3: q = createQuestionType3(); break;
+                case TYPE4: q = createQuestionType4(); break;
             }
+
+            System.out.println(q);
+            if (q == null) {
+                System.out.println("Domanda generata null, riprovo...");
+                continue; // evita di aggiungere null e riprova
+            }
+
+            if (questionSet.contains(q)) {
+                System.out.println("Domanda duplicata, riprovo...");
+                continue; // evita duplicati
+            }
+            System.out.println("Doamnda generata: " + q + "difficolta: " + qt);
+            questionSet.add(q);
+            System.out.println("QSet: " + questionSet);
         }
 
         return questionSet;
     }
 
     /**
-     *
      * Ottiene una parola casuale dal testo scelto, ottiene la risposta corretta e
-     * genera 3 numeri random per le risposte sbagliate
+     * genera 3 numeri random per le risposte sbagliate.
      * @return la domanda completa di risposta esatta, testo domanda e risposte sbagliate
      */
     private Question createQuestionType1() {
-
         String testo = QuestionType.TYPE1.getText();
         int randomFile = new Random().nextInt(choosenFiles.size());
         String nomeFile = choosenFiles.get(randomFile);
 
-       // int sizeFileAnalisys =  fileAnalysis.get(nomeFile).size();
+        List<String> allWordsInFile = new ArrayList<>(fileAnalysis.get(nomeFile).keySet());
+        int randomWord = new Random().nextInt(allWordsInFile.size());
 
-      List<String> allWordsInFile =   new ArrayList<>(fileAnalysis.get(nomeFile).keySet());
+        String parola = allWordsInFile.get(randomWord);
+        Integer correctAnswer = fileAnalysis.get(nomeFile).get(parola);
 
-      int randomWord = new Random().nextInt(allWordsInFile.size());
+        Set<String> randomAnswer = new HashSet<>();
+        randomAnswer.add(correctAnswer.toString());
 
-     String parola =  allWordsInFile.get(randomWord);
-     Integer correctAnswer  = fileAnalysis.get(nomeFile).get(parola);
+        while (randomAnswer.size() < 4) {
+            System.out.println("while type 1");
+            Integer randomResult = new Random().nextInt(10);
+            randomAnswer.add(randomResult.toString());
+        }
 
-     Set<String> randomAnswer = new HashSet<>();
-     randomAnswer.add(correctAnswer.toString());
+        String domanda = testo
+                .replace("<parola>", parola)
+                .replace("<documento>", nomeFile);
 
-     while (randomAnswer.size()< 4)
-     {
-         Integer randomResult = new Random().nextInt(10);
-         randomAnswer.add(randomResult.toString());
-
-     }
-
-     String domanda = testo.replace("<parola>",parola);
-     domanda = testo.replace("<documento>",nomeFile);
-     
-        Question q1 = new Question(domanda, correctAnswer.toString(), randomAnswer);
-
-        return q1;
+        return new Question(domanda, correctAnswer.toString(), randomAnswer);
     }
 
     /**
-     *
-     * Prende la parola corretta chiamndo correctAnswerType_1_2_3() formula la domanda poi chiama getRandomWord per crerare anche le risposte sbagliate e creare la question
-     * @return la domanda completa di  risposta esatta testo domanda e risposte sbagliata
+     * Prende la parola corretta chiamando correctAnswerType_1_2_3(), formula la domanda
+     * e chiama getRandomWord per creare anche le risposte sbagliate.
+     * @return la domanda completa di risposta esatta, testo domanda e risposte sbagliate
      */
     private Question createQuestionType2() {
 
-        String testo = QuestionType.TYPE2.getText();
+        Random random = new Random();
 
+        int randomFile = random.nextInt(choosenFiles.size());
+        String fileName = choosenFiles.get(randomFile);
 
-        Set<Integer> wordIndex = new HashSet<>();
+        Map<String, Integer> wordCounts = fileAnalysis.get(fileName);
 
-        while (wordIndex.size()<4)
-            wordIndex.add(new Random().nextInt(fileAnalysis.size()));
+        List<String> mostFrequentWords = new ArrayList<>();
 
-        Map<String,Map <String,Integer>> fileWordCount = new HashMap<>();
+        if (wordCounts != null && !wordCounts.isEmpty()) {
+
+            int max = wordCounts.values().stream()
+                    .max(Integer::compareTo)
+                    .orElse(0);
+
+            mostFrequentWords = wordCounts.entrySet().stream()
+                    .filter(entry -> entry.getValue() == max)
+                    .map(Map.Entry::getKey)
+                    .collect(Collectors.toList());
+        }
+
+        if (mostFrequentWords.isEmpty()) return null;
+
+        String correctAnswer = mostFrequentWords.get(random.nextInt(mostFrequentWords.size()));
+
+        String questionText = QuestionType.TYPE2.getText();
+        questionText.replace("<nome_documento>", fileName);
 
         Set<String> randomAnswer = new HashSet<>();
-/*   serve per invertire la vecchia mappa
-        fileAnalysis.entrySet().stream().flatMap(
-          entry -> entry.getValue().entrySet().stream().map(
-                  f->
-                      new Object[]{
-                              f.getKey(),
-                              entry.getKey(),
-                              f.getValue(),
-                          })).forEach(
+        randomAnswer.add(correctAnswer);
 
-                arr->{
-                        String nomeFile = (String) arr[0];
-                        String words = (String) arr[1];
-                        Integer count = (Integer) arr[2];
+        List<String> words = wordCounts.keySet().stream().collect(Collectors.toList());
 
-                        fileWordCount.putIfAbsent(nomeFile,new HashMap<>());
-                        fileWordCount.get(nomeFile).putIfAbsent(words,count);
-                });*/
+        while(randomAnswer.size() < 4) {
+            System.out.println("While type2");
+            String word = words.get(random.nextInt(words.size()));
+            randomAnswer.add(word);
+        }
 
+        return new Question(questionText, correctAnswer, randomAnswer);
+    }
 
+    private Question createQuestionType3() {
+        return null;
+    }
 
+    private Question createQuestionType4() {
+        return null;
+    }
 
-
-
-
-
-        return null; }
-
-
-
-
-    private Question createQuestionType3() { return null; }
-
-    private Question createQuestionType4() { return null; }
-
-    private String correctAnswerType_1_2_3() { return null;}
-
+    private String correctAnswerType_1_2_3() {
+        return null;
+    }
 
     /**
-     * Prende parole a caso dalla mappa per mostrare le risposte sbagliate
-     * @param correctWord parola corretta da aggiungere come prima al set in modo da escluderla dalle risposte sbagliate
+     * Prende parole a caso dalla mappa per mostrare le risposte sbagliate.
+     * @param correctWord parola corretta da escludere
      * @return un set di 3 stringhe
      */
-    private Set<String> getRandomWord(String correctWord) { return null; }
+    private Set<String> getRandomWord(String correctWord) {
+        return null;
+    }
 
     /**
-     *
-     * Ottiene dalla mappa il numero di occorrenze della parola nel file
+     * Ottiene dalla mappa il numero di occorrenze della parola nel file.
      * @param word parola scelta casualmente dal sistema
      * @param file file scelto casualmente dal sistema
      * @return risposta corretta di una domanda di Type1
      */
-    private int getCorrectAnswer(String word, String file) { int correct ;
-
-       correct =  fileAnalysis.get(word).containsKey(file) ?  fileAnalysis.get(word).get(file) : 0;
-
-            return correct;
+    private int getCorrectAnswer(String word, String file) {
+        return fileAnalysis.getOrDefault(file, Collections.emptyMap())
+                .getOrDefault(word, 0);
     }
 }
