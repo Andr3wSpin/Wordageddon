@@ -6,7 +6,7 @@ import model.enums.Difficulty;
 import java.util.List;
 
 public interface WordageddonDAO {
-
+    public User getUser (int Id);
     /**
      * Verifica le credenziali di un utente confrontando userName e password.
      *
@@ -76,5 +76,5 @@ public interface WordageddonDAO {
      * @param difficulty la difficoltà scelta per la partita
      * @return           true se l'inserimento del punteggio è avvenuto con successo, false altrimenti
      */
-    public boolean insertScore(String playerId, String date, int score, String difficulty);
+    public boolean insertScore(int playerId, String date, int score, String difficulty);
 }
