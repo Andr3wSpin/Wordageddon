@@ -1,5 +1,6 @@
 package controller.game_controllers;
 
+import javafx.animation.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -10,7 +11,10 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import model.Game;
 import model.Timer;
 
@@ -33,6 +37,8 @@ public class TextMenuController {
     /** Area di testo dove viene mostrato il contenuto del file corrente. */
     @FXML
     private TextArea textArea;
+    @FXML
+    private Circle graphicTimer;
 
     /** Label che mostra il numero del testo attualmente visualizzato. */
     @FXML
@@ -60,6 +66,7 @@ public class TextMenuController {
 
     private String[] fileText;
 
+
     /**
      * Metodo di inizializzazione chiamato automaticamente da JavaFX dopo il caricamento del FXML.
      * Imposta lo stato iniziale dei componenti UI.
@@ -82,8 +89,9 @@ public class TextMenuController {
         numberOfFileLabel.setText("Loading...");
         this.game = game;
         this.files = game.getChoosenFiles();
-
-        timer = new Timer(game.getDifficuty().getReadTimePerFile() * 60 * files.size());
+        int totalSeconds = game.getDifficuty().getReadTimePerFile() * 60 * files.size();
+        timer = new Timer(totalSeconds);
+        setupCircleTimer(totalSeconds);
         timer.setOnTick(remainingSeconds -> {
             int minutes = remainingSeconds / 60;
             int seconds = remainingSeconds % 60;
@@ -115,6 +123,23 @@ public class TextMenuController {
         if (index == (files.size() - 1)) {
             nextButton.setText("Go to questions");
         }
+    }
+
+    private void setupCircleTimer(int totalSeconds) {
+        double radius = graphicTimer.getRadius();
+        double circ = 2*Math.PI*radius;
+
+        graphicTimer.getStrokeDashArray().addAll(circ);
+        graphicTimer.setStrokeDashOffset(0);
+
+        Timeline timeLine = new Timeline(
+                new KeyFrame(Duration.ZERO,new KeyValue(graphicTimer.strokeDashOffsetProperty(),0)),
+                        new KeyFrame(Duration.seconds(totalSeconds),new KeyValue(graphicTimer.strokeDashOffsetProperty(),circ)
+                        )
+
+        );
+        timeLine.setCycleCount(1);
+        timeLine.play();
     }
 
     /**

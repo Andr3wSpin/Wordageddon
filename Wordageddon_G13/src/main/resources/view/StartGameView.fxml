@@ -53,11 +53,11 @@
                   </RadioButton>
                </children>
             </HBox>
-            <Button fx:id="Button_StartGame" mnemonicParsing="false" onAction="#startGame" prefHeight="42.0" prefWidth="135.0" style="-fx-border-color: red; -fx-background-color: red; -fx-text-fill: white; -fx-font-family: &quot;Microsoft YaHei&quot;; -fx-font-size: 20; -fx-border-radius: 20; -fx-background-radius: 15;">
+            <Button fx:id="Button_StartGame" mnemonicParsing="false" onAction="#startGame" onMouseEntered="#btnStartHoverEntred" onMouseExited="#btnStartHoverExit" prefHeight="42.0" prefWidth="135.0" style="-fx-border-color: red; -fx-background-color: red; -fx-text-fill: white; -fx-font-family: &quot;Microsoft YaHei&quot;; -fx-font-size: 20; -fx-border-radius: 20; -fx-background-radius: 15;">
                <graphic>
                   <StackPane alignment="CENTER_LEFT" prefHeight="33.0" prefWidth="104.0">
                      <children>
-                        <ImageView fitHeight="38.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="imgButtonStart" fitHeight="38.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../assets/play.png" />
                            </image>
