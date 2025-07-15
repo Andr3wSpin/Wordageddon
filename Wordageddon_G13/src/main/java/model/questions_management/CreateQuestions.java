@@ -3,6 +3,7 @@ package model.questions_management;
 import model.enums.QuestionType;
 
 import java.util.*;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 public class CreateQuestions {
@@ -27,10 +28,11 @@ public class CreateQuestions {
      * Crea un set di domande chiamando il metodo relativo al tipo specifico
      * @return set di domande da mostrare
      */
-    public Set<Question> createQuestions() {
+    public Set<Question> createQuestions( Consumer<Integer> progressUpdater) {
         Set<Question> questionSet = new HashSet<>();
 
         while (questionSet.size() < questionsNumber-1){
+            progressUpdater.accept(questionSet.size() + 1);
             int r = new Random().nextInt(orderList.size());
             switch (r){
 
