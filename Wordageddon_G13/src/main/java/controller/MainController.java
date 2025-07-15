@@ -9,6 +9,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -24,6 +25,7 @@ import model.files_management.FileManager;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -74,6 +76,13 @@ public class MainController implements Initializable {
     private Label LableButton_loadFiles;
     @FXML
     private VBox NavigationBarAdmin;
+    @FXML
+    private TextArea areaStopWords;
+
+    @FXML
+    private Button button_loadStopwords;
+    @FXML
+    private VBox stopWordsView;
 
     private ScoreController controllerScore;
     private User user;
@@ -150,7 +159,7 @@ public class MainController implements Initializable {
            button_LoadFiles.setVisible(false);
            Button_RemoveFiles.setVisible(false);
            Button_StartAnalisys.setVisible(false);
-
+           root.setLeft(null);
            root.setRight(null);
 
         } catch (IOException e) {
@@ -249,7 +258,7 @@ public class MainController implements Initializable {
 
 
             controllerAdmin = loader.getController();
-            controllerAdmin.setFileAnalisys(fa);
+
             // Mostra la pagina admin
             root.setCenter(adminPage);
             button_yoursScore.setVisible(false);
@@ -258,6 +267,7 @@ public class MainController implements Initializable {
             Button_RemoveFiles.setVisible(true);
             Button_StartAnalisys.setVisible(true);
             root.setRight(NavigationBarAdmin);
+            root.setLeft(stopWordsView);
 
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -279,6 +289,7 @@ public class MainController implements Initializable {
             Button_RemoveFiles.setVisible(false);
             Button_StartAnalisys.setVisible(false);
             root.setBottom(ScoreNavigationButton);
+            root.setLeft(null);
             root.setRight(null);
 
         } catch (IOException e) {
@@ -302,13 +313,23 @@ public class MainController implements Initializable {
             button_LoadFiles.setVisible(false);
             Button_RemoveFiles.setVisible(false);
             Button_StartAnalisys.setVisible(false);
-
+            root.setLeft(null);
             root.setRight(null);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
+    @FXML
+    void loadStopWords(ActionEvent event) {
 
+        String area = areaStopWords.getText();
+        List<String> stopwords = Arrays.asList(area.split("[;,\\s]"));
+        fa.getStopwords().clear();
+        fa.getStopwords().addAll(stopwords);
+
+      startAnalysis();
+
+    }
     /**
      * Mostra all'utente il messaggio ricevuto
      * @param msg Messaggio da mostrare all'utente
