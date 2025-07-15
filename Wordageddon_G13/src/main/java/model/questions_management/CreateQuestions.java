@@ -63,8 +63,31 @@ public class CreateQuestions {
     private Question createQuestionType1() {
 
         String testo = QuestionType.TYPE1.getText();
-        choosenFiles
+        int randomFile = new Random().nextInt(choosenFiles.size());
+        String nomeFile = choosenFiles.get(randomFile);
 
+       // int sizeFileAnalisys =  fileAnalysis.get(nomeFile).size();
+
+      List<String> allWordsInFile =   new ArrayList<>(fileAnalysis.get(nomeFile).keySet());
+
+      int randomWord = new Random().nextInt(allWordsInFile.size());
+
+     String parola =  allWordsInFile.get(randomWord);
+     Integer correctAnswer  = fileAnalysis.get(nomeFile).get(parola);
+
+     Set<String> randomAnswer = new HashSet<>();
+     randomAnswer.add(correctAnswer.toString());
+
+     while (randomAnswer.size()< 4)
+     {
+         Integer randomResult = new Random().nextInt(10);
+         randomAnswer.add(randomResult.toString());
+
+     }
+
+     String domanda = testo.replace("<parola>",parola);
+     domanda = testo.replace("<documento>",nomeFile);
+     
         Question q1 = new Question(domanda, correctAnswer.toString(), randomAnswer);
 
         return q1;
