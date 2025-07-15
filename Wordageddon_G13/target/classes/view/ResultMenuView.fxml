@@ -29,6 +29,6 @@
                 <TableColumn fx:id="correctAnswer" minWidth="0.0" prefWidth="180.0" text="Risposta corretta" />
             </columns>
         </TableView>
-        <Button fx:id="mainMenuButton" layoutX="799.0" layoutY="605.0" mnemonicParsing="false" text="Main Menu" />
+        <Button fx:id="mainMenuButton" layoutX="799.0" layoutY="605.0" mnemonicParsing="false" onAction="#goToMenu" text="Main Menu" />
     </children>
 </Pane>

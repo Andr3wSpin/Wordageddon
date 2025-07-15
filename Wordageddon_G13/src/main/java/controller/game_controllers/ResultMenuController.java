@@ -1,15 +1,23 @@
 package controller.game_controllers;
 
+import controller.MainController;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 import model.Game;
+import model.db.WordageddonDAOSQLite;
 import model.questions_management.Question;
 
+import javafx.event.ActionEvent;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -58,6 +66,7 @@ public class ResultMenuController implements Initializable {
     private int totalPoints;
     private Set<Question> questions;
     private Game game;
+    private WordageddonDAOSQLite accesDb;
 
     /**
      * Inizializza il controller e configura le colonne della tabella in cui verranno
@@ -65,11 +74,10 @@ public class ResultMenuController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        accesDb = new WordageddonDAOSQLite();
         questionColumn.setCellValueFactory(new PropertyValueFactory<>("question"));
         resultColumn.setCellValueFactory(new PropertyValueFactory<>("displayResult"));
         correctAnswer.setCellValueFactory(new PropertyValueFactory<>("displayCorrectAnswerForTable"));
-        mainMenuButton.setOnAction(event -> handleMainMenuButton());
-
     }
 
 
@@ -79,22 +87,19 @@ public class ResultMenuController implements Initializable {
      *
      * @param game la partita per cui mostrare i risultati
      */
-    public void start(Game game){
+    public void start(Game game) {
         this.game = game;
         setVariables();
     }
 
     /**
-<<<<<<< HEAD
      * Calcola le statistiche relative alle risposte dell'utente.
      * Conta il numero di risposte corrette, sbagliate e non date.
      * Chiama {@link #showResults()} per aggiornare l'interfaccia.
-=======
      * Scorre la lista di Question ricevuta e conta il numero di risposte giuste, sbagliate o non date
      * poi chiama showResults() per mostrare a video il risultato
->>>>>>> f42735fe8222deb3f1a4d6fb7450e73cbe087648
      */
-    private void setVariables(){
+    private void setVariables() {
         questions = game.getQuestions();
         game.calculateScore();
         this.totalPoints = game.getScore();
@@ -131,12 +136,31 @@ public class ResultMenuController implements Initializable {
             resultsTableView.getItems().setAll(new ArrayList<>(questions)); //mette tutte le domande del set nella lista
         }
     }
+
     /**
-     * Gestisce il click sul pulsante "Main Menu" rimandando l'utente al Menu Principale.
+     * Gestisce il click sul pulsante "Main Menu" rimandando l'utente al Menu Principale
+     * Carica il risultato della partita nel dataBase.
      */
-    private void handleMainMenuButton () {
+    @FXML
+    public void goToMenu(ActionEvent event) {
 
+        accesDb.insertScore(game.getPLAYER_ID(), game.getDate().toString(), game.getScore(), game.getDifficuty().toString());
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/MainMenuView.fxml"));
+            Parent root = loader.load();
+
+            MainController controller = loader.getController();
+            controller.setUser(accesDb.getUser(game.getPLAYER_ID()));
+
+
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            System.err.println(e.getMessage());
+        }
     }
-
-
 }
+
+
+

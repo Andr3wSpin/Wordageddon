@@ -14,6 +14,34 @@ public class WordageddonDAOSQLite implements WordageddonDAO {
 
     private static final String DB_URL = "jdbc:sqlite:data/db/wordageddonDB.db";
 
+    @Override
+    public User getUser(int id) {
+
+        User user = null;
+        String sql = "SELECT username, isAdmin FROM users WHERE id = ?";
+
+        try (Connection conn = DriverManager.getConnection(DB_URL);
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setInt(1, id);
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                String username = rs.getString("username");
+                boolean isAdmin = rs.getBoolean("isAdmin");
+                UserType type = isAdmin ? UserType.ADMIN : UserType.PLAYER;
+                user = new User(id, username, null, type); // password non caricata per sicurezza
+            } else {
+                System.out.println("Nessun utente trovato con ID: " + id);
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Errore durante il recupero dell'utente con ID " + id, e);
+        }
+
+        return user;
+    }
+
 
     @Override
     public User checkCredentials(String userName, String password) {
@@ -215,13 +243,13 @@ public class WordageddonDAOSQLite implements WordageddonDAO {
 
 
     @Override
-    public boolean insertScore(String playerId, String date, int score, String difficulty) {
+    public boolean insertScore(int playerId, String date, int score, String difficulty) {
         String insertQuery = "INSERT INTO games (user_id, game_date, difficulty, score) VALUES (?, ?, ?, ?)";
 
         try (Connection conn = DriverManager.getConnection(DB_URL);
              PreparedStatement stmt = conn.prepareStatement(insertQuery)) {
 
-            stmt.setString(1, playerId);
+            stmt.setInt(1, playerId);
             stmt.setString(2, date);
             stmt.setString(3, difficulty);
             stmt.setInt(4, score);
