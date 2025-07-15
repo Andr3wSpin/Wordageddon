@@ -4,12 +4,13 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
-import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import javafx.scene.Node;
+import model.User;
+import model.db.WordageddonDAO;
+import model.db.WordageddonDAOSQLite;
+
 import java.io.IOException;
 import javafx.event.ActionEvent;
 import javafx.scene.Parent;
@@ -28,8 +29,6 @@ public class AuthMenuController {
     @FXML
     private TextField passwordTF;
 
-    @FXML
-    private RadioButton signInBtn;
 
     @FXML
     private Label wordaggedonLabel;
@@ -37,17 +36,6 @@ public class AuthMenuController {
     @FXML
     private Button loginButton;
 
-    private ToggleGroup loginToggleGroup;
-
-    @FXML
-    public void initialize() {
-        // Inizializza il gruppo Toggle per i radio button
-        loginToggleGroup = new ToggleGroup();
-        signInBtn.setToggleGroup(loginToggleGroup);
-
-        // Imposta "Sign-in" come selezionato di default
-        signInBtn.setSelected(true);
-    }
 
     // Metodo per mostrare un messaggio di avviso sullo schermo
     private void showAlert(String title, String message) {
@@ -62,7 +50,6 @@ private void handleRegisterClick() {
     try {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/RegisterView.fxml"));
         Parent registerPage = loader.load();
-
         Stage stage = (Stage) loginButton.getScene().getWindow();
         Scene newScene = new Scene(registerPage);
         stage.setScene(newScene);
@@ -81,15 +68,29 @@ private void handleLoginButtonAction(ActionEvent event) {
     String username = nomeUtenteTF.getText();
     String password = passwordTF.getText();
 
-    // Aquí puedes añadir lógica real de login, por ahora mostramos un mensaje:
     if (username.isEmpty() || password.isEmpty()) {
         showAlert("Campi mancanti", "Per favore inserisci username e password.");
-    } else {
-        // Puedes reemplazar esto con validación real
-        showAlert("Login riuscito", "Benvenuto, " + username + "!");
-        
+        return;
     }
-}
 
+    WordageddonDAO dao = new WordageddonDAOSQLite();
+    User user = dao.checkCredentials(username, password);
 
+    if (user != null && password != null) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/MainMenuView.fxml"));
+            Parent mainMenuRoot = loader.load();
+
+            Stage stage = (Stage) loginButton.getScene().getWindow();
+            stage.setScene(new Scene(mainMenuRoot));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            showAlert("Errore", "Impossibile caricare la schermata principale.");
+        }
+
+    } else {
+        showAlert("Login fallito", "Username o password errati.");
+    }
+  }
 }
