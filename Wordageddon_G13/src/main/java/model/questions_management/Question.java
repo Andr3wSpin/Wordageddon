@@ -16,6 +16,26 @@ public class Question {
         this.answers = answers;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+
+        if(obj == null) return false;
+
+        if(this == obj) return true;
+
+        if(!(obj instanceof Question)) return false;
+
+        Question q = (Question) obj;
+
+        return this.question.equals(q.question);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return this.question.hashCode();
+    }
+
 
     public boolean isCorrect() { return correctAnswer.equals(givenAnswer); }
 

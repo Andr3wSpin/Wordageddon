@@ -119,6 +119,8 @@ public class StartGameMenuController implements Initializable {
                     questionTypeSet.add(QuestionType.TYPE4);
                 }
 
+                System.out.println("QTypes:\n" + questionTypeSet);
+
                 List<String> fileNames = choosenFiles.stream()
                         .map(File::getName)
                         .collect(Collectors.toList());
@@ -130,6 +132,7 @@ public class StartGameMenuController implements Initializable {
                 Set<Question> questions = cq.createQuestions(progress -> {
                     updateProgress(progress, difficulty.getMaxQuestions()); // callback dal ciclo interno
                 });
+
                 return new Game(difficulty, user.getID(), questions, choosenFiles);
             }
         };
