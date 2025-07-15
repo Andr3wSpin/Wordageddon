@@ -33,6 +33,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import javafx.application.Platform;
+import model.questions_management.Question;
 import sun.swing.PrintingStatus;
 
 public class StartGameMenuController implements Initializable {
@@ -57,6 +58,9 @@ public class StartGameMenuController implements Initializable {
 
     private ToggleGroup toggleGroupDifficulty;
 
+    @FXML
+    private ProgressBar loadingBar;
+
     private User user;
     private Map<String, Map<String, Integer>> fileAnalysis;
 
@@ -65,6 +69,10 @@ public class StartGameMenuController implements Initializable {
 
         initBackground();
         initRadioButtons();
+
+
+        loadingBar.setVisible(false);
+
     }
 
     /**
@@ -73,6 +81,7 @@ public class StartGameMenuController implements Initializable {
      */
     @FXML
     private void startGame(ActionEvent event) {
+
         Difficulty difficulty = takeDifficulty();
 
         if (difficulty == null) {
@@ -84,6 +93,9 @@ public class StartGameMenuController implements Initializable {
         Task<Game> gameTask = new Task() {
             @Override
             protected Game call() throws Exception {
+
+
+
                 List<File> filesList = FileManager.getFiles();
 
                 if (filesList.isEmpty())
@@ -111,18 +123,31 @@ public class StartGameMenuController implements Initializable {
                         .map(File::getName)
                         .collect(Collectors.toList());
 
+
+
+
                 CreateQuestions cq = new CreateQuestions(questionTypeSet, fileNames, fileAnalysis, difficulty.getMaxQuestions());
-                return new Game(difficulty, user.getID(), cq.createQuestions(), choosenFiles);
+                Set<Question> questions = cq.createQuestions(progress -> {
+                    updateProgress(progress, difficulty.getMaxQuestions()); // callback dal ciclo interno
+                });
+                return new Game(difficulty, user.getID(), questions, choosenFiles);
             }
         };
+                         loadingBar.visibleProperty().bind(gameTask.runningProperty());
+                         loadingBar.progressProperty().bind(gameTask.progressProperty());
+
 
         gameTask.setOnSucceeded(e -> {
             showMessage("La partita è stata creata con successo.", Alert.AlertType.INFORMATION);
             Game g = gameTask.getValue();
+            loadingBar.visibleProperty().unbind();
+            loadingBar.setVisible(false);
             changeScene(g);
         });
 
         gameTask.setOnFailed(e -> {
+            loadingBar.visibleProperty().unbind();
+            loadingBar.setVisible(false);
             Throwable ex = gameTask.getException();
             String msg = "Errore durante la creazione della partita:\n" + ex.getMessage();
             showMessage(msg, Alert.AlertType.ERROR);

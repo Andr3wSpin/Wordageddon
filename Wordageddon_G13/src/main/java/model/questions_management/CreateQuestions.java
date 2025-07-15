@@ -3,6 +3,7 @@ package model.questions_management;
 import model.enums.QuestionType;
 
 import java.util.*;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 public class CreateQuestions {
@@ -27,10 +28,11 @@ public class CreateQuestions {
      * Crea un set di domande chiamando il metodo relativo al tipo specifico
      * @return set di domande da mostrare
      */
-    public Set<Question> createQuestions() {
+    public Set<Question> createQuestions( Consumer<Integer> progressUpdater) {
         Set<Question> questionSet = new HashSet<>();
 
-        while (questionSet.size() < questionsNumber-1){
+        while (questionSet.size() < questionsNumber){
+            progressUpdater.accept(questionSet.size() + 1);
             int r = new Random().nextInt(orderList.size());
             switch (r){
 
@@ -61,23 +63,7 @@ public class CreateQuestions {
     private Question createQuestionType1() {
 
         String testo = QuestionType.TYPE1.getText();
-        int wordIndex = new Random().nextInt(fileAnalysis.size());
-        Random random = new Random();
-
-        String parola = new ArrayList<>(fileAnalysis.keySet()).get(wordIndex);
-
-        String domanda = testo.replace("'<parola>'", parola);
-        domanda = domanda.replace("'<nome_documento>'",choosenFiles.get(random.nextInt(choosenFiles.size())));
-        Integer correctAnswer = getCorrectAnswer(parola,choosenFiles.get(random.nextInt(choosenFiles.size())));
-
-        Set<String> randomAnswer = new HashSet<>();
-        randomAnswer.add(correctAnswer.toString());
-
-        while (randomAnswer.size() < 4) {
-           Integer rr = random.nextInt(8);
-
-            randomAnswer.add(rr.toString());
-        }
+        choosenFiles
 
         Question q1 = new Question(domanda, correctAnswer.toString(), randomAnswer);
 
@@ -102,7 +88,7 @@ public class CreateQuestions {
         Map<String,Map <String,Integer>> fileWordCount = new HashMap<>();
 
         Set<String> randomAnswer = new HashSet<>();
-
+/*   serve per invertire la vecchia mappa
         fileAnalysis.entrySet().stream().flatMap(
           entry -> entry.getValue().entrySet().stream().map(
                   f->
@@ -119,7 +105,7 @@ public class CreateQuestions {
 
                         fileWordCount.putIfAbsent(nomeFile,new HashMap<>());
                         fileWordCount.get(nomeFile).putIfAbsent(words,count);
-                });
+                });*/
 
 
 

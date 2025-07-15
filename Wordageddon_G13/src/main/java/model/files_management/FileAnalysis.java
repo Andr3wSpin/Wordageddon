@@ -61,28 +61,13 @@ public class FileAnalysis extends Service<Map<String, Map<String, Integer>>> {
         Files.lines(file.toPath()).flatMap(line -> Arrays.stream(line.split(regex)))
                 .map(String::toLowerCase)
                 .forEach(word -> {
-                    //System.out.println("sto analizzando parola per parola");
-                    if(stopwords.contains(word)) return;
+                    if (stopwords.contains(word)) return;
 
-                    if(!analysis.containsKey(word)) {
+                    analysis.putIfAbsent(file.getName(), new HashMap<>());
 
-                        Map<String, Integer> innerMap = new HashMap<>();
-                        innerMap.put(file.getName(), 1);
-                        analysis.put(word, innerMap);
-                    }
-                    else {
-                        Map<String, Integer> innerMap = analysis.get(word);
-
-                        if(!innerMap.containsKey(file.getName()))
-                            innerMap.put(file.getName(), 1);
-                        else {
-                            int count = innerMap.get(file.getName());
-
-                            count++;
-
-                            innerMap.put(file.getName(), count);
-                        }
-                    }
+                    Map<String, Integer> innerMap = analysis.get(file.getName());
+                    
+                    innerMap.put(word, innerMap.getOrDefault(word, 0) + 1);
                 });
     }
 
