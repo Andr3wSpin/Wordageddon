@@ -12,16 +12,16 @@
    <children>
       <VBox alignment="CENTER" prefHeight="800.0" prefWidth="1400.0" spacing="50.0" style="-fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #1a1a2e, #16213e, #0f3460);">
          <children>
+            <Label fx:id="numberQuestionLabel" text="Numero domanda" textFill="WHITE">
+               <font>
+                  <Font size="21.0" />
+               </font>
+            </Label>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <Label fx:id="questionLabel" prefHeight="21.0" prefWidth="322.0" text="Domanda" textFill="WHITE">
+                  <Label fx:id="questionLabel" prefHeight="55.0" prefWidth="1159.0" text="Domanda" textFill="WHITE">
                      <font>
-                        <Font name="Microsoft YaHei Bold" size="40.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="numberQuestionLabel" text="Numero domanda" textFill="WHITE">
-                     <font>
-                        <Font size="21.0" />
+                        <Font name="Microsoft YaHei Bold" size="22.0" />
                      </font>
                   </Label>
                </children>
