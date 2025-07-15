@@ -31,7 +31,7 @@ public class CreateQuestions {
     public Set<Question> createQuestions( Consumer<Integer> progressUpdater) {
         Set<Question> questionSet = new HashSet<>();
 
-        while (questionSet.size() < questionsNumber-1){
+        while (questionSet.size() < questionsNumber){
             progressUpdater.accept(questionSet.size() + 1);
             int r = new Random().nextInt(orderList.size());
             switch (r){
