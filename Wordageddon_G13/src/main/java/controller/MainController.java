@@ -93,6 +93,7 @@ public class MainController implements Initializable {
         try {
             fa = fa.readAnalysis();
             System.out.println("ANALISI LETTA:\n" + fa.getAnalysis());
+            System.out.println("Step Words \n" + fa.getStopwords());
         } catch (IOException e) {
             showMessage(e.getMessage(), Alert.AlertType.ERROR);
         }
@@ -248,7 +249,7 @@ public class MainController implements Initializable {
 
 
             controllerAdmin = loader.getController();
-
+            controllerAdmin.setFileAnalisys(fa);
             // Mostra la pagina admin
             root.setCenter(adminPage);
             button_yoursScore.setVisible(false);

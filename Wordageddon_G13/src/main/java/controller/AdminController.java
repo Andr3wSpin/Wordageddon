@@ -11,6 +11,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
+import model.files_management.FileAnalysis;
 import model.files_management.FileManager;
 
 import java.io.File;
@@ -30,9 +31,42 @@ public class AdminController implements Initializable {
 
     @FXML
     private Button button_loadStopwords;
+    private  FileAnalysis fas;
+
+
+    public void  setFileAnalisys (FileAnalysis faS){
+        this.fas = fas;
+        System.out.println(fas.getAnalysis());
+        System.out.println(fas.getStopwords());
+    }
 
     @FXML
     void loadStopWords(ActionEvent event) {
+
+        String area = areaStopWords.getText();
+        List<String> stopwords = Arrays.asList(area.split("[;,\\s]"));
+        System.out.println("Area: " + area);
+        System.out.println("Stopwords list: " + stopwords);
+        System.out.println("Stopwords type: " + stopwords.getClass());
+        System.out.println("FAS stopwords: " + fas.getStopwords());
+        System.out.println("FAS stopwords type: " + fas.getStopwords().getClass());System.out.println("Area: " + area);
+        System.out.println("Stopwords list: " + stopwords);
+        System.out.println("Stopwords type: " + stopwords.getClass());
+        System.out.println("FAS stopwords: " + fas.getStopwords());
+        System.out.println("FAS stopwords type: " + fas.getStopwords().getClass());
+        fas.getStopwords().clear();
+        fas.getStopwords().addAll(stopwords);
+
+        fas.setOnSucceeded(e->{
+            System.out.println("analisi stopeords fatta" + stopwords +"\n"+ fas.getStopwords());
+            fas.reset();
+        });
+
+        fas.setOnFailed(e->{
+
+            fas.reset();
+        });
+        fas.start();
 
     }
 
