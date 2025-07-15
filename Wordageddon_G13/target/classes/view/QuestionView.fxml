@@ -6,7 +6,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="490.0" prefWidth="730.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.game_controllers.QuestionMenuController">
+<Pane prefHeight="800.0" prefWidth="1400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.game_controllers.QuestionMenuController">
    <children>
       <Label fx:id="questionLabel" layoutX="233.0" layoutY="170.0" prefHeight="21.0" prefWidth="322.0" text="Domanda" />
       <Label fx:id="numberQuestionLabel" layoutX="304.0" layoutY="62.0" text="Numero domanda" />
