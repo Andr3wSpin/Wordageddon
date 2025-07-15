@@ -1,9 +1,12 @@
 package controller;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
@@ -22,6 +25,16 @@ public class AdminController implements Initializable {
 
     private List<File> fileCaricati;
     private final List<File> selectedFiles = new ArrayList<>();
+    @FXML
+    private TextArea areaStopWords;
+
+    @FXML
+    private Button button_loadStopwords;
+
+    @FXML
+    void loadStopWords(ActionEvent event) {
+
+    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
