@@ -192,8 +192,16 @@ public class MainController implements Initializable {
     void LoadFilesAdminPage(ActionEvent event) {
         Stage stage = (Stage) root.getScene().getWindow();
         FileChooser fileChooser = new FileChooser();
+
+        FileChooser.ExtensionFilter txtFilter = new FileChooser.ExtensionFilter("File di testo (*.txt)", "*.txt");
+        fileChooser.getExtensionFilters().add(txtFilter);
+
+        List<File> selectedFiles = fileChooser.showOpenMultipleDialog(stage);
+
+        if(selectedFiles == null) return;
+
         try {
-            FileManager.addFiles(fileChooser.showOpenMultipleDialog(stage));
+            FileManager.addFiles(selectedFiles);
             loadAdminPage();
         } catch (IOException e) {
             throw new RuntimeException(e);
