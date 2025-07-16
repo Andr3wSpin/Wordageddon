@@ -153,22 +153,59 @@ public class CreateQuestions {
         Set<String> answers = new HashSet<>();
         answers.add(correctAnswer);
 
-        List<String> allWords = new ArrayList<>(fileAnalysis.get(choosenFiles.get(0)).keySet());
-
-        while (answers.size() < 4 && allWords.size() > 0) {
-            answers.add(allWords.get(rand.nextInt(allWords.size())));
-        }
+        randomAnswerType3_4(answers);
 
         return new Question(QuestionType.TYPE3.getText(), correctAnswer, answers);
     }
 
 
     private Question createQuestionType4() {
-        return null;
+
+        List<Set<String>> wordSets = choosenFiles.stream()
+                .map(f -> fileAnalysis.get(f).keySet())
+                .collect(Collectors.toList());
+
+        Set<String> commonWords = new HashSet<>(wordSets.get(0));
+        wordSets.stream().skip(1).forEach(commonWords::retainAll);
+
+        List<String> listCommonWords = new ArrayList<>(commonWords);
+
+       Map<String,Integer> maxFOrCommonWords = new HashMap<>();
+
+       maxFOrCommonWords = commonWords.stream().collect(
+               Collectors.toMap(
+
+                       parola-> parola,//chiave
+                       parola-> fileAnalysis.values().stream().mapToInt( mappa -> mappa.getOrDefault( parola,0)).max().orElse(0) //valore mi serve l int max per ogni parola
+               )
+       );
+
+       Optional<String> optionalCorrectAnswer = maxFOrCommonWords.entrySet().stream()
+               .max(Comparator.comparingInt(coppia -> coppia.getValue())).map( Map.Entry::getKey);
+
+
+
+
+       if (optionalCorrectAnswer.isPresent()){
+           String correctAnswer = optionalCorrectAnswer.get();
+
+           Set<String> Answer = new HashSet<>();
+           Answer.add(correctAnswer);
+           randomAnswerType3_4(Answer);
+           return new Question(QuestionType.TYPE4.getText(), correctAnswer, Answer);
+       }
+       return null;
     }
 
-    private String correctAnswerType_1_2_3() {
-        return null;
+    private Set<String> randomAnswerType3_4(Set<String> answers) {
+
+        int random = new Random().nextInt(choosenFiles.size());
+        List<String> allWords = new ArrayList<>(fileAnalysis.get(choosenFiles.get(random)).keySet());
+        Random rand = new Random();
+        while (answers.size() < 4 && allWords.size() > 0) {
+            answers.add(allWords.get(rand.nextInt(allWords.size())));
+        }
+        return answers;
     }
 
     /**
