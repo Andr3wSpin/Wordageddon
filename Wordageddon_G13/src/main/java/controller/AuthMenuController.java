@@ -83,9 +83,14 @@ public class AuthMenuController {
                         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/MainMenuView.fxml"));
                         Parent mainMenuRoot = loader.load();
 
+                        MainController mainMenuController = loader.getController();
+
+                        mainMenuController.setUser(user);  // esempio metodo per passare dati o inizializzare
+
                         Stage stage = (Stage) loginButton.getScene().getWindow();
                         stage.setScene(new Scene(mainMenuRoot));
                         stage.show();
+
                     } catch (IOException e) {
                         System.err.println(e.getMessage());
                         showAlert("Errore", "Impossibile caricare la schermata principale.");

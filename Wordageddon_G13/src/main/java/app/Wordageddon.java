@@ -18,7 +18,7 @@ public class Wordageddon extends Application {
     @Override
     public void start(Stage stage) throws IOException {
 
-        scene = new Scene(loadFXML("MainMenuView"));
+        scene = new Scene(loadFXML("AuthView"));
         stage.setScene(scene);
         stage.show();
     }

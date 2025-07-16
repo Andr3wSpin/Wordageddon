@@ -93,6 +93,7 @@ public class MainController implements Initializable {
 
     public void setUser (User user){
         this.user = user;
+        System.out.println(user.getUsername());
     }
 
     @Override
@@ -150,22 +151,29 @@ public class MainController implements Initializable {
 
     @FXML
     void setProfilePage(ActionEvent event) {
-       try{
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/ProfileView.fxml"));
+            Parent profilePage = loader.load();
 
-           Parent  profilePage= FXMLLoader.load(getClass().getResource("/view/ProfileView.fxml"));
-           root.setCenter(profilePage);
-           button_yoursScore.setVisible(false);
-           button_GlobalScorres.setVisible(false);
-           button_LoadFiles.setVisible(false);
-           Button_RemoveFiles.setVisible(false);
-           Button_StartAnalisys.setVisible(false);
-           root.setLeft(null);
-           root.setRight(null);
+            ProfileViewController profileController = loader.getController();
+
+            profileController.setUser(user);
+
+            root.setCenter(profilePage);
+            button_yoursScore.setVisible(false);
+            button_GlobalScorres.setVisible(false);
+            button_LoadFiles.setVisible(false);
+            Button_RemoveFiles.setVisible(false);
+            Button_StartAnalisys.setVisible(false);
+
+            root.setLeft(null);
+            root.setRight(null);
 
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
+
 
     @FXML
     void setGamePage(ActionEvent event) {
