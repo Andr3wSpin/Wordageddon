@@ -135,15 +135,33 @@ public class CreateQuestions {
     }
 
     private Question createQuestionType3() {
-        String parola;
-        String nomeFile = choosenFiles.get(0);
-         fileAnalysis.get(nomeFile).keySet().stream().filter(
-                 words-> fileAnalysis.keySet().stream().forEach(
-                   file -> {
-                       if (fileAnalysis.get(file).keySet().contains(words)){ parola = words;}
 
-                   });
+        List<Set<String>> wordSets = choosenFiles.stream()
+                .map(f -> fileAnalysis.get(f).keySet())
+                .collect(Collectors.toList());
+
+
+        Set<String> commonWords = new HashSet<>(wordSets.get(0));
+        wordSets.stream().skip(1).forEach(commonWords::retainAll);
+
+        if (commonWords.isEmpty()) return null;
+
+        Random rand = new Random();
+        List<String> parole = new ArrayList<>(commonWords);
+        String correctAnswer = parole.get(rand.nextInt(parole.size()));
+
+        Set<String> answers = new HashSet<>();
+        answers.add(correctAnswer);
+
+        List<String> allWords = new ArrayList<>(fileAnalysis.get(choosenFiles.get(0)).keySet());
+
+        while (answers.size() < 4 && allWords.size() > 0) {
+            answers.add(allWords.get(rand.nextInt(allWords.size())));
+        }
+
+        return new Question(QuestionType.TYPE3.getText(), correctAnswer, answers);
     }
+    
 
     private Question createQuestionType4() {
         return null;
