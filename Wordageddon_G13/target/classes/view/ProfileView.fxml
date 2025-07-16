@@ -75,10 +75,31 @@
                                     <Insets left="20.0" />
                                  </padding>
                               </Label>
+                              <Label fx:id="Label_ChangeData1" alignment="CENTER" layoutX="10.0" layoutY="14.0" prefHeight="27.0" prefWidth="251.0" style="-fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 20;" text="Change  Data">
+                                 <padding>
+                                    <Insets left="20.0" />
+                                 </padding>
+                              </Label>
                            </children>
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
+                        </StackPane>
+                     </graphic>
+                  </Button>
+                  <Button fx:id="ChangeDataButton1" mnemonicParsing="false" onAction="#ChangeDataButton" prefHeight="50.0" prefWidth="215.0" style="-fx-border-color: red; -fx-background-color: red; -fx-text-fill: white; -fx-font-family: &quot;Microsoft YaHei&quot;; -fx-font-size: 20; -fx-border-radius: 20; -fx-background-radius: 15;">
+                     <graphic>
+                        <StackPane alignment="CENTER_LEFT" prefHeight="33.0" prefWidth="104.0">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                           <children>
+                              <Label fx:id="Label_ChangeData11" alignment="CENTER" prefHeight="27.0" prefWidth="251.0" style="-fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 20;" text="Delete account">
+                                 <padding>
+                                    <Insets left="20.0" />
+                                 </padding>
+                              </Label>
+                           </children>
                         </StackPane>
                      </graphic>
                   </Button>
