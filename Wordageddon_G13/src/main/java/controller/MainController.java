@@ -90,11 +90,6 @@ public class MainController implements Initializable {
     private AdminController controllerAdmin;
     private FileAnalysis fa;
 
-
-    public void setUser (User user){
-        this.user = user;
-    }
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         System.out.println("initialize");
@@ -108,6 +103,11 @@ public class MainController implements Initializable {
         }
 
         setCSS();
+    }
+
+    public void init(User user) {
+
+        this.user = user;
 
         loadGamePage();
     }
