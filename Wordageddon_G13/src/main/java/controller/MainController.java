@@ -312,7 +312,7 @@ public class MainController implements Initializable {
             root.setCenter(gamePage);
 
             StartGameMenuController sgController = loader.getController();
-            sgController.setUser(new User(2, "Andrea", "BB", UserType.PLAYER));
+            sgController.setUser(user);
             sgController.setFileAnalysis(fa.getAnalysis());
 
             button_yoursScore.setVisible(false);
