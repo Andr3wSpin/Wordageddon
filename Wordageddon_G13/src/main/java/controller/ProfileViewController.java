@@ -19,7 +19,11 @@ import model.db.WordageddonDAOSQLite;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.ResourceBundle;
+import javafx.scene.layout.StackPane;
+
+import javax.swing.plaf.metal.MetalBorders;
 
 /**
  * Controller per la vista del profilo utente.
@@ -58,8 +62,6 @@ public class ProfileViewController implements Initializable {
     @FXML
     private RadioButton usernameToggle;
 
-    @FXML
-    private Text welcome;
 
     @FXML
     private ImageView image_Logout;
@@ -67,12 +69,21 @@ public class ProfileViewController implements Initializable {
     @FXML
     private Label labelLogOut;
 
-    @FXML
     private ToggleGroup dataToggles;
 
     private User user;
 
     private WordageddonDAOSQLite accessDB;
+    @FXML
+    private Text Welcome;
+    @FXML
+    private Label Label_ChangeData1;
+    @FXML
+    private Button ChangeDataButton1;
+    @FXML
+    private StackPane deleteAccountButton;
+    @FXML
+    private Label Label_ChangeData11;
 
     /**
      * Gestisce l'evento di click sul bottone "Cambia Dati".
@@ -147,8 +158,19 @@ public class ProfileViewController implements Initializable {
      */
     @FXML
     private void LogOut_Button(ActionEvent event) throws IOException {
+
+        logOut();
+    }
+
+    private void logOut() {
+
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/AuthView.fxml"));
-        Parent loginPage = loader.load();
+        Parent loginPage = null;
+        try {
+            loginPage = loader.load();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
         Stage stage = (Stage) Button_LogOut.getScene().getWindow();
         Scene newScene = new Scene(loginPage);
@@ -156,15 +178,6 @@ public class ProfileViewController implements Initializable {
         stage.show();
     }
 
-    /**
-     * Metodo placeholder per la funzionalità "Diventa Admin".
-     * Attualmente non implementato.
-     * @param event L'evento di azione che ha scatenato il metodo.
-     */
-    @FXML
-    private void becameAdmin(ActionEvent event) {
-        // Implementazione futura per la funzionalità "Diventa Admin"
-    }
 
     /**
      * Imposta l'utente corrente per la vista del profilo.
@@ -207,6 +220,8 @@ public class ProfileViewController implements Initializable {
         passwordToggle.setVisible(false);
     }
 
+
+
     /**
      * Mostra una finestra di alert all'utente.
      * @param title Il titolo dell'alert.
@@ -218,5 +233,22 @@ public class ProfileViewController implements Initializable {
         alert.setHeaderText(null); // Nessun header per un alert semplice
         alert.setContentText(message);
         alert.showAndWait(); // Attende che l'utente chiuda l'alert
+    }
+
+    @FXML
+    private void deleteAccount(ActionEvent event) {
+
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Elimiazione account");
+        alert.setContentText("Sei sicuro di voler eliminare l'account?");
+
+        Optional<ButtonType> choice = alert.showAndWait();
+
+        if(choice.isPresent() && choice.get() == ButtonType.OK) {
+
+            accessDB.deleteUser(user.getID());
+            logOut();
+        }
+        else event.consume();
     }
 }

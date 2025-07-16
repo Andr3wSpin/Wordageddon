@@ -77,6 +77,7 @@ public class TextMenuController {
         this.files = game.getChoosenFiles();
 
         int totalSeconds = game.getDifficuty().getReadTimePerFile() * 60 * files.size();
+        
         timer = new Timer(totalSeconds);
 
         setupCircleTimer(totalSeconds);
@@ -86,6 +87,17 @@ public class TextMenuController {
             int seconds = remainingSeconds % 60;
             String text = String.format("%02d:%02d", minutes, seconds);
             javafx.application.Platform.runLater(() -> timerLabel.setText(text));
+
+            if (remainingSeconds == 0) {
+                javafx.application.Platform.runLater(() -> {
+                    PauseTransition pause = new PauseTransition(Duration.millis(100));
+                    pause.setOnFinished(e -> {
+                        showMessage("Time's Over", Alert.AlertType.ERROR);
+                        loadQuestion();
+                    });
+                    pause.play();
+                });
+            }
         });
 
         if (files == null || files.isEmpty()) {
@@ -224,6 +236,5 @@ public class TextMenuController {
     private void showMessage(String msg, Alert.AlertType type) {
         Alert alert = new Alert(type);
         alert.setContentText(msg);
-        alert.showAndWait();
     }
 }

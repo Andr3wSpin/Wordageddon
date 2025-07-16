@@ -21,10 +21,16 @@ public interface WordageddonDAO {
      *
      * @param userName Il nome utente del nuovo utente.
      * @param password La password del nuovo utente.
-     * @param isAdmin E' true se l'utente è admin, altrimenti false
+     * @param isAdmin E'true se l'utente è admin, altrimenti false
      * @return true se l'inserimento è avvenuto con successo, false altrimenti.
      */
     public User insertUser(String userName, String password, boolean isAdmin);
+
+    /**
+     * Elimina l'utente corrente dal database.
+     * @param ID ID dell'utente da eliminare.
+     */
+    public void deleteUser(int ID);
 
     /**
      * Aggiorna un attributo (username o password) di un utente specificato tramite ID.

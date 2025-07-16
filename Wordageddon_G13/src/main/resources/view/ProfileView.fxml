@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.media.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
@@ -14,7 +22,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<StackPane id="GameView" prefHeight="800.0" prefWidth="1400.0" style="-fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #1a1a2e, #16213e, #0f3460);" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ProfileViewController">
+<StackPane id="GameView" prefHeight="800.0" prefWidth="1400.0" style="-fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #1a1a2e, #16213e, #0f3460);" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ProfileViewController">
    <children>
       <MediaView fx:id="MediaViewWallPaper" fitHeight="800.0" fitWidth="1400.0" />
       <VBox alignment="CENTER" prefHeight="400.0" prefWidth="800.0" spacing="30.0">
@@ -24,24 +32,15 @@
                   <Font name="Microsoft YaHei Bold" size="60.0" />
                </font>
             </Text>
-            <Text fx:id="TextField_NomeUser" fill="#f7f7f7" strokeType="OUTSIDE" strokeWidth="0.0" text="nomeUeser" textAlignment="CENTER" wrappingWidth="361.97078704833984">
+            <Text fx:id="textField_NomeUser" fill="#f7f7f7" strokeType="OUTSIDE" strokeWidth="0.0" text="nomeUeser" textAlignment="CENTER" wrappingWidth="361.97078704833984">
                <font>
                   <Font name="Microsoft YaHei Bold" size="45.0" />
                </font>
             </Text>
-            <HBox alignment="CENTER">
+            <HBox alignment="CENTER" />
+            <HBox alignment="CENTER" prefHeight="166.0" prefWidth="1400.0" spacing="40.0">
                <children>
-                  <Text fx:id="textField_admin" fill="#f7f7f7" strokeType="OUTSIDE" strokeWidth="0.0" text="Do you want to become/You are" textAlignment="CENTER" wrappingWidth="495.5708236694336">
-                     <font>
-                        <Font name="Microsoft YaHei Bold" size="28.0" />
-                     </font>
-                  </Text>
-                  <CheckBox fx:id="AdminCheckBox" mnemonicParsing="false" onAction="#becameAdmin" />
-               </children>
-            </HBox>
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="40.0">
-               <children>
-                  <Button fx:id="Button_LogOut" mnemonicParsing="false" onAction="#LogOut_Buttton" prefHeight="50.0" prefWidth="166.0" style="-fx-border-color: red; -fx-background-color: red; -fx-text-fill: white; -fx-font-family: &quot;Microsoft YaHei&quot;; -fx-font-size: 20; -fx-border-radius: 20; -fx-background-radius: 15;">
+                  <Button fx:id="Button_LogOut" mnemonicParsing="false" onAction="#LogOut_Button" prefHeight="50.0" prefWidth="166.0" style="-fx-border-color: red; -fx-background-color: red; -fx-text-fill: white; -fx-font-family: &quot;Microsoft YaHei&quot;; -fx-font-size: 20; -fx-border-radius: 20; -fx-background-radius: 15;">
                      <graphic>
                         <StackPane alignment="CENTER_LEFT" prefHeight="33.0" prefWidth="104.0">
                            <children>
@@ -62,16 +61,21 @@
                         </StackPane>
                      </graphic>
                   </Button>
-                  <Button fx:id="CahneDataButton" mnemonicParsing="false" onAction="#CahngeDataButton" prefHeight="50.0" prefWidth="215.0" style="-fx-border-color: red; -fx-background-color: red; -fx-text-fill: white; -fx-font-family: &quot;Microsoft YaHei&quot;; -fx-font-size: 20; -fx-border-radius: 20; -fx-background-radius: 15;">
+                  <Button fx:id="ChangeDataButton" mnemonicParsing="false" onAction="#ChangeDataButton" prefHeight="50.0" prefWidth="215.0" style="-fx-border-color: red; -fx-background-color: red; -fx-text-fill: white; -fx-font-family: &quot;Microsoft YaHei&quot;; -fx-font-size: 20; -fx-border-radius: 20; -fx-background-radius: 15;">
                      <graphic>
                         <StackPane alignment="CENTER_LEFT" prefHeight="33.0" prefWidth="104.0">
                            <children>
                               <ImageView fx:id="image_Logout" fitHeight="38.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../assets/edit%20Profile.png" />
+                                    <Image url="@../assets/editProfile.png" />
                                  </image>
                               </ImageView>
-                              <Label fx:id="Lable_ChangeData" alignment="CENTER" prefHeight="27.0" prefWidth="251.0" style="-fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 20;" text="Change  Data">
+                              <Label fx:id="Label_ChangeData" alignment="CENTER" prefHeight="27.0" prefWidth="251.0" style="-fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 20;" text="Change  Data">
+                                 <padding>
+                                    <Insets left="20.0" />
+                                 </padding>
+                              </Label>
+                              <Label fx:id="Label_ChangeData1" alignment="CENTER" layoutX="10.0" layoutY="14.0" prefHeight="27.0" prefWidth="251.0" style="-fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 20;" text="Change  Data">
                                  <padding>
                                     <Insets left="20.0" />
                                  </padding>
@@ -83,8 +87,38 @@
                         </StackPane>
                      </graphic>
                   </Button>
+                  <Button fx:id="ChangeDataButton1" mnemonicParsing="false" onAction="#deleteAccount" prefHeight="50.0" prefWidth="215.0" style="-fx-border-color: red; -fx-background-color: red; -fx-text-fill: white; -fx-font-family: &quot;Microsoft YaHei&quot;; -fx-font-size: 20; -fx-border-radius: 20; -fx-background-radius: 15;">
+                     <graphic>
+                        <StackPane fx:id="deleteAccountButton" alignment="CENTER_LEFT" prefHeight="33.0" prefWidth="104.0">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                           <children>
+                              <Label fx:id="Label_ChangeData11" alignment="CENTER" prefHeight="27.0" prefWidth="189.0" style="-fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 20;" text="Delete account">
+                                 <padding>
+                                    <Insets left="20.0" />
+                                 </padding>
+                              </Label>
+                              <ImageView fitHeight="31.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../assets/delete.png" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                        </StackPane>
+                     </graphic>
+                  </Button>
                </children>
             </HBox>
+            <Pane prefHeight="228.0" prefWidth="1400.0">
+               <children>
+                  <TextField fx:id="newAttributeTextField" layoutX="607.0" layoutY="59.0" />
+                  <Label fx:id="newAttributeLabel" layoutX="411.0" layoutY="64.0" prefHeight="21.0" prefWidth="166.0" text="Label" textFill="WHITE" />
+                  <Button fx:id="confirmButton" layoutX="829.0" layoutY="59.0" mnemonicParsing="false" onAction="#confirmData" text="Confirm" />
+                  <RadioButton fx:id="passwordToggle" layoutX="565.0" layoutY="4.0" mnemonicParsing="false" onAction="#passwordOnLabel" text="Change password" textFill="WHITE" />
+                  <RadioButton fx:id="usernameToggle" layoutX="738.0" layoutY="4.0" mnemonicParsing="false" onAction="#usernameOnLabel" text="Change username" textFill="WHITE" />
+               </children>
+            </Pane>
          </children>
       </VBox>
    </children>

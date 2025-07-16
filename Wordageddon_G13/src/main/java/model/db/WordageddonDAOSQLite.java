@@ -29,7 +29,7 @@ public class WordageddonDAOSQLite implements WordageddonDAO {
                 String username = rs.getString("username");
                 boolean isAdmin = rs.getBoolean("isAdmin");
                 UserType type = isAdmin ? UserType.ADMIN : UserType.PLAYER;
-                user = new User(id, username, null, type); // password non caricata per sicurezza
+                user = new User(id, username, type); // password non caricata per sicurezza
             } else {
                 System.out.println("Nessun utente trovato con ID: " + id);
             }
@@ -62,7 +62,7 @@ public class WordageddonDAOSQLite implements WordageddonDAO {
 
                 UserType type = isAdmin ? UserType.ADMIN : UserType.PLAYER;
 
-                user = new User(id, username, null, type); // password es null para seguridad
+                user = new User(id, username, type);
             }
 
         } catch (SQLException e) {
@@ -86,16 +86,16 @@ public class WordageddonDAOSQLite implements WordageddonDAO {
             int affectedRows = insertStmt.executeUpdate();
 
             if (affectedRows == 0) {
-                throw new SQLException("Inserción de usuario fallida, ninguna fila insertada.");
+                throw new SQLException("Inserimento nuovo utente fallito, nessuna riga aggiunta.");
             }
 
             try (ResultSet generatedKeys = insertStmt.getGeneratedKeys()) {
                 if (generatedKeys.next()) {
                     int id = generatedKeys.getInt(1);
                     UserType type = isAdmin ? UserType.ADMIN : UserType.PLAYER;
-                    return new User(id, userName, null, type);
+                    return new User(id, userName, type);
                 } else {
-                    throw new SQLException("Inserción de usuario fallida, no se obtuvo ID.");
+                    throw new SQLException("Inserimento nuovo utente non riuscito, nessun ID ottenuto");
                 }
             }
 
@@ -103,10 +103,26 @@ public class WordageddonDAOSQLite implements WordageddonDAO {
             if (e.getMessage().toLowerCase().contains("unique")) {
                 return null;
             }
-            System.err.println("Error durante la inserción: " + e.getMessage());
+            System.err.println("Errore durante l'inserimento: " + e.getMessage());
         }
 
         return null;
+    }
+
+    @Override
+    public void deleteUser(int ID) {
+        String query = "DELETE FROM users WHERE ID = ?";
+
+        try (Connection conn = DriverManager.getConnection(DB_URL);
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setInt(1, ID);
+            stmt.executeUpdate();
+
+        } catch (SQLException e) {
+            System.err.println("Errore durante l'eliminazione dell'utente: " + e.getMessage());
+            return;
+        }
     }
 
     @Override
@@ -127,7 +143,7 @@ public class WordageddonDAOSQLite implements WordageddonDAO {
             return rowsUpdated > 0;
 
         } catch (SQLException e) {
-            System.err.println("Error durante la actualización: " + e.getMessage());
+            System.err.println("Errore durante la modifica delle credenziali: " + e.getMessage());
             return false;
         }
     }
@@ -156,7 +172,7 @@ public class WordageddonDAOSQLite implements WordageddonDAO {
             }
 
         } catch (SQLException e) {
-            System.err.println("Error al obtener leaderboard: " + e.getMessage());
+            System.err.println("Errore durante l'ottenimento della leaderboard: " + e.getMessage());
         }
 
         return leaderBoardEntries;
@@ -180,7 +196,7 @@ public class WordageddonDAOSQLite implements WordageddonDAO {
                 }
             }
         } catch (SQLException e) {
-            System.err.println("Error al obtener puntuaciones del jugador: " + e.getMessage());
+            System.err.println("Impossibile ottenere i punteggi del giocatore: " + e.getMessage());
         }
 
         return scores;
@@ -201,7 +217,7 @@ public class WordageddonDAOSQLite implements WordageddonDAO {
             }
 
         } catch (SQLException e) {
-            System.out.println("Error al obtener nombres de jugadores: " + e.getMessage());
+            System.out.println("Impossibile ottenere la lista dei giocatori: " + e.getMessage());
         }
 
         return players;
@@ -226,7 +242,7 @@ public class WordageddonDAOSQLite implements WordageddonDAO {
                 }
             }
         } catch (SQLException e) {
-            System.err.println("Error al calcular promedio de puntuaciones: " + e.getMessage());
+            System.err.println("Impossibile calcolare punteggio medio del giocatore: " + e.getMessage());
         }
 
         return 0f;
@@ -248,7 +264,7 @@ public class WordageddonDAOSQLite implements WordageddonDAO {
             return rowsInserted > 0;
 
         } catch (SQLException e) {
-            System.out.println("Error al insertar puntuación: " + e.getMessage());
+            System.out.println("Errore durante l'inserimento del punteggio: " + e.getMessage());
             return false;
         }
     }
