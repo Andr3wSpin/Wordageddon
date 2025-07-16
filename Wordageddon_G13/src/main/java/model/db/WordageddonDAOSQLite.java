@@ -5,7 +5,6 @@ import model.enums.Difficulty;
 import model.enums.UserType;
 
 import java.sql.*;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -63,7 +62,7 @@ public class WordageddonDAOSQLite implements WordageddonDAO {
 
                 UserType type = isAdmin ? UserType.ADMIN : UserType.PLAYER;
 
-                user = new User(id, username, null, type); // password è null per sicurezza
+                user = new User(id, username, null, type); // password es null para seguridad
             }
 
         } catch (SQLException e) {
@@ -78,8 +77,8 @@ public class WordageddonDAOSQLite implements WordageddonDAO {
         String insertSql = "INSERT INTO users (username, password, isAdmin) VALUES (?, ?, ?)";
 
         try (Connection conn = DriverManager.getConnection(DB_URL);
-             PreparedStatement insertStmt = conn.prepareStatement(insertSql, Statement.RETURN_GENERATED_KEYS)) {//Statement.RETURN_GENERATED_KEYS serve a ritornare la chiave generata dal database
-                                                                                                                //È un flag che passi quando crei la PreparedStatement per dire che vuoi la chiave generata
+             PreparedStatement insertStmt = conn.prepareStatement(insertSql, Statement.RETURN_GENERATED_KEYS)) {
+
             insertStmt.setString(1, userName);
             insertStmt.setString(2, password);
             insertStmt.setBoolean(3, isAdmin);
@@ -87,7 +86,7 @@ public class WordageddonDAOSQLite implements WordageddonDAO {
             int affectedRows = insertStmt.executeUpdate();
 
             if (affectedRows == 0) {
-                throw new SQLException("Inserimento utente fallito, nessuna riga inserita.");
+                throw new SQLException("Inserción de usuario fallida, ninguna fila insertada.");
             }
 
             try (ResultSet generatedKeys = insertStmt.getGeneratedKeys()) {
@@ -96,16 +95,15 @@ public class WordageddonDAOSQLite implements WordageddonDAO {
                     UserType type = isAdmin ? UserType.ADMIN : UserType.PLAYER;
                     return new User(id, userName, null, type);
                 } else {
-                    throw new SQLException("Inserimento utente fallito, nessun ID ottenuto.");
+                    throw new SQLException("Inserción de usuario fallida, no se obtuvo ID.");
                 }
             }
 
         } catch (SQLException e) {
-            // Se l'eccezione è causata da un duplicato, ritorna null
-            if (e.getMessage().contains("UNIQUE") || e.getMessage().contains("unique")) {
+            if (e.getMessage().toLowerCase().contains("unique")) {
                 return null;
             }
-            System.err.println("errore durante l'inserimento" + e.getMessage());
+            System.err.println("Error durante la inserción: " + e.getMessage());
         }
 
         return null;
@@ -125,12 +123,11 @@ public class WordageddonDAOSQLite implements WordageddonDAO {
             stmt.setString(1, newValue);
             stmt.setInt(2, ID);
 
-            int rowsUpdated = stmt.executeUpdate(); //ritorna il numero di righe aggiornate con update
-            return rowsUpdated > 0; //ritorna le righe aggiornate quindi se >0
-            // vuol dire che ha aggiornato qualcosa
+            int rowsUpdated = stmt.executeUpdate();
+            return rowsUpdated > 0;
 
         } catch (SQLException e) {
-            System.err.println("Errore durante l'aggiornamento: " + e.getMessage());
+            System.err.println("Error durante la actualización: " + e.getMessage());
             return false;
         }
     }
@@ -159,20 +156,16 @@ public class WordageddonDAOSQLite implements WordageddonDAO {
             }
 
         } catch (SQLException e) {
-            System.err.println("Errore durante il recupero della leaderboard: " + e.getMessage());
+            System.err.println("Error al obtener leaderboard: " + e.getMessage());
         }
 
         return leaderBoardEntries;
     }
 
-
-
     @Override
     public List<String> playerScores(int playerId, Difficulty difficulty) {
         List<String> scores = new ArrayList<>();
-        String query = "SELECT score FROM games " +
-                       " WHERE user_id = ? AND difficulty = ? " +
-                       "ORDER BY score DESC ";
+        String query = "SELECT score FROM games WHERE user_id = ? AND difficulty = ? ORDER BY score DESC";
 
         try (Connection conn = DriverManager.getConnection(DB_URL);
              PreparedStatement stmt = conn.prepareStatement(query)) {
@@ -183,18 +176,15 @@ public class WordageddonDAOSQLite implements WordageddonDAO {
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
                     int score = rs.getInt("score");
-
                     scores.add(String.valueOf(score));
-
                 }
             }
         } catch (SQLException e) {
-            System.err.println("Errore durante il recupero dei punteggi del giocatore: " + e.getMessage());
+            System.err.println("Error al obtener puntuaciones del jugador: " + e.getMessage());
         }
 
         return scores;
     }
-
 
     @Override
     public List<String> playersList() {
@@ -211,36 +201,36 @@ public class WordageddonDAOSQLite implements WordageddonDAO {
             }
 
         } catch (SQLException e) {
-            System.out.println("Errore durante il recupero dei nomi dei giocatori: " + e.getMessage());
+            System.out.println("Error al obtener nombres de jugadores: " + e.getMessage());
         }
 
         return players;
     }
 
-
     @Override
-    public float avgScore(int playerId) { // Cambiato da String a int
+    public float avgScore(int playerId) {
         String query = "SELECT AVG(score) AS average_score FROM games WHERE user_id = ?";
+
         try (Connection conn = DriverManager.getConnection(DB_URL);
              PreparedStatement stmt = conn.prepareStatement(query)) {
 
-            stmt.setInt(1, playerId); // Usiamo setInt() invece di setString()
+            stmt.setInt(1, playerId);
 
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
                     double avg = rs.getDouble("average_score");
                     if (rs.wasNull()) {
-                        return 0f; // Se non ci sono giochi per quell'utente, la media è 0
+                        return 0f;
                     }
                     return (float) avg;
                 }
             }
         } catch (SQLException e) {
-            System.err.println("Errore durante il calcolo della media punteggi: " + e.getMessage()); // Usato System.err
+            System.err.println("Error al calcular promedio de puntuaciones: " + e.getMessage());
         }
-        return 0f; // Ritorna 0f se si verifica un errore o se l'utente non ha giochi
-    }
 
+        return 0f;
+    }
 
     @Override
     public boolean insertScore(int playerId, String date, int score, String difficulty) {
@@ -258,9 +248,8 @@ public class WordageddonDAOSQLite implements WordageddonDAO {
             return rowsInserted > 0;
 
         } catch (SQLException e) {
-            System.out.println("Errore durante l'inserimento del punteggio: " + e.getMessage());
+            System.out.println("Error al insertar puntuación: " + e.getMessage());
             return false;
         }
     }
-
 }

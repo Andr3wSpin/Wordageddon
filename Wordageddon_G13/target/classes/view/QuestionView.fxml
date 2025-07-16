@@ -5,7 +5,9 @@
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
 <Pane prefHeight="800.0" prefWidth="1400.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.game_controllers.QuestionMenuController">
@@ -54,13 +56,12 @@
                   </RadioButton>
                </children>
             </HBox>
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+            <StackPane prefHeight="144.0" prefWidth="1400.0">
                <children>
-                  <Label text="Label" textFill="WHITE" />
-                  <Label text="Time left:" textFill="WHITE" />
+                  <Rectangle fx:id="rectangleForAnimation" arcHeight="5.0" arcWidth="5.0" fill="#ff3232" height="38.0" stroke="BLACK" strokeType="INSIDE" width="169.0" />
+                  <Button fx:id="nextQuestionBtn" mnemonicParsing="false" onAction="#nextQuestion" prefHeight="40.0" prefWidth="194.0" style="-fx-text-fill: white; -fx-font-family: &quot;Microsoft YaHei&quot;; -fx-font-size: 20; -fx-border-radius: 20; -fx-background-radius: 17; -fx-background-color: red; -fx-font-weight: bold;" text="Next" />
                </children>
-            </HBox>
-            <Button fx:id="nextQuestionBtn" mnemonicParsing="false" onAction="#nextQuestion" prefHeight="40.0" prefWidth="194.0" style="-fx-text-fill: white; -fx-font-family: &quot;Microsoft YaHei&quot;; -fx-font-size: 20; -fx-border-radius: 20; -fx-background-radius: 17; -fx-background-color: red; -fx-font-weight: bold;" text="Next" />
+            </StackPane>
          </children>
       </VBox>
    </children>

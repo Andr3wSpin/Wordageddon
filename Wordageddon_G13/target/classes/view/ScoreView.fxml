@@ -1,26 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.text.*?>
-<?import java.lang.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.text.Font?>
 
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1400.0" style="-fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #1a1a2e, #16213e, #0f3460), radial-gradient(radius 100%, transparent, #00000066);" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ScoreController">
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1400.0" style="-fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #1a1a2e, #16213e, #0f3460), radial-gradient(radius 100%, transparent, #00000066);" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ScoreController">
    <children>
       <Pane prefHeight="701.0" prefWidth="1299.0">
          <children>
-            <TableView fx:id="scoreTableView" layoutX="257.0" layoutY="264.0" prefHeight="468.0" prefWidth="922.0" />
-            <Label fx:id="avgScoreLabel" layoutX="683.0" layoutY="220.0" text="Label" textFill="WHITE" />
-            <Label fx:id="titleLabel" layoutX="588.0" layoutY="127.0" text="Label" textAlignment="CENTER" textFill="WHITE">
+            <TableView fx:id="scoreTableView" layoutX="194.0" layoutY="210.0" prefHeight="468.0" prefWidth="922.0" style="-fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #1a1a2e, #16213e, #0f3460), radial-gradient(radius 100%, transparent, #00000066);" />
+            <Label fx:id="avgScoreLabel" layoutX="535.0" layoutY="152.0" prefHeight="17.0" prefWidth="234.0" text="Label" textAlignment="CENTER" textFill="WHITE" />
+            <Label fx:id="titleLabel" layoutX="385.0" layoutY="73.0" prefHeight="70.0" prefWidth="731.0" text="Label" textAlignment="CENTER" textFill="#f70a0a">
                <font>
-                  <Font size="48.0" />
+                  <Font name="Microsoft YaHei Bold" size="48.0" />
                </font></Label>
-            <Button fx:id="scoresButton" layoutX="980.0" layoutY="742.0" mnemonicParsing="false" onAction="#loadScores" text="Reload Scores" />
-            <RadioButton fx:id="easyButton" layoutX="269.0" layoutY="747.0" mnemonicParsing="false" text="Easy" textFill="WHITE" />
-            <RadioButton fx:id="mediumButton" layoutX="394.0" layoutY="747.0" mnemonicParsing="false" text="Medium" textFill="WHITE" />
-            <RadioButton fx:id="hardButton" layoutX="538.0" layoutY="747.0" mnemonicParsing="false" text="Hard" textFill="WHITE" />
-            <Button fx:id="leaderBoardButton" layoutX="980.0" layoutY="742.0" mnemonicParsing="false" onAction="#loadLeaderBoard" text="Reload Scores" />
+            <Button fx:id="leaderBoardButton" layoutX="898.0" layoutY="716.0" mnemonicParsing="false" onAction="#loadLeaderBoard" prefHeight="33.0" prefWidth="142.0" style="-fx-background-color: red; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 15; -fx-background-radius: 8;" text="Reload Scores" />
+            <HBox alignment="CENTER" layoutX="210.0" layoutY="678.0" prefHeight="100.0" prefWidth="490.0" spacing="100.0">
+               <children>
+                  <RadioButton fx:id="hardButton" mnemonicParsing="false" style="-fx-font-weight: bold; -fx-font-size: 15;" text="Hard" textFill="WHITE" />
+                  <RadioButton fx:id="easyButton" mnemonicParsing="false" style="-fx-font-size: 15; -fx-font-weight: bold;" text="Easy" textFill="WHITE" />
+                  <RadioButton fx:id="mediumButton" mnemonicParsing="false" style="-fx-text-fill: white; -fx-font-size: 15; -fx-font-weight: bold;" text="Medium" textFill="WHITE" />
+               </children>
+            </HBox>
          </children>
       </Pane>
    </children>

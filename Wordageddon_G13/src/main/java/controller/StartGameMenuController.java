@@ -1,6 +1,8 @@
 package controller;
 
 import controller.game_controllers.TextMenuController;
+import javafx.animation.FadeTransition;
+import javafx.animation.TranslateTransition;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -9,6 +11,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -17,6 +21,7 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import model.Game;
 //import model.User;  questa riga è commentata perché al momento user è null, quindi non si può ottenere l'id
 import model.User;
@@ -60,6 +65,8 @@ public class StartGameMenuController implements Initializable {
 
     @FXML
     private ProgressBar loadingBar;
+    @FXML
+    private ImageView imgButtonStart;
 
     private User user;
     private Map<String, Map<String, Integer>> fileAnalysis;
@@ -246,5 +253,40 @@ public class StartGameMenuController implements Initializable {
         Alert alert = new Alert(type);
         alert.setContentText(msg);
         alert.showAndWait();
+    }
+    @FXML
+    void btnStartHoverEntred(MouseEvent event) {
+        TranslateTransition textSlide = new TranslateTransition(Duration.millis(500),LableButton_StartGame);
+        textSlide.setFromX(0);
+        textSlide.setToX(100);
+        textSlide.play();
+        FadeTransition textOpacity;
+        textOpacity = new FadeTransition(Duration.millis(500),LableButton_StartGame);
+        textOpacity.setFromValue(1.0);
+        textOpacity.setToValue(0.0);
+        textOpacity.play();
+
+        TranslateTransition imageSlide = new TranslateTransition(Duration.millis(300),imgButtonStart);
+        imageSlide.setFromX(0);
+        imageSlide.setToX(35);
+        imageSlide.play();
+    }
+
+    @FXML
+    void btnStartHoverExit(MouseEvent event) {
+        TranslateTransition textSlide = new TranslateTransition(Duration.millis(500),LableButton_StartGame);
+        textSlide.setFromX(100);
+        textSlide.setToX(0);
+        textSlide.play();
+
+        TranslateTransition imageSlide = new TranslateTransition(Duration.millis(500),imgButtonStart);
+        imageSlide.setFromX(40);
+        imageSlide.setToX(0);
+        imageSlide.play();
+        FadeTransition  textOpacity;
+        textOpacity = new FadeTransition(Duration.millis(500),LableButton_StartGame);
+        textOpacity.setFromValue(0.0);
+        textOpacity.setToValue(1.0);
+        textOpacity.play();
     }
 }

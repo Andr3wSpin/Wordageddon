@@ -130,7 +130,7 @@ public class ScoreController implements Initializable {
         else
             diff = chosenDiff;
         leaderBoardButton.setVisible(true);
-        scoresButton.setVisible(false);
+
         scoreTableView.getColumns().clear();
 
         TableColumn<ObservableList<String>, String> userNameCol = new TableColumn<>("Username");
@@ -164,7 +164,7 @@ public class ScoreController implements Initializable {
      */
     public void showPlayerScores(Difficulty chosenDiff) {
         titleLabel.setText("Your Scores ");
-        scoresButton.setVisible(true);
+
         leaderBoardButton.setVisible(false);
         Difficulty diff;
         if (chosenDiff == null)

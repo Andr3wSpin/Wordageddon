@@ -1,5 +1,9 @@
 package controller.game_controllers;
 
+import javafx.animation.FadeTransition;
+import javafx.animation.ParallelTransition;
+import javafx.animation.ScaleTransition;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -8,7 +12,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup; // Importa ToggleGroup
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import model.Game;
 import model.questions_management.Question;
 
@@ -37,6 +43,9 @@ public class QuestionMenuController {
 
     @FXML
     private Button nextQuestionBtn;
+
+    @FXML
+    private Rectangle rectangleForAnimation;
 
     private ToggleGroup optionsGroup;
     private List<RadioButton> optionButtons;
@@ -109,10 +118,35 @@ public class QuestionMenuController {
      * Salva la risposta selezionata all'interno dell'attributo givenAnswer della risposta corrente,
      * passa alla domanda successiva o mostra la schermata dei risultati se il quiz è finito.
      */
+
+
+    private void AnimationWave() {
+
+        ScaleTransition scaleTransition = new ScaleTransition(Duration.seconds(0.3), rectangleForAnimation);
+        scaleTransition.setToX(2.5);
+        scaleTransition.setToY(2.5);
+        FadeTransition fadeTransition = new FadeTransition(Duration.seconds(0.3), rectangleForAnimation);
+        fadeTransition.setFromValue(0.5);
+        fadeTransition.setToValue(0.0);
+
+        ParallelTransition parallelTransition = new ParallelTransition(scaleTransition, fadeTransition);
+        parallelTransition.setOnFinished(e -> {
+            // Reset per futuri clic
+            rectangleForAnimation.setScaleX(0.0);
+            rectangleForAnimation.setScaleY(0.0);
+            rectangleForAnimation.setOpacity(0.0);
+        });
+
+        parallelTransition.play();
+    }
+
+
     @FXML
-    private void nextQuestion() {
+    void nextQuestion(ActionEvent event) {
+        AnimationWave();
         optionsGroup.selectToggle(null);
         RadioButton selectedRadioButton = (RadioButton) optionsGroup.getSelectedToggle();
+
         if (selectedRadioButton == null) {
             questions.get(index).setGivenAnswer("");
         } else {
@@ -146,7 +180,7 @@ public class QuestionMenuController {
             }
         }
 
-    }
 
+    }
 
 }
