@@ -85,7 +85,7 @@ public class AuthMenuController {
 
                         MainController mainMenuController = loader.getController();
 
-                        mainMenuController.setUser(user);  // esempio metodo per passare dati o inizializzare
+                        mainMenuController.init(user);
 
                         Stage stage = (Stage) loginButton.getScene().getWindow();
                         stage.setScene(new Scene(mainMenuRoot));

@@ -20,6 +20,7 @@ public class Wordageddon extends Application {
 
         scene = new Scene(loadFXML("AuthView"));
         stage.setScene(scene);
+        stage.setResizable(false);
         stage.show();
     }
 

@@ -166,7 +166,7 @@ public class ResultMenuController implements Initializable {
             Parent root = loader.load();
 
             MainController controller = loader.getController();
-            controller.setUser(accesDb.getUser(game.getPLAYER_ID()));
+            controller.init(accesDb.getUser(game.getPLAYER_ID()));
 
             Stage stage = (Stage) pointsLabel.getScene().getWindow();
             stage.setScene(new Scene(root));

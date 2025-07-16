@@ -169,6 +169,7 @@ public class ScoreController implements Initializable {
         titleLabel.setText("Your Scores ");
 
         leaderBoardButton.setVisible(false);
+        yourScoreButton.setVisible(true);
         Difficulty diff;
         if (chosenDiff == null)
             diff = Difficulty.EASY;
