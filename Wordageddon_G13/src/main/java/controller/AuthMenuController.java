@@ -49,7 +49,6 @@ public class AuthMenuController {
         signInBtn.setSelected(true);
     }
 
-    // Metodo per mostrare un messaggio di avviso sullo schermo
     private void showAlert(String title, String message) {
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle(title);
@@ -57,36 +56,28 @@ public class AuthMenuController {
         alert.setContentText(message);
         alert.showAndWait();
     }
+
     @FXML
-private void handleRegisterClick() {
-    try {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/RegisterView.fxml"));
-        Parent registerPage = loader.load();
+    private void handleRegisterClick() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/RegisterView.fxml"));
+            Parent registerPage = loader.load();
 
-        Stage stage = (Stage) loginButton.getScene().getWindow();
-        Scene newScene = new Scene(registerPage);
-        stage.setScene(newScene);
-        stage.show();
-    } catch (IOException e) {
-        e.printStackTrace();
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Errore");
-        alert.setHeaderText(null);
-        alert.setContentText("Errore nel caricamento della pagina di registrazione.");
-        alert.showAndWait();
+            Stage stage = (Stage) loginButton.getScene().getWindow();
+            Scene newScene = new Scene(registerPage);
+            stage.setScene(newScene);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Errore");
+            alert.setHeaderText(null);
+            alert.setContentText("Errore nel caricamento della pagina di registrazione.");
+            alert.showAndWait();
+        }
     }
-}
 
-    /*
-     * Hugo, si añades un objeto WordageddonDAOSqlite,
-     * puedes enviar todas las query que necesites.
-     * Dentro hay un método llamado checkCredentials
-     * que verifica si existe un usuario con el nombre
-     * y la contraseña que le pasas (los que están en los textField).
-     *
-     * Si tienes alguna pregunta sobre la clase WordageddonDAOSqlite,
-     * puedes preguntarme a mí (Paolo).
-     */
+
 
 @FXML
 private void handleLoginButtonAction(ActionEvent event) {
