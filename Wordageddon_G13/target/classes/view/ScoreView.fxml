@@ -26,9 +26,9 @@
             <Button fx:id="leaderBoardButton" layoutX="898.0" layoutY="716.0" mnemonicParsing="false" onAction="#loadLeaderBoard" prefHeight="33.0" prefWidth="142.0" style="-fx-background-color: red; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 15; -fx-background-radius: 8;" text="Reload Scores" />
             <HBox alignment="CENTER" layoutX="210.0" layoutY="678.0" prefHeight="100.0" prefWidth="490.0" spacing="100.0">
                <children>
-                  <RadioButton fx:id="hardButton" mnemonicParsing="false" style="-fx-font-weight: bold; -fx-font-size: 15;" text="Hard" textFill="WHITE" />
                   <RadioButton fx:id="easyButton" mnemonicParsing="false" style="-fx-font-size: 15; -fx-font-weight: bold;" text="Easy" textFill="WHITE" />
                   <RadioButton fx:id="mediumButton" mnemonicParsing="false" style="-fx-text-fill: white; -fx-font-size: 15; -fx-font-weight: bold;" text="Medium" textFill="WHITE" />
+                  <RadioButton fx:id="hardButton" mnemonicParsing="false" style="-fx-font-weight: bold; -fx-font-size: 15;" text="Hard" textFill="WHITE" />
                </children>
             </HBox>
             <Button fx:id="yourScoreButton" layoutX="898.0" layoutY="716.0" mnemonicParsing="false" onAction="#loadYourScore" prefHeight="33.0" prefWidth="142.0" style="-fx-background-color: red; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 15; -fx-background-radius: 8;" text="Reload Scores" />
