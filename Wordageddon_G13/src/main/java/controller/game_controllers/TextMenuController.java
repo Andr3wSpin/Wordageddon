@@ -4,7 +4,6 @@ import javafx.animation.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -12,7 +11,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.shape.Circle;
-import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import model.Game;
@@ -22,54 +20,42 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.List;
 
-import static java.nio.charset.StandardCharsets.UTF_8;
-
-
 /**
- * Controller per la visualizzazione sequenziale di testi letti da file.
- * Gestisce la visualizzazione del testo, la navigazione tra i testi e un timer complessivo.
+ * Controller per la visualizzazione sequenziale dei testi letti da file.
+ * Gestisce l’interfaccia utente per mostrare ogni testo e avanzare alla schermata delle domande.
  */
 public class TextMenuController {
 
-    /** Area di testo dove viene mostrato il contenuto del file corrente. */
     @FXML
     private TextArea textArea;
+
     @FXML
     private Circle graphicTimer;
 
-    /** Label che mostra il numero del testo attualmente visualizzato. */
     @FXML
     private Label numberOfFileLabel;
 
-    /** Label che mostra il tempo rimanente del timer complessivo. */
     @FXML
     private Label timerLabel;
 
-    /** Pulsante per passare al testo successivo o alla schermata delle domande. */
     @FXML
     private Button nextButton;
 
-    /** Riferimento all'istanza di gioco contenente i file e le impostazioni. */
     private Game game;
 
-    /** Lista dei file di testo da mostrare. */
     private List<File> files;
 
-    /** Indice del file attualmente visualizzato. */
     private int index;
 
-    /** Timer che gestisce il conto alla rovescia totale. */
     private Timer timer;
 
     private String[] fileText;
 
-
     /**
-     * Metodo di inizializzazione chiamato automaticamente da JavaFX dopo il caricamento del FXML.
-     * Imposta lo stato iniziale dei componenti UI.
+     * Metodo chiamato automaticamente dopo il caricamento del file FXML.
+     * Inizializza i componenti dell'interfaccia utente.
      */
     @FXML
     private void initialize() {
@@ -80,18 +66,21 @@ public class TextMenuController {
     }
 
     /**
-     * Avvia il controller con una specifica istanza di gioco.
-     * Inizializza la lista dei file, crea il timer e mostra il primo testo.
+     * Avvia il controller con una specifica istanza di {@link Game}.
+     * Carica i file da leggere, avvia il timer, e mostra il primo testo.
      *
-     * @param game istanza di gioco con configurazioni e file da leggere
+     * @param game l'istanza del gioco da cui recuperare file e impostazioni
      */
     public void start(Game game) {
         numberOfFileLabel.setText("Loading...");
         this.game = game;
         this.files = game.getChoosenFiles();
+
         int totalSeconds = game.getDifficuty().getReadTimePerFile() * 60 * files.size();
         timer = new Timer(totalSeconds);
+
         setupCircleTimer(totalSeconds);
+
         timer.setOnTick(remainingSeconds -> {
             int minutes = remainingSeconds / 60;
             int seconds = remainingSeconds % 60;
@@ -104,11 +93,8 @@ public class TextMenuController {
             numberOfFileLabel.setText("Text No. -");
             nextButton.setDisable(true);
         } else {
-
             fileText = getFileText();
-
-            if(fileText == null) {
-
+            if (fileText == null) {
                 showMessage("Impossibile ottenere il testo dei file!", Alert.AlertType.ERROR);
                 return;
             }
@@ -116,7 +102,6 @@ public class TextMenuController {
             timer.start();
             nextButton.setDisable(false);
             index = 0;
-
             showText(fileText[index]);
         }
 
@@ -125,38 +110,42 @@ public class TextMenuController {
         }
     }
 
+    /**
+     * Configura l'animazione circolare del timer grafico in base alla durata totale.
+     *
+     * @param totalSeconds durata totale in secondi del timer
+     */
     private void setupCircleTimer(int totalSeconds) {
         double radius = graphicTimer.getRadius();
-        double circ = 2*Math.PI*radius;
+        double circ = 2 * Math.PI * radius;
 
         graphicTimer.getStrokeDashArray().addAll(circ);
         graphicTimer.setStrokeDashOffset(0);
 
         Timeline timeLine = new Timeline(
-                new KeyFrame(Duration.ZERO,new KeyValue(graphicTimer.strokeDashOffsetProperty(),0)),
-                        new KeyFrame(Duration.seconds(totalSeconds),new KeyValue(graphicTimer.strokeDashOffsetProperty(),circ)
-                        )
-
+                new KeyFrame(Duration.ZERO, new KeyValue(graphicTimer.strokeDashOffsetProperty(), 0)),
+                new KeyFrame(Duration.seconds(totalSeconds), new KeyValue(graphicTimer.strokeDashOffsetProperty(), circ))
         );
         timeLine.setCycleCount(1);
         timeLine.play();
     }
 
     /**
-     * Mostra il contenuto del file corrente nell'area di testo.
-     * Aggiorna anche l'etichetta del numero di file visualizzato.
+     * Mostra il contenuto testuale di un file specifico nell'area di testo.
+     * Aggiorna anche l'etichetta con il numero del testo visualizzato.
+     *
+     * @param fileText il contenuto del file da mostrare
      */
     public void showText(String fileText) {
         numberOfFileLabel.setText("Text N°" + (index + 1));
-
         textArea.setText(fileText);
     }
 
     /**
-     * Gestisce l'evento di click sul pulsante "next".
-     * Passa al testo successivo o, se è l'ultimo, cambia scena per mostrare le domande.
+     * Gestisce il click sul pulsante "Next".
+     * Mostra il file successivo o, se è l'ultimo, passa alla schermata delle domande.
      *
-     * @param event evento di azione generato dal pulsante
+     * @param event l'evento di click generato dal pulsante
      */
     @FXML
     private void nextText(ActionEvent event) {
@@ -181,9 +170,9 @@ public class TextMenuController {
 
     /**
      * Carica la schermata delle domande alla fine della lettura dei testi.
+     * Cambia scena passando alla vista "QuestionView.fxml".
      */
     private void loadQuestion() {
-        System.out.println("prova");
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/QuestionView.fxml"));
             Parent root = loader.load();
@@ -199,18 +188,21 @@ public class TextMenuController {
         }
     }
 
+    /**
+     * Legge il contenuto di ciascun file e lo converte in un array di stringhe.
+     * Ogni stringa include il nome del file e il contenuto testuale.
+     *
+     * @return array di stringhe con il contenuto dei file, o {@code null} in caso di errore
+     */
     private String[] getFileText() {
-
         String[] fileText = new String[files.size()];
         int index = 0;
 
+        if (files == null || files.isEmpty()) return null;
 
-        if((files == null) || files.isEmpty()) return null;
-
-        for(File file : files) {
-
+        for (File file : files) {
             String fileName = file.getName().replace(".txt", "");
-            StringBuffer sb = new StringBuffer(fileName + "\n");
+            StringBuilder sb = new StringBuilder(fileName + "\n");
             try {
                 String content = new String(Files.readAllBytes(file.toPath()), StandardCharsets.UTF_8);
                 sb.append(content);
@@ -223,8 +215,13 @@ public class TextMenuController {
         return fileText;
     }
 
+    /**
+     * Mostra un messaggio di alert all’utente.
+     *
+     * @param msg  il messaggio da mostrare
+     * @param type il tipo di alert (es. ERROR, INFORMATION)
+     */
     private void showMessage(String msg, Alert.AlertType type) {
-
         Alert alert = new Alert(type);
         alert.setContentText(msg);
         alert.showAndWait();
