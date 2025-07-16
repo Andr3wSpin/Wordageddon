@@ -49,6 +49,9 @@ public class ScoreController implements Initializable {
     @FXML
     private Button leaderBoardButton;
 
+    @FXML
+    private Button yourScoreButton;
+
     private ToggleGroup diffToggleGroup;
 
 
@@ -105,7 +108,7 @@ public class ScoreController implements Initializable {
      * @param event l'evento di azione generato dal pulsante.
      */
     @FXML
-    public void loadScores(ActionEvent event) {
+    public void loadYourScore(ActionEvent event) {
         if(easyButton.isSelected())
             showPlayerScores(Difficulty.EASY);
         else
