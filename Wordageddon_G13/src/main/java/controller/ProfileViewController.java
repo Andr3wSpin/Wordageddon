@@ -14,6 +14,7 @@ import javafx.scene.media.MediaView;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import model.User;
+import model.db.WordageddonDAOSQLite;
 
 import java.io.IOException;
 import java.net.URL;
@@ -72,6 +73,8 @@ public class  ProfileViewController implements Initializable {
 
     private User user;
 
+    private WordageddonDAOSQLite accessDB;
+
     @FXML
     void ChangeDataButton(ActionEvent event) {
 
@@ -96,13 +99,29 @@ public class  ProfileViewController implements Initializable {
 
     @FXML
     private void confirmData(){
+
+        String newValue = newAttributeTextField.getText().trim();
+        if (newValue.isEmpty()) {
+            showAlert("Input Error", "Field cannot be empty.");
+            return;
+        }
+
         if(dataToggles.getSelectedToggle() == passwordToggle){
-            //change password
+            if(!accessDB.updateUser("password",user.getID(),newValue))
+                showAlert("Update Error","Insert e valid password");
+            else
+                showAlert("Success", "Password updated successfully.");
         } else if (dataToggles.getSelectedToggle() == usernameToggle) {
-            //change username
+            if(!accessDB.updateUser("username",user.getID(),newValue))
+                showAlert("Update Error","Insert e valid username");
+            else {
+                textField_NomeUser.setText(newValue);
+                showAlert("Success", "Username updated successfully.");
+            }
         }else {
             showAlert("Error", "Please select an option.");
         }
+
     }
 
     @FXML
@@ -127,6 +146,7 @@ public class  ProfileViewController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        accessDB = new WordageddonDAOSQLite();
         Media media = new Media(Objects.requireNonNull(getClass().getResource("/assets/sfondo.mp4")).toExternalForm());
         MediaPlayer mediaPlayer = new MediaPlayer(media);
         MediaViewWallPaper.setMediaPlayer(mediaPlayer);
@@ -140,7 +160,7 @@ public class  ProfileViewController implements Initializable {
         newAttributeTextField.setVisible(false);
         usernameToggle.setVisible(false);
         passwordToggle.setVisible(false);
-        
+
 
     }
 

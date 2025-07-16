@@ -93,7 +93,6 @@ public class MainController implements Initializable {
 
     public void setUser (User user){
         this.user = user;
-        System.out.println(user.getUsername());
     }
 
     @Override
