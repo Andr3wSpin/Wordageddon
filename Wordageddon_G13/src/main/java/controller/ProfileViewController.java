@@ -24,9 +24,6 @@ import java.util.ResourceBundle;
 public class  ProfileViewController implements Initializable {
 
     @FXML
-    private CheckBox AdminCheckBox;
-
-    @FXML
     private Button Button_LogOut;
 
     @FXML
@@ -64,9 +61,6 @@ public class  ProfileViewController implements Initializable {
 
     @FXML
     private Label labelLogOut;
-
-    @FXML
-    private Text textField_admin;
 
     @FXML
     private ToggleGroup dataToggles;
