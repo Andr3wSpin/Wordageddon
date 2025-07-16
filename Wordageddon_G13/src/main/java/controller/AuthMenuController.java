@@ -46,76 +46,53 @@ public class AuthMenuController {
     }
 
     @FXML
-<<<<<<< HEAD
-    private void handleRegisterClick() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/RegisterView.fxml"));
-            Parent registerPage = loader.load();
-
-            Stage stage = (Stage) loginButton.getScene().getWindow();
-            Scene newScene = new Scene(registerPage);
-            stage.setScene(newScene);
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Errore");
-            alert.setHeaderText(null);
-            alert.setContentText("Errore nel caricamento della pagina di registrazione.");
-            alert.showAndWait();
-        }
-=======
-private void handleRegisterClick() {
-    try {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/RegisterView.fxml"));
-        Parent registerPage = loader.load();
-        Stage stage = (Stage) loginButton.getScene().getWindow();
-        Scene newScene = new Scene(registerPage);
-        stage.setScene(newScene);
-        stage.show();
-    } catch (IOException e) {
-        e.printStackTrace();
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Errore");
-        alert.setHeaderText(null);
-        alert.setContentText("Errore nel caricamento della pagina di registrazione.");
-        alert.showAndWait();
->>>>>>> 3390facaed3075cf0f9bee389cd4d19e38c69554
-    }
-
-
-
-@FXML
-private void handleLoginButtonAction(ActionEvent event) {
-    String username = nomeUtenteTF.getText();
-    String password = passwordTF.getText();
-
-    if (username.isEmpty() || password.isEmpty()) {
-        showAlert("Campi mancanti", "Per favore inserisci username e password.");
-        return;
-    }
-
-    WordageddonDAO dao = new WordageddonDAOSQLite();
-    User user = dao.checkCredentials(username, password);
-
-    if (user != null && password != null) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/MainMenuView.fxml"));
-            Parent mainMenuRoot = loader.load();
-
-            Stage stage = (Stage) loginButton.getScene().getWindow();
-            stage.setScene(new Scene(mainMenuRoot));
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-            showAlert("Errore", "Impossibile caricare la schermata principale.");
+        private void handleRegisterClick () {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/RegisterView.fxml"));
+                Parent registerPage = loader.load();
+                Stage stage = (Stage) loginButton.getScene().getWindow();
+                Scene newScene = new Scene(registerPage);
+                stage.setScene(newScene);
+                stage.show();
+            } catch (IOException e) {
+                System.err.println(e.getMessage());
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Errore");
+                alert.setHeaderText(null);
+                alert.setContentText("Errore nel caricamento della pagina di registrazione.");
+                alert.showAndWait();
+            }
         }
 
-    } else {
-        showAlert("Login fallito", "Username o password errati.");
-        // Puedes reemplazar esto con validación real
-        showAlert("Login riuscito", "Benvenuto, " + username + "!");
+            @FXML
+            private void handleLoginButtonAction (ActionEvent event){
+                String username = nomeUtenteTF.getText();
+                String password = passwordTF.getText();
 
+                if (username.isEmpty() || password.isEmpty()) {
+                    showAlert("Campi mancanti", "Per favore inserisci username e password.");
+                    return;
+                }
+
+                WordageddonDAO dao = new WordageddonDAOSQLite();
+                User user = dao.checkCredentials(username, password);
+
+                if (user != null) {
+                    showAlert("Login Successful", "Welcome, " + user.getUsername() + "!");
+                    try {
+                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/MainMenuView.fxml"));
+                        Parent mainMenuRoot = loader.load();
+
+                        Stage stage = (Stage) loginButton.getScene().getWindow();
+                        stage.setScene(new Scene(mainMenuRoot));
+                        stage.show();
+                    } catch (IOException e) {
+                        System.err.println(e.getMessage());
+                        showAlert("Errore", "Impossibile caricare la schermata principale.");
+                    }
+
+                } else {
+                    showAlert("Login fallito", "Username o password errati.");
+                }
+            }
     }
-  }
-}

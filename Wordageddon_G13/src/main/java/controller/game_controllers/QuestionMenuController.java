@@ -144,9 +144,8 @@ public class QuestionMenuController {
     @FXML
     void nextQuestion(ActionEvent event) {
         AnimationWave();
-        optionsGroup.selectToggle(null);
         RadioButton selectedRadioButton = (RadioButton) optionsGroup.getSelectedToggle();
-
+        optionsGroup.selectToggle(null);
         if (selectedRadioButton == null) {
             questions.get(index).setGivenAnswer("");
         } else {

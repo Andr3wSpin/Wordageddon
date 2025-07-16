@@ -50,7 +50,7 @@ public class RegisterController {
         // Se l'utente esiste già o la registrazione fallisce
         showAlert(AlertType.ERROR, "Errore: l'utente esiste già o non è stato possibile registrarsi.");
     } else {
-        // Registro avvenuto con successo: torna alla vista di login
+        // Registro avvenuto con successo e torna al menu di login
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/AuthView.fxml"));
             Parent root = loader.load();
