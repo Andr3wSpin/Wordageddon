@@ -143,7 +143,6 @@ public class ResultMenuController implements Initializable {
      */
     @FXML
     public void goToMenu(ActionEvent event) {
-
         accesDb.insertScore(game.getPLAYER_ID(), game.getDate().toString(), game.getScore(), game.getDifficuty().toString());
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/MainMenuView.fxml"));

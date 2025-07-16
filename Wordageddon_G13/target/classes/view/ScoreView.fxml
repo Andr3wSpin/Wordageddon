@@ -19,7 +19,7 @@
          <children>
             <TableView fx:id="scoreTableView" layoutX="194.0" layoutY="210.0" prefHeight="468.0" prefWidth="922.0" style="-fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #1a1a2e, #16213e, #0f3460), radial-gradient(radius 100%, transparent, #00000066);" />
             <Label fx:id="avgScoreLabel" layoutX="535.0" layoutY="152.0" prefHeight="17.0" prefWidth="234.0" text="Label" textAlignment="CENTER" textFill="WHITE" />
-            <Label fx:id="titleLabel" layoutX="500.0" layoutY="75.0" prefHeight="70.0" prefWidth="142.0" text="Label" textAlignment="CENTER" textFill="#f70a0a">
+            <Label fx:id="titleLabel" layoutX="500.0" layoutY="75.0" prefHeight="70.0" prefWidth="368.0" text="Label" textAlignment="CENTER" textFill="#f70a0a">
                <font>
                   <Font name="Microsoft YaHei Bold" size="48.0" />
                </font></Label>
