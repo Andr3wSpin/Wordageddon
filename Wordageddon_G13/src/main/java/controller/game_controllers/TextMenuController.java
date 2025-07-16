@@ -86,6 +86,12 @@ public class TextMenuController {
             int seconds = remainingSeconds % 60;
             String text = String.format("%02d:%02d", minutes, seconds);
             javafx.application.Platform.runLater(() -> timerLabel.setText(text));
+
+            if(remainingSeconds == 0){
+                showMessage("Time's Over", Alert.AlertType.ERROR);
+                loadQuestion();
+                }
+
         });
 
         if (files == null || files.isEmpty()) {
