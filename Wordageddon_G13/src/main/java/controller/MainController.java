@@ -97,7 +97,7 @@ public class MainController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
+        System.out.println("initialize");
         fa = new FileAnalysis();
         try {
             fa = fa.readAnalysis();
@@ -266,7 +266,6 @@ public class MainController implements Initializable {
 
             controllerAdmin = loader.getController();
 
-            // Mostra la pagina admin
             root.setCenter(adminPage);
             button_yoursScore.setVisible(false);
             button_GlobalScorres.setVisible(false);
