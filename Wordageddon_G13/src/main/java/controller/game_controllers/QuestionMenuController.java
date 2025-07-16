@@ -11,7 +11,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
-import javafx.scene.control.ToggleGroup; // Importa ToggleGroup
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -21,6 +21,10 @@ import model.questions_management.Question;
 import java.io.IOException;
 import java.util.*;
 
+/**
+ * Controller per la gestione della schermata delle domande del quiz.
+ * Mostra le domande, gestisce la selezione delle risposte e la transizione alla schermata dei risultati.
+ */
 public class QuestionMenuController {
 
     @FXML
@@ -55,8 +59,9 @@ public class QuestionMenuController {
     private List<Question> questions;
 
     /**
-     * Inizializza i componenti dell'interfaccia. Configura il gruppo di bottoni
-     * per le risposte e imposta i testi iniziali.
+     * Inizializza i componenti dell'interfaccia.
+     * Configura il gruppo di toggle per le risposte e imposta i testi iniziali.
+     * Viene automaticamente chiamato da JavaFX dopo il caricamento dell'FXML.
      */
     @FXML
     private void initialize() {
@@ -64,7 +69,6 @@ public class QuestionMenuController {
         index = 0;
 
         nextQuestionBtn.setText("Next question");
-
 
         optionsGroup = new ToggleGroup();
         option1Btn.setToggleGroup(optionsGroup);
@@ -77,61 +81,55 @@ public class QuestionMenuController {
         optionButtons.add(option3Btn);
         optionButtons.add(option4Btn);
 
-
         option1Btn.setText("Option 1");
         option2Btn.setText("Option 2");
         option3Btn.setText("Option 3");
         option4Btn.setText("Option 4");
-
     }
+
     /**
      * Avvia la visualizzazione del quiz con le domande fornite dal gioco.
+     * Inizializza la lista delle domande e mostra la prima.
      *
      * @param game l'oggetto Game contenente le domande
      */
-    public void start(Game game){
+    public void start(Game game) {
         this.questions = new ArrayList<>(game.getQuestions());
         this.game = game;
         showQuestion();
     }
 
     /**
-     * Mostra la domanda corrente e le sue possibili risposte.
+     * Mostra la domanda corrente e le possibili risposte selezionabili dall'utente.
+     * Aggiorna il testo della domanda e i testi dei pulsanti di risposta.
      */
-    private void showQuestion(){
-        Set<String> answers = new HashSet<>();
-        numberQuestionLabel.setText("Question N°"+(index+1));
-        answers = (questions.get(index).getAnswers());
-        questionLabel.setText((questions.get(index).getQuestion()));
+    private void showQuestion() {
+        Set<String> answers = questions.get(index).getAnswers();
+        numberQuestionLabel.setText("Question N°" + (index + 1));
+        questionLabel.setText(questions.get(index).getQuestion());
 
         int answIndex = 0;
-
-        for (String answer : answers){
+        for (String answer : answers) {
             optionButtons.get(answIndex).setText(answer);
-            answIndex+=1;
+            answIndex++;
         }
-
     }
 
     /**
-     * Gestisce il click sul bottone "Next question" o "Go to summary".
-     * Salva la risposta selezionata all'interno dell'attributo givenAnswer della risposta corrente,
-     * passa alla domanda successiva o mostra la schermata dei risultati se il quiz è finito.
+     * Applica un'animazione visiva all'interazione con il rettangolo.
+     * Animazione usata per effetti di transizione tra le domande.
      */
-
-
     private void AnimationWave() {
-
         ScaleTransition scaleTransition = new ScaleTransition(Duration.seconds(0.3), rectangleForAnimation);
         scaleTransition.setToX(2.5);
         scaleTransition.setToY(2.5);
+
         FadeTransition fadeTransition = new FadeTransition(Duration.seconds(0.3), rectangleForAnimation);
         fadeTransition.setFromValue(0.5);
         fadeTransition.setToValue(0.0);
 
         ParallelTransition parallelTransition = new ParallelTransition(scaleTransition, fadeTransition);
         parallelTransition.setOnFinished(e -> {
-            // Reset per futuri clic
             rectangleForAnimation.setScaleX(0.0);
             rectangleForAnimation.setScaleY(0.0);
             rectangleForAnimation.setOpacity(0.0);
@@ -140,12 +138,19 @@ public class QuestionMenuController {
         parallelTransition.play();
     }
 
-
+    /**
+     * Gestisce il click sul bottone "Next question" o "Go to summary".
+     * Salva la risposta selezionata, passa alla prossima domanda oppure carica
+     * la schermata dei risultati se il quiz è terminato.
+     *
+     * @param event evento generato dal click sul pulsante next Question
+     */
     @FXML
     void nextQuestion(ActionEvent event) {
         AnimationWave();
         RadioButton selectedRadioButton = (RadioButton) optionsGroup.getSelectedToggle();
         optionsGroup.selectToggle(null);
+
         if (selectedRadioButton == null) {
             questions.get(index).setGivenAnswer("");
         } else {
@@ -154,11 +159,9 @@ public class QuestionMenuController {
 
         if (index < questions.size() - 1) {
             index++;
-
             if (index == questions.size() - 1) {
                 nextQuestionBtn.setText("Go to summary");
             }
-
             showQuestion();
         } else {
             try {
@@ -166,11 +169,9 @@ public class QuestionMenuController {
                 Parent root = loader.load();
 
                 ResultMenuController controller = loader.getController();
-
                 controller.start(game);
 
                 Stage stage = (Stage) nextQuestionBtn.getScene().getWindow();
-
                 stage.setScene(new Scene(root));
                 stage.show();
 
@@ -178,8 +179,5 @@ public class QuestionMenuController {
                 e.printStackTrace();
             }
         }
-
-
     }
-
 }
