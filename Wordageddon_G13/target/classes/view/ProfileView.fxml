@@ -37,17 +37,8 @@
                   <Font name="Microsoft YaHei Bold" size="45.0" />
                </font>
             </Text>
-            <HBox alignment="CENTER">
-               <children>
-                  <Text fx:id="textField_admin" fill="#f7f7f7" strokeType="OUTSIDE" strokeWidth="0.0" text="Do you want to become/You are" textAlignment="CENTER" wrappingWidth="495.5708236694336">
-                     <font>
-                        <Font name="Microsoft YaHei Bold" size="28.0" />
-                     </font>
-                  </Text>
-                  <CheckBox fx:id="AdminCheckBox" mnemonicParsing="false" onAction="#becameAdmin" />
-               </children>
-            </HBox>
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="40.0">
+            <HBox alignment="CENTER" />
+            <HBox alignment="CENTER" prefHeight="166.0" prefWidth="1400.0" spacing="40.0">
                <children>
                   <Button fx:id="Button_LogOut" mnemonicParsing="false" onAction="#LogOut_Button" prefHeight="50.0" prefWidth="166.0" style="-fx-border-color: red; -fx-background-color: red; -fx-text-fill: white; -fx-font-family: &quot;Microsoft YaHei&quot;; -fx-font-size: 20; -fx-border-radius: 20; -fx-background-radius: 15;">
                      <graphic>
@@ -93,10 +84,10 @@
                   </Button>
                </children>
             </HBox>
-            <Pane prefHeight="128.0" prefWidth="1400.0">
+            <Pane prefHeight="228.0" prefWidth="1400.0">
                <children>
                   <TextField fx:id="newAttributeTextField" layoutX="607.0" layoutY="59.0" />
-                  <Label fx:id="newAttributeLabel" layoutX="391.0" layoutY="64.0" prefHeight="21.0" prefWidth="186.0" text="Label" textFill="WHITE" />
+                  <Label fx:id="newAttributeLabel" layoutX="411.0" layoutY="64.0" prefHeight="21.0" prefWidth="166.0" text="Label" textFill="WHITE" />
                   <Button fx:id="confirmButton" layoutX="829.0" layoutY="59.0" mnemonicParsing="false" onAction="#confirmData" text="Confirm" />
                   <RadioButton fx:id="passwordToggle" layoutX="565.0" layoutY="4.0" mnemonicParsing="false" onAction="#passwordOnLabel" text="Change password" textFill="WHITE" />
                   <RadioButton fx:id="usernameToggle" layoutX="738.0" layoutY="4.0" mnemonicParsing="false" onAction="#usernameOnLabel" text="Change username" textFill="WHITE" />
