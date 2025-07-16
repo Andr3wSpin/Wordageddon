@@ -87,7 +87,7 @@
                         </StackPane>
                      </graphic>
                   </Button>
-                  <Button fx:id="ChangeDataButton1" mnemonicParsing="false" onAction="#ChangeDataButton" prefHeight="50.0" prefWidth="215.0" style="-fx-border-color: red; -fx-background-color: red; -fx-text-fill: white; -fx-font-family: &quot;Microsoft YaHei&quot;; -fx-font-size: 20; -fx-border-radius: 20; -fx-background-radius: 15;">
+                  <Button fx:id="ChangeDataButton1" mnemonicParsing="false" onAction="#deleteAccount" prefHeight="50.0" prefWidth="215.0" style="-fx-border-color: red; -fx-background-color: red; -fx-text-fill: white; -fx-font-family: &quot;Microsoft YaHei&quot;; -fx-font-size: 20; -fx-border-radius: 20; -fx-background-radius: 15;">
                      <graphic>
                         <StackPane fx:id="deleteAccountButton" alignment="CENTER_LEFT" prefHeight="33.0" prefWidth="104.0">
                            <cursor>
