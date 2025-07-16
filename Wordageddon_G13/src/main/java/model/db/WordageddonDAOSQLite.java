@@ -4,14 +4,14 @@ import model.User;
 import model.enums.Difficulty;
 import model.enums.UserType;
 
+import java.io.File;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class WordageddonDAOSQLite implements WordageddonDAO {
 
-
-    private static final String DB_URL = "jdbc:sqlite:data/db/wordageddonDB.db";
+    private static final String DB_URL = "jdbc:sqlite:Wordageddon_G13/data/db/wordageddonDB.db";
 
     @Override
     public User getUser(int id) {

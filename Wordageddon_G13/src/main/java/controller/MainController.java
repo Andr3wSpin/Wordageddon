@@ -105,12 +105,17 @@ public class MainController implements Initializable {
         setCSS();
     }
 
-    public void init(User user) {
+public void init(User user) {
+    this.user = user;
 
-        this.user = user;
-
-        loadGamePage();
+    if (user.getType() != UserType.ADMIN) {
+        NavigationBarItem_Admin.setManaged(false);
+        NavigationBarItem_Admin.setVisible(false);
     }
+
+    loadGamePage();
+}
+
 
     /**
      * Imposta l'hover sui pulsanti
@@ -191,6 +196,7 @@ public class MainController implements Initializable {
 
     @FXML
     void Button_SetAdmin(ActionEvent event) {
+        
        loadAdminPage();
     }
 
