@@ -1,6 +1,7 @@
 # File binari da ignorare
 *.db
 *.dat
+*.bat
 
 # Directory di build (a qualsiasi profondità)
 **/target/
