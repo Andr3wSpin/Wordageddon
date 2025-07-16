@@ -1,6 +1,6 @@
 package model.enums;
 
-public enum QuestionType {
+public enum  QuestionType {
 
     TYPE1("Quante volte compare la parola '<parola>' nel documento '<nome_documento>'?:"),
     TYPE2("Quale tra le seguenti parole è più frequente nel documento '<nome_documento>'?:"),

@@ -134,11 +134,15 @@ public class CreateQuestions {
         return new Question(questionText, correctAnswer, randomAnswer);
     }
 
-    private Question createQuestionType3(
+    private Question createQuestionType3() {
+        String parola;
+        String nomeFile = choosenFiles.get(0);
+         fileAnalysis.get(nomeFile).keySet().stream().filter(
+                 words-> fileAnalysis.keySet().stream().forEach(
+                   file -> {
+                       if (fileAnalysis.get(file).keySet().contains(words)){ parola = words;}
 
-
-    ) {
-        return null;
+                   });
     }
 
     private Question createQuestionType4() {
