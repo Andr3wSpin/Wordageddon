@@ -67,7 +67,7 @@
                            <children>
                               <ImageView fx:id="image_Logout" fitHeight="38.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../assets/edit%20Profile.png" />
+                                    <Image url="@../assets/editProfile.png" />
                                  </image>
                               </ImageView>
                               <Label fx:id="Label_ChangeData" alignment="CENTER" prefHeight="27.0" prefWidth="251.0" style="-fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 20;" text="Change  Data">
