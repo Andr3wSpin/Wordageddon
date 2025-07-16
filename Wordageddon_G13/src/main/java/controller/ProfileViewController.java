@@ -140,6 +140,7 @@ public class  ProfileViewController implements Initializable {
         newAttributeTextField.setVisible(false);
         usernameToggle.setVisible(false);
         passwordToggle.setVisible(false);
+        
 
     }
 
