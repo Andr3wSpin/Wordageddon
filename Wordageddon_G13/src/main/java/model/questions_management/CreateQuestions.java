@@ -30,7 +30,7 @@ public class CreateQuestions {
         Set<Question> questionSet = new HashSet<>();
 
         while (questionSet.size() < questionsNumber) {
-            System.out.println("while tipo domande");
+
             progressUpdater.accept(questionSet.size() + 1);
 
             QuestionType qt = questionTypes.get(new Random().nextInt(questionTypes.size()));
@@ -43,19 +43,11 @@ public class CreateQuestions {
                 case TYPE4: q = createQuestionType4(); break;
             }
 
-            System.out.println(q);
-            if (q == null) {
-                System.out.println("Domanda generata null, riprovo...");
-                continue; // evita di aggiungere null e riprova
-            }
+            if (q == null) continue;
 
-            if (questionSet.contains(q)) {
-                System.out.println("Domanda duplicata, riprovo...");
-                continue; // evita duplicati
-            }
-            System.out.println("Doamnda generata: " + q + "difficolta: " + qt);
+            if (questionSet.contains(q)) continue;
+
             questionSet.add(q);
-            System.out.println("QSet: " + questionSet);
         }
 
         return questionSet;
@@ -67,15 +59,15 @@ public class CreateQuestions {
      * @return la domanda completa di risposta esatta, testo domanda e risposte sbagliate
      */
     private Question createQuestionType1() {
-        String testo = QuestionType.TYPE1.getText();
-        int randomFile = new Random().nextInt(choosenFiles.size());
-        String nomeFile = choosenFiles.get(randomFile);
 
-        List<String> allWordsInFile = new ArrayList<>(fileAnalysis.get(nomeFile).keySet());
+        int randomFile = new Random().nextInt(choosenFiles.size());
+        String fileName = choosenFiles.get(randomFile);
+
+        List<String> allWordsInFile = new ArrayList<>(fileAnalysis.get(fileName).keySet());
         int randomWord = new Random().nextInt(allWordsInFile.size());
 
-        String parola = allWordsInFile.get(randomWord);
-        Integer correctAnswer = fileAnalysis.get(nomeFile).get(parola);
+        String word = allWordsInFile.get(randomWord);
+        Integer correctAnswer = fileAnalysis.get(fileName).get(word);
 
         Set<String> randomAnswer = new HashSet<>();
         randomAnswer.add(correctAnswer.toString());
@@ -86,9 +78,9 @@ public class CreateQuestions {
             randomAnswer.add(randomResult.toString());
         }
 
-        String domanda = testo
-                .replace("<parola>", parola)
-                .replace("<documento>", nomeFile);
+        String domanda = QuestionType.TYPE1.getText()
+                .replace("<parola>", word)
+                .replace("<nome_documento>", fileName.replace(".txt", ""));
 
         return new Question(domanda, correctAnswer.toString(), randomAnswer);
     }
@@ -125,8 +117,8 @@ public class CreateQuestions {
 
         String correctAnswer = mostFrequentWords.get(random.nextInt(mostFrequentWords.size()));
 
-        String questionText = QuestionType.TYPE2.getText();
-        questionText.replace("<nome_documento>", fileName);
+        String questionText = QuestionType.TYPE2.getText().
+                replace("<nome_documento>", fileName.replace(".txt", ""));
 
         Set<String> randomAnswer = new HashSet<>();
         randomAnswer.add(correctAnswer);
@@ -134,7 +126,7 @@ public class CreateQuestions {
         List<String> words = wordCounts.keySet().stream().collect(Collectors.toList());
 
         while(randomAnswer.size() < 4) {
-            System.out.println("While type2");
+
             String word = words.get(random.nextInt(words.size()));
             randomAnswer.add(word);
         }
