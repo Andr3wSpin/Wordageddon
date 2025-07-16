@@ -1,10 +1,10 @@
 # File binari da ignorare
-/data/db/wordageddonDB.db
-/data/analysis/analysis.dat
+*.db
+*.dat
 
-# Directory di build
-/target/
-/build/
+# Directory di build (a qualsiasi profondità)
+**/target/
+**/build/
 
 # File compilati
 *.class
