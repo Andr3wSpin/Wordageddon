@@ -73,6 +73,7 @@ public class ScoreController implements Initializable {
         hardButton.setToggleGroup(diffToggleGroup);
         diffToggleGroup.selectToggle(null);
         showLeaderboard(Difficulty.EASY);
+        diffToggleGroup.selectToggle(easyButton);
     }
 
     /**
