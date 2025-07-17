@@ -1,49 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="controller.RegisterController"
-            prefWidth="1400.0" prefHeight="800.0"
-            style="-fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #1a1a2e, #16213e, #0f3460), radial-gradient(radius 100%, transparent, #00000066);">
+<BorderPane prefHeight="800.0" prefWidth="1400.0" style="-fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #1a1a2e, #16213e, #0f3460), radial-gradient(radius 100%, transparent, #00000066);" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.RegisterController">
 
     <top>
-        <HBox style="-fx-background-color: #0f3460; -fx-padding: 10;" spacing="20" alignment="CENTER_LEFT">
-            <Label text="WORDAGEDDON" 
-                   style="-fx-text-fill: white; -fx-font-size: 24px; -fx-font-weight: bold;" />
+        <HBox alignment="CENTER_LEFT" spacing="20" style="-fx-background-color: #0f3460; -fx-padding: 10;">
+           <children>
+               <Label style="-fx-text-fill: white; -fx-font-size: 24px; -fx-font-weight: bold;" text="WORDAGEDDON" />
+           </children>
         </HBox>
     </top>
 
     <center>
-        <VBox alignment="CENTER" spacing="20" maxWidth="400"
-              style="-fx-background-color: rgba(255,255,255,0.05); -fx-background-radius: 20; -fx-padding: 40;">
-            
-            <Label text="Registrati"
-                   style="-fx-text-fill: white; -fx-font-size: 28px; -fx-font-weight: bold;" />
-
-            <TextField fx:id="nomeUtenteTF" promptText="User name"
-                       style="-fx-background-radius: 10; -fx-background-color: #eeeeee; -fx-padding: 10;" />
-
-            <HBox alignment="CENTER_LEFT" spacing="5">
-                <PasswordField fx:id="passwordPF" promptText="Password"
-                               style="-fx-background-radius: 10; -fx-background-color: #eeeeee; -fx-padding: 10;" 
-                               HBox.hgrow="ALWAYS" />
-                <TextField fx:id="passwordTF" promptText="Password"
-                           style="-fx-background-radius: 10; -fx-background-color: #eeeeee; -fx-padding: 10;"
-                           visible="false" managed="false" HBox.hgrow="ALWAYS" />
-                <ToggleButton fx:id="showPasswordBtn" text="👁"
-                              style="-fx-background-radius: 10;" />
-            </HBox>
-
-            <CheckBox fx:id="adminCheckBox" text="Registra come admin"
-                      style="-fx-text-fill: white; -fx-font-size: 14px;" />
-
-            <Button fx:id="registerButton" text="Register" onAction="#handleRegisterButtonAction"
-                    style="-fx-background-color: #0f3460; -fx-text-fill: white; -fx-font-size: 16px; -fx-background-radius: 10; -fx-padding: 10 20;" />
-
-            <Button text="Torna a login" onMouseClicked="#handleBackToLoginClick"
-                    style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-size: 14px; -fx-underline: true; -fx-cursor: hand;" />
+        <VBox alignment="CENTER" maxWidth="400" spacing="20" style="-fx-background-color: rgba(255,255,255,0.05); -fx-background-radius: 20; -fx-padding: 40;">
+           <children>
+               
+               <Label style="-fx-text-fill: white; -fx-font-size: 28px; -fx-font-weight: bold;" text="Sign-Up" />
+   
+               <TextField fx:id="nomeUtenteTF" promptText="User name" style="-fx-background-radius: 10; -fx-background-color: #eeeeee; -fx-padding: 10;" />
+   
+               <HBox alignment="CENTER_LEFT" spacing="5">
+      <children>
+                      <PasswordField fx:id="passwordPF" promptText="Password" style="-fx-background-radius: 10; -fx-background-color: #eeeeee; -fx-padding: 10;" HBox.hgrow="ALWAYS" />
+                      <TextField fx:id="passwordTF" managed="false" promptText="Password" style="-fx-background-radius: 10; -fx-background-color: #eeeeee; -fx-padding: 10;" visible="false" HBox.hgrow="ALWAYS" />
+                      <ToggleButton fx:id="showPasswordBtn" style="-fx-background-radius: 10;" text="👁" />
+      </children>
+               </HBox>
+   
+               <CheckBox fx:id="adminCheckBox" style="-fx-text-fill: white; -fx-font-size: 14px;" text="Sign-Up as Admin" />
+   
+               <Button fx:id="registerButton" onAction="#handleRegisterButtonAction" style="-fx-background-color: #0f3460; -fx-text-fill: white; -fx-font-size: 16px; -fx-background-radius: 10; -fx-padding: 10 20;" text="Register" />
+   
+               <Button onMouseClicked="#handleBackToLoginClick" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-size: 14px; -fx-underline: true; -fx-cursor: hand;" text="Go back to login" />
+           </children>
 
         </VBox>
     </center>

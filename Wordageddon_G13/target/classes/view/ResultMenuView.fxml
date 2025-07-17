@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
@@ -8,7 +13,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane prefHeight="800.0" prefWidth="1400.0" style="-fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #1a1a2e, #16213e, #0f3460);" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.game_controllers.ResultMenuController">
+<Pane prefHeight="800.0" prefWidth="1400.0" style="-fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #1a1a2e, #16213e, #0f3460);" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.game_controllers.ResultMenuController">
     <children>
         <Label layoutX="568.0" layoutY="71.0" text="Partita terminata" textFill="#f70000">
             <font>
@@ -27,7 +32,7 @@
          <font>
             <Font name="System Bold" size="15.0" />
          </font></Label>
-        <Label layoutX="394.0" layoutY="161.0" text="Punteggio totale:" />
+        <Label layoutX="649.0" layoutY="140.0" text="Punteggio totale:" textFill="WHITE" />
         <Label fx:id="correctAnswersLabel" layoutX="450.0" layoutY="610.0" style="-fx-font-weight: bold;" text="Label" textFill="WHITE">
          <font>
             <Font size="15.0" />
@@ -40,7 +45,7 @@
          <font>
             <Font name="System Bold" size="15.0" />
          </font></Label>
-        <Label fx:id="pointsLabel" layoutX="515.0" layoutY="161.0" text="Label" />
+        <Label fx:id="pointsLabel" layoutX="766.0" layoutY="140.0" text="Label" textFill="WHITE" />
         <TableView fx:id="resultsTableView" layoutX="249.0" layoutY="178.0" prefHeight="397.0" prefWidth="902.0">
             <columns>
                 <TableColumn fx:id="questionColumn" prefWidth="587.0" text="Domanda" />
