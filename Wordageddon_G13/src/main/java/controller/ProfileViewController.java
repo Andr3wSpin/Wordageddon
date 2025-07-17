@@ -23,8 +23,6 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.scene.layout.StackPane;
 
-import javax.swing.plaf.metal.MetalBorders;
-
 /**
  * Controller per la vista del profilo utente.
  * Gestisce le interazioni dell'utente nella schermata del profilo,
@@ -62,7 +60,6 @@ public class ProfileViewController implements Initializable {
     @FXML
     private RadioButton usernameToggle;
 
-
     @FXML
     private ImageView image_Logout;
 
@@ -74,14 +71,19 @@ public class ProfileViewController implements Initializable {
     private User user;
 
     private WordageddonDAOSQLite accessDB;
+
     @FXML
     private Text Welcome;
+
     @FXML
     private Label Label_ChangeData1;
+
     @FXML
     private Button ChangeDataButton1;
+
     @FXML
     private StackPane deleteAccountButton;
+
     @FXML
     private Label Label_ChangeData11;
 
@@ -107,7 +109,7 @@ public class ProfileViewController implements Initializable {
      */
     @FXML
     private void passwordOnLabel(){
-        newAttributeLabel.setText("New Password:");
+        newAttributeLabel.setText("Nuova Password:");
     }
 
     /**
@@ -115,7 +117,7 @@ public class ProfileViewController implements Initializable {
      */
     @FXML
     private void usernameOnLabel(){
-        newAttributeLabel.setText("New username:");
+        newAttributeLabel.setText("Nuovo Username:");
     }
 
     /**
@@ -134,12 +136,12 @@ public class ProfileViewController implements Initializable {
 
         if(dataToggles.getSelectedToggle() == passwordToggle){
             if(!accessDB.updateUser("password",user.getID(),newValue))
-                showAlert("Errore di aggiornamento","Inserisci una password valida");
+                showAlert("Errore di aggiornamento","Inserisci una password valida.");
             else
                 showAlert("Successo", "Password aggiornata con successo.");
         } else if (dataToggles.getSelectedToggle() == usernameToggle) {
             if(!accessDB.updateUser("username",user.getID(),newValue))
-                showAlert("Errore di aggiornamento","Inserisci uno username valido");
+                showAlert("Errore di aggiornamento","Inserisci uno username valido.");
             else {
                 textField_NomeUser.setText(newValue);
                 showAlert("Successo", "Username aggiornato con successo.");
@@ -151,25 +153,28 @@ public class ProfileViewController implements Initializable {
 
     /**
      * Gestisce l'evento di click sul bottone "Log Out".
-     * Carica la vista di autenticazione e cambia la scena corrente,
-     * effettuando il logout dell'utente.
+     * Chiama il metodo {@link #logOut()} per effettuare il logout.
      * @param event L'evento di azione che ha scatenato il metodo.
-     * @throws IOException Se si verifica un errore durante il caricamento della vista.
      */
     @FXML
-    private void LogOut_Button(ActionEvent event) throws IOException {
-
+    private void LogOut_Button(ActionEvent event) {
         logOut();
     }
 
+    /**
+     * Effettua il logout dell'utente.
+     * Carica la vista di autenticazione (`AuthView.fxml`) e imposta la nuova scena,
+     * reindirizzando l'utente alla schermata di login.
+     * Gestisce eventuali {@link IOException} che possono verificarsi durante il caricamento del FXML.
+     */
     private void logOut() {
-
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/AuthView.fxml"));
-        Parent loginPage = null;
+        Parent loginPage;
         try {
             loginPage = loader.load();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+
+            throw new RuntimeException("Impossibile caricare la vista di autenticazione.", e);
         }
 
         Stage stage = (Stage) Button_LogOut.getScene().getWindow();
@@ -178,41 +183,41 @@ public class ProfileViewController implements Initializable {
         stage.show();
     }
 
-
     /**
      * Imposta l'utente corrente per la vista del profilo.
-     * Aggiorna il campo di testo con il nome utente.
-     * @param user L'oggetto User da impostare.
+     * Aggiorna il campo di testo `textField_NomeUser` con lo username dell'utente.
+     * @param user L'oggetto {@link User} da impostare.
      */
     public void setUser(User user){
-        this.user=user;
+        this.user = user;
         textField_NomeUser.setText(user.getUsername());
     }
 
     /**
-     * Inizializza il controller.
+     * Inizializza il controller dopo che il suo elemento radice è stato completamente processato.
      * Inizializza l'accesso al database, riproduce il video di sfondo,
-     * configura i toggle button e nasconde i campi di modifica dati iniziali.
-     * @param location L'URL della posizione del file FXML.
-     * @param resources Le risorse specifiche della localizzazione.
+     * configura i toggle button per la selezione dei dati da modificare e nasconde
+     * inizialmente i campi di modifica dati.
+     * @param location L'URL della posizione del file FXML, o {@code null} se sconosciuto.
+     * @param resources Le risorse specifiche della localizzazione, o {@code null} se non usate.
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         accessDB = new WordageddonDAOSQLite();
 
-
+        // Configura e riproduce il video di sfondo
         Media media = new Media(Objects.requireNonNull(getClass().getResource("/assets/sfondo.mp4")).toExternalForm());
         MediaPlayer mediaPlayer = new MediaPlayer(media);
         MediaViewWallPaper.setMediaPlayer(mediaPlayer);
         mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE); // Riproduzione in loop
         mediaPlayer.play();
 
-
+        // Inizializza il ToggleGroup per i RadioButton di selezione dati
         dataToggles = new ToggleGroup();
         usernameToggle.setToggleGroup(dataToggles);
         passwordToggle.setToggleGroup(dataToggles);
 
-
+        // Nasconde inizialmente i campi e i pulsanti per la modifica dei dati
         confirmButton.setVisible(false);
         newAttributeLabel.setVisible(false);
         newAttributeTextField.setVisible(false);
@@ -220,10 +225,8 @@ public class ProfileViewController implements Initializable {
         passwordToggle.setVisible(false);
     }
 
-
-
     /**
-     * Mostra una finestra di alert all'utente.
+     * Mostra una finestra di alert all'utente con un messaggio informativo.
      * @param title Il titolo dell'alert.
      * @param message Il messaggio da visualizzare nell'alert.
      */
@@ -235,20 +238,29 @@ public class ProfileViewController implements Initializable {
         alert.showAndWait(); // Attende che l'utente chiuda l'alert
     }
 
+    /**
+     * Gestisce l'evento di click sul pulsante di eliminazione dell'account.
+     * Mostra una finestra di conferma all'utente prima di procedere con l'eliminazione.
+     * Se l'utente conferma, l'account viene eliminato dal database e l'utente viene disconnesso.
+     * @param event L'evento di azione che ha scatenato il metodo.
+     */
     @FXML
     private void deleteAccount(ActionEvent event) {
-
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Elimiazione account");
-        alert.setContentText("Sei sicuro di voler eliminare l'account?");
+        alert.setTitle("Eliminazione account");
+        alert.setContentText("Sei sicuro di voler eliminare l'account? Questa operazione è irreversibile.");
 
         Optional<ButtonType> choice = alert.showAndWait();
 
         if(choice.isPresent() && choice.get() == ButtonType.OK) {
-
+            // Elimina l'utente dal database
             accessDB.deleteUser(user.getID());
+            // Effettua il logout dopo l'eliminazione
             logOut();
         }
-        else event.consume();
+        else {
+            // Se l'utente annulla, consuma l'evento per evitare ulteriori azioni
+            event.consume();
+        }
     }
 }

@@ -29,67 +29,65 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 
+/**
+ * Controller principale dell'applicazione.
+ * Gestisce la navigazione tra le pagine, l'interazione con i file,
+ * e le operazioni disponibili per utenti admin e normali.
+ */
 public class MainController implements Initializable {
 
 
-    @FXML
-    private HBox NavigationBar;
+    @FXML private HBox NavigationBar;
 
-    @FXML
-    private Button NavigationBarItem_Admin;
+    @FXML private Button NavigationBarItem_Admin;
 
-    @FXML
-    private Button NavigationBarItem_Gioca;
+    @FXML private Button NavigationBarItem_Gioca;
 
-    @FXML
-    private Button NavigationBarItem_Profile;
+    @FXML private Button NavigationBarItem_Profile;
 
-    @FXML
-    private Button NavigationBarItem_Scores;
+    @FXML private Button NavigationBarItem_Scores;
 
-    @FXML
-    private BorderPane root;
+    @FXML private BorderPane root;
 
-    @FXML
-    private HBox ScoreNavigationButton;
+    @FXML private HBox ScoreNavigationButton;
 
-    @FXML
-    private Button button_GlobalScorres;
+    @FXML private Button button_GlobalScorres;
 
-    @FXML
-    private Button button_yoursScore;
-    @FXML
-    private Button Button_RemoveFiles;
+    @FXML private Button button_yoursScore;
 
-    @FXML
-    private Button Button_StartAnalisys;
+    @FXML private Button Button_RemoveFiles;
 
-    @FXML
-    private Button button_LoadFiles;
-    @FXML
-    private Label LableButton_RemoveFiles;
+    @FXML private Button Button_StartAnalisys;
 
-    @FXML
-    private Label LableButton_StartAnalisys;
+    @FXML private Button button_LoadFiles;
 
-    @FXML
-    private Label LableButton_loadFiles;
-    @FXML
-    private VBox NavigationBarAdmin;
-    @FXML
-    private TextArea areaStopWords;
+    @FXML private Label LableButton_RemoveFiles;
 
-    @FXML
-    private Button button_loadStopwords;
-    @FXML
-    private VBox stopWordsView;
+    @FXML private Label LableButton_StartAnalisys;
+
+    @FXML private Label LableButton_loadFiles;
+
+
+    @FXML private VBox NavigationBarAdmin;
+
+
+    @FXML private TextArea areaStopWords;
+
+
+    @FXML private Button button_loadStopwords;
+
+
+    @FXML private VBox stopWordsView;
 
     private ScoreController controllerScore;
-    private User user;
-
     private AdminController controllerAdmin;
+    private User user;
     private FileAnalysis fa;
 
+    /**
+     * Metodo chiamato all'inizializzazione del controller.
+     * Carica l'analisi file salvata e imposta lo stile CSS dinamico.
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         System.out.println("initialize");
@@ -97,7 +95,7 @@ public class MainController implements Initializable {
         try {
             fa = fa.readAnalysis();
             System.out.println("ANALISI LETTA:\n" + fa.getAnalysis());
-            System.out.println("Step Words \n" + fa.getStopwords());
+            System.out.println("Stop Words \n" + fa.getStopwords());
         } catch (IOException e) {
             showMessage(e.getMessage(), Alert.AlertType.ERROR);
         }
@@ -105,54 +103,42 @@ public class MainController implements Initializable {
         setCSS();
     }
 
-public void init(User user) {
-    this.user = user;
+    /**
+     * Inizializza il controller con l'utente autenticato.
+     * Imposta la visibilità della sezione admin e carica la pagina di gioco.
+     *
+     * @param user Utente autenticato
+     */
+    public void init(User user) {
+        this.user = user;
 
-    if (user.getType() != UserType.ADMIN) {
-        NavigationBarItem_Admin.setManaged(false);
-        NavigationBarItem_Admin.setVisible(false);
+        if (user.getType() != UserType.ADMIN) {
+            NavigationBarItem_Admin.setManaged(false);
+            NavigationBarItem_Admin.setVisible(false);
+        }
+
+        loadGamePage();
     }
-
-    loadGamePage();
-}
-
 
     /**
-     * Imposta l'hover sui pulsanti
+     * Applica gli stili CSS dinamici ai bottoni della barra di navigazione.
      */
     private void setCSS() {
-
         for (Node node : NavigationBar.getChildren()) {
-
-            Button button = (Button)node;
-            button.setOnMouseEntered(e -> node.setStyle("-fx-text-fill: red; " +
-                    "-fx-font-weight: bold; " +
-                    "-fx-background-color: transparent; " +
-                    "-fx-font-size: 17px; " +
-                    "-fx-font-family: 'Microsoft YaHei';"));
-            button.setOnMouseExited(e -> node.setStyle("-fx-text-fill: white; " +
-                    "-fx-font-weight: bold; " +
-                    "-fx-background-color: transparent; " +
-                    "-fx-font-size: 17px; " +
-                    "-fx-font-family: 'Microsoft YaHei';"));
-
+            Button button = (Button) node;
+            button.setOnMouseEntered(e -> node.setStyle("-fx-text-fill: red; -fx-font-weight: bold; -fx-background-color: transparent; -fx-font-size: 17px; -fx-font-family: 'Microsoft YaHei';"));
+            button.setOnMouseExited(e -> node.setStyle("-fx-text-fill: white; -fx-font-weight: bold; -fx-background-color: transparent; -fx-font-size: 17px; -fx-font-family: 'Microsoft YaHei';"));
         }
         for (Node node : ScoreNavigationButton.getChildren()) {
-
-            Button button = (Button)node;
-            button.setOnMouseEntered(e -> node.setStyle("-fx-text-fill: red; " +
-                    "-fx-font-weight: bold; " +
-                    "-fx-background-color: transparent; " +
-                    "-fx-font-size: 25px; " +
-                    "-fx-font-family: 'Microsoft YaHei';"));
-            button.setOnMouseExited(e -> node.setStyle("-fx-text-fill: white; " +
-                    "-fx-font-weight: bold; " +
-                    "-fx-background-color: transparent; " +
-                    "-fx-font-size: 25px; " +
-                    "-fx-font-family: 'Microsoft YaHei';"));
+            Button button = (Button) node;
+            button.setOnMouseEntered(e -> node.setStyle("-fx-text-fill: red; -fx-font-weight: bold; -fx-background-color: transparent; -fx-font-size: 25px; -fx-font-family: 'Microsoft YaHei';"));
+            button.setOnMouseExited(e -> node.setStyle("-fx-text-fill: white; -fx-font-weight: bold; -fx-background-color: transparent; -fx-font-size: 25px; -fx-font-family: 'Microsoft YaHei';"));
         }
     }
 
+    /**
+     * Carica la pagina del profilo utente.
+     */
     @FXML
     void setProfilePage(ActionEvent event) {
         try {
@@ -160,7 +146,6 @@ public void init(User user) {
             Parent profilePage = loader.load();
 
             ProfileViewController profileController = loader.getController();
-
             profileController.setUser(user);
 
             root.setCenter(profilePage);
@@ -172,58 +157,63 @@ public void init(User user) {
 
             root.setLeft(null);
             root.setRight(null);
-
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
-
+    /**
+     * Carica la pagina del gioco.
+     */
     @FXML
     void setGamePage(ActionEvent event) {
-
         loadGamePage();
     }
 
-  /**
-    * Al click questo metodo cambia pagina e ti porta alla pagina per visualizzare gli score
-    *
-    */
-   @FXML
-  void Button_SetScoresPage(ActionEvent event) {
-       loadScorePage();
-   }
+    /**
+     * Carica la pagina dei punteggi.
+     */
+    @FXML
+    void Button_SetScoresPage(ActionEvent event) {
+        loadScorePage();
+    }
 
+    /**
+     * Carica la pagina admin se l'utente è autorizzato.
+     */
     @FXML
     void Button_SetAdmin(ActionEvent event) {
-        
-       loadAdminPage();
+        loadAdminPage();
     }
 
+    /**
+     * Mostra i punteggi globali.
+     */
     @FXML
     void ShowGlobalScores(ActionEvent event) {
-
         controllerScore.showLeaderboard(Difficulty.EASY);
     }
+
+    /**
+     * Mostra i punteggi dell'utente corrente.
+     */
     @FXML
     void showYourScore(ActionEvent event) {
         controllerScore.setUser(user);
         controllerScore.showPlayerScores(Difficulty.EASY);
-
-
     }
 
+    /**
+     * Carica nuovi file da analizzare tramite FileChooser.
+     */
     @FXML
     void LoadFilesAdminPage(ActionEvent event) {
         Stage stage = (Stage) root.getScene().getWindow();
         FileChooser fileChooser = new FileChooser();
-
-        FileChooser.ExtensionFilter txtFilter = new FileChooser.ExtensionFilter("File di testo (*.txt)", "*.txt");
-        fileChooser.getExtensionFilters().add(txtFilter);
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("File di testo (*.txt)", "*.txt"));
 
         List<File> selectedFiles = fileChooser.showOpenMultipleDialog(stage);
-
-        if(selectedFiles == null) return;
+        if (selectedFiles == null) return;
 
         try {
             FileManager.addFiles(selectedFiles);
@@ -233,42 +223,30 @@ public void init(User user) {
         }
     }
 
-
+    /**
+     * Rimuove i file selezionati nella sezione admin.
+     */
     @FXML
     void button_RemoveFiles(ActionEvent event) {
-      controllerAdmin.RemoveSelectedFile();
-      loadAdminPage();
+        controllerAdmin.RemoveSelectedFile();
+        loadAdminPage();
     }
 
-
-    private void startAnalysis() {
-        fa.setOnSucceeded(e -> {
-
-            showMessage("Analisi completata.", Alert.AlertType.INFORMATION);
-            System.out.println("MAPPA:\n" + fa.getValue());
-            fa.reset();
-
-        });
-
-        fa.setOnFailed( e->{
-
-            showMessage("Impossibile analizzare i file!", Alert.AlertType.ERROR);
-            fa.reset();
-        });
-
-        fa.start();
-    }
+    /**
+     * Avvia l'analisi dei file caricati.
+     */
     @FXML
     void button_StartAnalisys(ActionEvent event) {
-
-       startAnalysis();
+        startAnalysis();
     }
 
+    /**
+     * Carica la pagina admin e aggiorna i controlli visibili.
+     */
     private void loadAdminPage() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/AdminView.fxml"));
             Parent adminPage = loader.load();
-
 
             controllerAdmin = loader.getController();
 
@@ -280,13 +258,14 @@ public void init(User user) {
             Button_StartAnalisys.setVisible(true);
             root.setRight(NavigationBarAdmin);
             root.setLeft(stopWordsView);
-
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
-
+    /**
+     * Carica la pagina dei punteggi.
+     */
     private void loadScorePage() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/ScoreView.fxml"));
@@ -303,23 +282,24 @@ public void init(User user) {
             root.setBottom(ScoreNavigationButton);
             root.setLeft(null);
             root.setRight(null);
-
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
-    private void loadGamePage(){
-
-        try{
+    /**
+     * Carica la pagina del gioco e inizializza i dati utente.
+     */
+    private void loadGamePage() {
+        try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/StartGameView.fxml"));
             Parent gamePage = loader.load();
-            root.setCenter(gamePage);
 
             StartGameMenuController sgController = loader.getController();
             sgController.setUser(user);
             sgController.setFileAnalysis(fa.getAnalysis());
 
+            root.setCenter(gamePage);
             button_yoursScore.setVisible(false);
             button_GlobalScorres.setVisible(false);
             button_LoadFiles.setVisible(false);
@@ -331,24 +311,44 @@ public void init(User user) {
             throw new RuntimeException(e);
         }
     }
+
+    /**
+     * Carica le stopword inserite manualmente e avvia una nuova analisi.
+     */
     @FXML
     void loadStopWords(ActionEvent event) {
-
         String area = areaStopWords.getText();
         List<String> stopwords = Arrays.asList(area.split("[;,\\s]"));
         fa.getStopwords().clear();
         fa.getStopwords().addAll(stopwords);
-
-      startAnalysis();
-
+        startAnalysis();
     }
+
     /**
-     * Mostra all'utente il messaggio ricevuto
-     * @param msg Messaggio da mostrare all'utente
-     * @param type Tipo di messaggio
+     * Esegue l'analisi sui file, gestendo il risultato e mostrando feedback all'utente.
+     */
+    private void startAnalysis() {
+        fa.setOnSucceeded(e -> {
+            showMessage("Analisi completata.", Alert.AlertType.INFORMATION);
+            System.out.println("MAPPA:\n" + fa.getValue());
+            fa.reset();
+        });
+
+        fa.setOnFailed(e -> {
+            showMessage("Impossibile analizzare i file!", Alert.AlertType.ERROR);
+            fa.reset();
+        });
+
+        fa.start();
+    }
+
+    /**
+     * Mostra un messaggio all'utente tramite un alert.
+     *
+     * @param msg  Messaggio da mostrare
+     * @param type Tipo di alert (INFORMATION, ERROR, ecc.)
      */
     private void showMessage(String msg, Alert.AlertType type) {
-
         Alert alert = new Alert(type);
         alert.setContentText(msg);
         alert.showAndWait();

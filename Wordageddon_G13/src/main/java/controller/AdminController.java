@@ -4,9 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
@@ -19,20 +17,27 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 
+/**
+ * Controller per l'interfaccia grafica dell'amministratore.
+ * Gestisce la visualizzazione, il caricamento e l'eliminazione dei file da analizzare.
+ */
 public class AdminController implements Initializable {
+
 
     @FXML
     private FlowPane fileContainer;
 
     private List<File> fileCaricati;
+
     private final List<File> selectedFiles = new ArrayList<>();
 
-
-
-
-
-
-
+    /**
+     * Metodo di inizializzazione chiamato automaticamente dopo il caricamento dell'FXML.
+     * Carica i file e li visualizza nella GUI, permettendo la selezione tramite click.
+     *
+     * @param location  URL di inizializzazione.
+     * @param resources Risorse specificate nel file FXML.
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         try {
@@ -78,6 +83,10 @@ public class AdminController implements Initializable {
         }
     }
 
+    /**
+     * Rimuove dalla visualizzazione e dal sistema i file selezionati dall'utente.
+     * Usa il metodo deleteFiles del FileManager.
+     */
     public void RemoveSelectedFile() {
         if (selectedFiles.isEmpty()) return;
 

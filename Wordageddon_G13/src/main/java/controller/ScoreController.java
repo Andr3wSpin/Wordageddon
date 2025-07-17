@@ -21,7 +21,7 @@ import java.util.ResourceBundle;
 /**
  * Controller per la schermata di visualizzazione punteggi e leaderboard.
  * Permette all'utente di vedere i propri punteggi per difficoltà o la classifica globale.
- * Richiede un oggetto {@link model.User} impostato tramite {@code setUser()}.
+ * Richiede un oggetto {@link model.User} impostato tramite {@link #setUser(User)}.
  */
 public class ScoreController implements Initializable {
 
@@ -54,21 +54,19 @@ public class ScoreController implements Initializable {
 
     private ToggleGroup diffToggleGroup;
 
-
     private User user;
+
     private final WordageddonDAOSQLite accesDB = new WordageddonDAOSQLite();
 
-
     /**
-     * Inizializza il controller e imposta il comportamento dei pulsanti di difficoltà.
-     * Carica di default la leaderboard per la difficoltà EASY.
+     * Inizializza il controller e imposta il comportamento dei radio button di difficoltà.
+     * Al primo avvio mostra la leaderboard della difficoltà EASY.
      *
-     * @param location  non utilizzato.
-     * @param resources non utilizzato.
+     * @param location  Non utilizzato.
+     * @param resources Non utilizzato.
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
         diffToggleGroup = new ToggleGroup();
         easyButton.setToggleGroup(diffToggleGroup);
         mediumButton.setToggleGroup(diffToggleGroup);
@@ -80,58 +78,54 @@ public class ScoreController implements Initializable {
     /**
      * Imposta l'utente corrente per il quale visualizzare i punteggi personali.
      *
-     * @param user l'oggetto User da associare al controller.
+     * @param user Oggetto {@link User} autenticato.
      */
-    public void setUser(User user){this.user = user;}
+    public void setUser(User user) {
+        this.user = user;
+    }
+
     /**
      * Carica la leaderboard globale in base alla difficoltà selezionata.
-     * Chiamato quando si preme il pulsante "Leaderboard".
+     * Chiamato al click del pulsante "Leaderboard".
      *
-     * @param event l'evento di azione generato dal pulsante.
+     * @param event Evento di azione generato dal pulsante.
      */
     @FXML
     public void loadLeaderBoard(ActionEvent event) {
-        if(easyButton.isSelected())
+        if (easyButton.isSelected())
             showLeaderboard(Difficulty.EASY);
-        else
-        if (mediumButton.isSelected())
+        else if (mediumButton.isSelected())
             showLeaderboard(Difficulty.MEDIUM);
-        else
-        if (hardButton.isSelected())
+        else if (hardButton.isSelected())
             showLeaderboard(Difficulty.HARD);
-
     }
+
     /**
      * Carica i punteggi personali dell'utente in base alla difficoltà selezionata.
-     * Chiamato quando si preme il pulsante "Your Scores".
+     * Chiamato al click del pulsante "Your Scores".
      *
-     * @param event l'evento di azione generato dal pulsante.
+     * @param event Evento di azione generato dal pulsante.
      */
     @FXML
     public void loadYourScore(ActionEvent event) {
-        if(easyButton.isSelected())
+        if (easyButton.isSelected())
             showPlayerScores(Difficulty.EASY);
-        else
-            if (mediumButton.isSelected())
-                showPlayerScores(Difficulty.MEDIUM);
-            else
-                if (hardButton.isSelected())
-                    showPlayerScores(Difficulty.HARD);
-
+        else if (mediumButton.isSelected())
+            showPlayerScores(Difficulty.MEDIUM);
+        else if (hardButton.isSelected())
+            showPlayerScores(Difficulty.HARD);
     }
 
     /**
      * Mostra la classifica globale per la difficoltà specificata.
-     * Popola la tabella con le coppie username - punteggio massimo.
-     * Al primo caricamento setta in automatico la difficoltà a EASY
-     * @param chosenDiff la difficoltà selezionata (EASY, MEDIUM o HARD).
+     * Popola la tabella con le coppie Username - Max Score.
+     * Al primo caricamento imposta di default la difficoltà EASY.
+     *
+     * @param chosenDiff La difficoltà selezionata (EASY, MEDIUM o HARD).
      */
     public void showLeaderboard(Difficulty chosenDiff) {
-        Difficulty diff;
-        if (chosenDiff == null)
-            diff = Difficulty.EASY;
-        else
-            diff = chosenDiff;
+        Difficulty diff = (chosenDiff != null) ? chosenDiff : Difficulty.EASY;
+
         leaderBoardButton.setVisible(true);
         yourScoreButton.setVisible(false);
         scoreTableView.getColumns().clear();
@@ -144,9 +138,7 @@ public class ScoreController implements Initializable {
 
         scoreTableView.getColumns().addAll(userNameCol, maxScoreCol);
 
-
         ObservableList<ObservableList<String>> data = FXCollections.observableArrayList();
-
         List<String> leaderboardEntries = accesDB.leaderBoard(diff);
 
         for (String string : leaderboardEntries) {
@@ -159,22 +151,19 @@ public class ScoreController implements Initializable {
         titleLabel.setText("Global Leaderboard");
         avgScoreLabel.setText("");
     }
+
     /**
-     * Mostra i punteggi personali dell'utente per la difficoltà specificata.
-     * Popola la tabella con tutti i punteggi salvati e mostra la media.
+     * Mostra i punteggi personali dell'utente per la difficoltà selezionata.
+     * Popola la tabella con i punteggi registrati e calcola la media.
      *
-     * @param chosenDiff la difficoltà selezionata (EASY, MEDIUM o HARD).
+     * @param chosenDiff La difficoltà selezionata (EASY, MEDIUM o HARD).
      */
     public void showPlayerScores(Difficulty chosenDiff) {
-        titleLabel.setText("Your Scores ");
+        titleLabel.setText("Your Scores");
 
         leaderBoardButton.setVisible(false);
         yourScoreButton.setVisible(true);
-        Difficulty diff;
-        if (chosenDiff == null)
-            diff = Difficulty.EASY;
-        else
-            diff = chosenDiff;
+        Difficulty diff = (chosenDiff != null) ? chosenDiff : Difficulty.EASY;
 
         scoreTableView.getColumns().clear();
 
@@ -184,8 +173,7 @@ public class ScoreController implements Initializable {
         scoreTableView.getColumns().add(scoreCol);
 
         ObservableList<ObservableList<String>> data = FXCollections.observableArrayList();
-
-        List<String> scores = accesDB.playerScores(user.getID(),diff);
+        List<String> scores = accesDB.playerScores(user.getID(), diff);
 
         for (String score : scores) {
             ObservableList<String> row = FXCollections.observableArrayList(score);
