@@ -341,7 +341,7 @@ public class MainController implements Initializable {
         }
 
         fa.setOnSucceeded(e -> {
-
+            showMessage("Analisi completata.", Alert.AlertType.INFORMATION);
             fa.reset();
         });
 
