@@ -1,19 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.StackPane?>
 
-<StackPane prefHeight="800.0" prefWidth="1400.0" style="-fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #1a1a2e, #16213e, #0f3460), radial-gradient(radius 100%, transparent, #00000066);" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AdminController">
+<StackPane prefHeight="800.0" prefWidth="1400.0" style="-fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #1a1a2e, #16213e, #0f3460), radial-gradient(radius 100%, transparent, #00000066);" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AdminController">
    <children>
       <BorderPane prefHeight="200.0" prefWidth="200.0">
          <center>
-            <FlowPane fx:id="fileContainer" hgap="10.0" prefHeight="561.0" prefWidth="1400.0" vgap="10.0" BorderPane.alignment="CENTER">
-               <padding>
-                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-               </padding>
-            </FlowPane>
+            <ScrollPane fx:id="scrollView" prefHeight="617.0" prefWidth="811.0" style="-fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #1a1a2e, #16213e, #0f3460), radial-gradient(radius 100%, transparent, #00000066);" BorderPane.alignment="CENTER">
+               <content>
+                  <FlowPane fx:id="fileContainer" hgap="10.0" prefHeight="617.0" prefWidth="771.0" prefWrapLength="700.0" style="-fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #1a1a2e, #16213e, #0f3460), radial-gradient(radius 100%, transparent, #00000066);" vgap="10.0">
+                     <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </padding>
+                  </FlowPane>
+               </content>
+            </ScrollPane>
          </center>
       </BorderPane>
    </children>

@@ -28,6 +28,7 @@ import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 /**
  * Controller principale dell'applicazione.
@@ -92,10 +93,13 @@ public class MainController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         System.out.println("initialize");
         fa = new FileAnalysis();
+
+
         try {
             fa = fa.readAnalysis();
             System.out.println("ANALISI LETTA:\n" + fa.getAnalysis());
             System.out.println("Stop Words \n" + fa.getStopwords());
+            areaStopWords.setText( fa.getStopwords().toString()  );
         } catch (IOException e) {
             showMessage(e.getMessage(), Alert.AlertType.ERROR);
         }
@@ -318,9 +322,10 @@ public class MainController implements Initializable {
     @FXML
     void loadStopWords(ActionEvent event) {
         String area = areaStopWords.getText();
-        List<String> stopwords = Arrays.asList(area.split("[;,\\s]"));
+        List<String> stopwords = Arrays.stream(area.split("[\\s,\\.\\[\\];\\-]++")).filter( f-> !f.trim().isEmpty()  ).collect(Collectors.toList());
         fa.getStopwords().clear();
         fa.getStopwords().addAll(stopwords);
+        areaStopWords.setText( fa.getStopwords().toString() );
         startAnalysis();
     }
 

@@ -123,9 +123,14 @@
       </VBox>
    </right>
    <left>
-      <VBox fx:id="stopWordsView" prefHeight="800.0" prefWidth="250.0" spacing="30.0" style="-fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #1a1a2e, #16213e, #0f3460), radial-gradient(radius 100%, transparent, #00000066);" BorderPane.alignment="CENTER">
+      <VBox fx:id="stopWordsView" prefHeight="800.0" prefWidth="365.0" spacing="30.0" style="-fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #1a1a2e, #16213e, #0f3460), radial-gradient(radius 100%, transparent, #00000066);" BorderPane.alignment="CENTER">
          <children>
-            <TextArea fx:id="areaStopWords" prefHeight="375.0" prefWidth="175.0" promptText="inserisci le stopWords seguita da ;esmpio;pane;" />
+            <Label prefHeight="88.0" prefWidth="346.0" text="Inserisci qui le StopWords " textAlignment="CENTER" textFill="#ff4949" wrapText="true">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </Label>
+            <TextArea fx:id="areaStopWords" prefHeight="375.0" prefWidth="175.0" wrapText="true" />
             <Button fx:id="button_loadStopwords" mnemonicParsing="false" onAction="#loadStopWords" style="-fx-border-color: red; -fx-background-color: red; -fx-text-fill: white; -fx-font-family: &quot;Microsoft YaHei&quot;; -fx-font-size: 14; -fx-font-weight: bold; -fx-border-radius: 20; -fx-background-radius: 15;" text="Load StopWords" />
          </children>
          <padding>

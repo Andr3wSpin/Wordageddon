@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
@@ -26,6 +27,8 @@ public class AdminController implements Initializable {
 
     @FXML
     private FlowPane fileContainer;
+    @FXML
+    private ScrollPane scrollView;
 
     private List<File> fileCaricati;
 
@@ -40,6 +43,9 @@ public class AdminController implements Initializable {
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
+        scrollView.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        scrollView.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
         try {
             fileCaricati = FileManager.getFiles();
         } catch (IOException e) {
