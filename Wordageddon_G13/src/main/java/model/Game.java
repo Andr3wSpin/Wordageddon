@@ -81,7 +81,7 @@ public class Game {
      * Restituisce la difficoltà della partita.
      * @return difficoltà della partita
      */
-    public Difficulty getDifficuty() { return difficulty; }
+    public Difficulty getDifficulty() { return difficulty; }
 
     /**
      * Restituisce l'identificatore del giocatore.

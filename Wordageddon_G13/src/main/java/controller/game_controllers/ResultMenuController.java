@@ -20,7 +20,6 @@ import javafx.event.ActionEvent;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
 import java.util.Set;
 
@@ -158,7 +157,7 @@ public class ResultMenuController implements Initializable {
                 game.getPLAYER_ID(),
                 game.getDate().toString(),
                 game.getScore(),
-                game.getDifficuty().toString()
+                game.getDifficulty().toString()
         );
 
         try {
