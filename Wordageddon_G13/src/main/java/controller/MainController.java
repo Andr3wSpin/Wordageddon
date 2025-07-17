@@ -91,14 +91,13 @@ public class MainController implements Initializable {
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        System.out.println("initialize");
+
         fa = new FileAnalysis();
 
 
         try {
             fa = fa.readAnalysis();
-            System.out.println("ANALISI LETTA:\n" + fa.getAnalysis());
-            System.out.println("Stop Words \n" + fa.getStopwords());
+
             if(!fa.getStopwords().isEmpty())
                 areaStopWords.setText( fa.getStopwords().toString()  );
         } catch (IOException e) {
