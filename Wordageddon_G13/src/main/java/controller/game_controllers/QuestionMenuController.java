@@ -52,8 +52,9 @@ public class QuestionMenuController {
     private Rectangle rectangleForAnimation;
 
     private ToggleGroup optionsGroup;
-    private List<RadioButton> optionButtons;
+    private RadioButton[] optionButtons;
 
+    private final int MAX_ANSWERS = 4;
     private int index;
     private Game game;
     private List<Question> questions;
@@ -65,7 +66,7 @@ public class QuestionMenuController {
      */
     @FXML
     private void initialize() {
-        optionButtons = new ArrayList<>();
+        optionButtons = new RadioButton[MAX_ANSWERS];
         index = 0;
 
         nextQuestionBtn.setText("Next question");
@@ -76,10 +77,12 @@ public class QuestionMenuController {
         option3Btn.setToggleGroup(optionsGroup);
         option4Btn.setToggleGroup(optionsGroup);
 
-        optionButtons.add(option1Btn);
-        optionButtons.add(option2Btn);
-        optionButtons.add(option3Btn);
-        optionButtons.add(option4Btn);
+        int i = 0;
+
+        optionButtons[i++] = option1Btn;
+        optionButtons[i++] = option2Btn;
+        optionButtons[i++] = option3Btn;
+        optionButtons[i++] = option4Btn;
 
         option1Btn.setText("Option 1");
         option2Btn.setText("Option 2");
@@ -110,8 +113,7 @@ public class QuestionMenuController {
 
         int answIndex = 0;
         for (String answer : answers) {
-            optionButtons.get(answIndex).setText(answer);
-            answIndex++;
+            optionButtons[answIndex++].setText(answer);
         }
     }
 
