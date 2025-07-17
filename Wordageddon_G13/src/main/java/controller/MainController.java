@@ -99,7 +99,8 @@ public class MainController implements Initializable {
             fa = fa.readAnalysis();
             System.out.println("ANALISI LETTA:\n" + fa.getAnalysis());
             System.out.println("Stop Words \n" + fa.getStopwords());
-          if(!fa.getStopwords().isEmpty())  areaStopWords.setText( fa.getStopwords().toString()  );
+            if(!fa.getStopwords().isEmpty())
+                areaStopWords.setText( fa.getStopwords().toString()  );
         } catch (IOException e) {
             showMessage(e.getMessage(), Alert.AlertType.ERROR);
         }
@@ -334,6 +335,12 @@ public class MainController implements Initializable {
      * Esegue l'analisi sui file, gestendo il risultato e mostrando feedback all'utente.
      */
     private void startAnalysis() {
+
+        if (fa.isRunning()) {
+            showMessage("Analisi già in corso, attendere...", Alert.AlertType.INFORMATION);
+            return;
+        }
+
         fa.setOnSucceeded(e -> {
             showMessage("Analisi completata.", Alert.AlertType.INFORMATION);
             System.out.println("MAPPA:\n" + fa.getValue());
@@ -347,6 +354,7 @@ public class MainController implements Initializable {
 
         fa.start();
     }
+
 
     /**
      * Mostra un messaggio all'utente tramite un alert.
