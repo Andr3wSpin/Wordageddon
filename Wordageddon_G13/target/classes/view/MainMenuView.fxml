@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
@@ -17,7 +24,7 @@
    <top>
       <HBox fx:id="NavigationBar" alignment="CENTER" prefHeight="64.0" prefWidth="814.0" spacing="40.0" style="-fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #1a1a2e, #16213e, #0f3460), radial-gradient(radius 100%, transparent, #00000066);" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="NavigationBarItem_Gioca" alignment="CENTER" mnemonicParsing="false" onAction="#setGamePage" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-family: &quot;Microsoft YaHei&quot;; -fx-font-weight: bold; -fx-font-size: 17;" text="GIOCA" textFill="WHITE">
+            <Button fx:id="NavigationBarItem_Gioca" alignment="CENTER" mnemonicParsing="false" onAction="#setGamePage" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-family: &quot;Microsoft YaHei&quot;; -fx-font-weight: bold; -fx-font-size: 17;" text="PLAY" textFill="WHITE">
                <cursor>
                   <Cursor fx:constant="DEFAULT" />
                </cursor>
