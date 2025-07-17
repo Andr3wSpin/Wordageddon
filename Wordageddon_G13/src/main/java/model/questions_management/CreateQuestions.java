@@ -1,11 +1,19 @@
 package model.questions_management;
 
 import model.enums.QuestionType;
-// import javax.jnlp.IntegrationService;
 import java.util.*;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
+/**
+ * Classe responsabile della creazione di un insieme di domande di vari tipi
+ * basate sull'analisi dei file testuali forniti.
+ * <p>
+ * Supporta la generazione di domande di quattro tipi differenti definiti in
+ * {@link QuestionType}. La creazione delle domande si basa sulle parole e
+ * sulle frequenze presenti nei file analizzati.
+ * </p>
+ */
 public class CreateQuestions {
 
     private List<String> choosenFiles;
@@ -13,9 +21,16 @@ public class CreateQuestions {
     private int questionsNumber;
     private final List<QuestionType> questionTypes;
 
+    /**
+     * Costruttore che inizializza il generatore di domande.
+     *
+     * @param questionTypes  insieme dei tipi di domanda da generare
+     * @param choosenFiles   lista dei nomi dei file da cui estrarre i dati
+     * @param fileAnalysis   mappa contenente per ogni file una mappa di parole e frequenze
+     * @param questionsNumber numero totale di domande da generare
+     */
     public CreateQuestions(Set<QuestionType> questionTypes, List<String> choosenFiles,
                            Map<String, Map<String, Integer>> fileAnalysis, int questionsNumber) {
-
         this.questionTypes = questionTypes.stream().collect(Collectors.toList());
         this.choosenFiles = choosenFiles;
         this.fileAnalysis = fileAnalysis;
@@ -23,14 +38,17 @@ public class CreateQuestions {
     }
 
     /**
-     * Crea un set di domande chiamando il metodo relativo al tipo specifico.
-     * @return set di domande da mostrare
+     * Genera un set di domande fino a raggiungere il numero richiesto.
+     * Per ogni domanda sceglie casualmente un tipo tra quelli disponibili
+     * e richiama il metodo specifico di creazione per quel tipo.
+     *
+     * @param progressUpdater funzione callback che riceve il progresso corrente (numero domanda creata)
+     * @return un set di domande uniche generate
      */
     public Set<Question> createQuestions(Consumer<Integer> progressUpdater) {
         Set<Question> questionSet = new HashSet<>();
 
         while (questionSet.size() < questionsNumber) {
-
             progressUpdater.accept(questionSet.size() + 1);
 
             QuestionType qt = questionTypes.get(new Random().nextInt(questionTypes.size()));
@@ -54,12 +72,14 @@ public class CreateQuestions {
     }
 
     /**
-     * Ottiene una parola casuale dal testo scelto, ottiene la risposta corretta e
-     * genera 3 numeri random per le risposte sbagliate.
-     * @return la domanda completa di risposta esatta, testo domanda e risposte sbagliate
+     * Crea una domanda di tipo 1:
+     * Estrae una parola casuale da un file scelto a caso,
+     * ottiene la sua frequenza come risposta corretta e genera
+     * tre risposte errate numeriche casuali.
+     *
+     * @return una {@link Question} completa con testo, risposta corretta e risposte sbagliate
      */
     private Question createQuestionType1() {
-
         int randomFile = new Random().nextInt(choosenFiles.size());
         String fileName = choosenFiles.get(randomFile);
 
@@ -73,7 +93,6 @@ public class CreateQuestions {
         randomAnswer.add(correctAnswer.toString());
 
         while (randomAnswer.size() < 4) {
-            System.out.println("while type 1");
             Integer randomResult = new Random().nextInt(10);
             randomAnswer.add(randomResult.toString());
         }
@@ -86,47 +105,43 @@ public class CreateQuestions {
     }
 
     /**
-     * Prende la parola corretta chiamando correctAnswerType_1_2_3(), formula la domanda
-     * e chiama getRandomWord per creare anche le risposte sbagliate.
-     * @return la domanda completa di risposta esatta, testo domanda e risposte sbagliate
+     * Crea una domanda di tipo 2:
+     * Identifica le parole più frequenti in un file scelto,
+     * seleziona una come risposta corretta e genera risposte errate
+     * pescate casualmente dalle parole del file.
+     *
+     * @return una {@link Question} con testo, risposta corretta e risposte sbagliate
      */
     private Question createQuestionType2() {
-
         Random random = new Random();
 
         int randomFile = random.nextInt(choosenFiles.size());
         String fileName = choosenFiles.get(randomFile);
 
         Map<String, Integer> wordCounts = fileAnalysis.get(fileName);
+        if (wordCounts == null || wordCounts.isEmpty()) return null;
 
-        List<String> mostFrequentWords = new ArrayList<>();
+        int max = wordCounts.values().stream()
+                .max(Integer::compareTo)
+                .orElse(0);
 
-        if (wordCounts != null && !wordCounts.isEmpty()) {
-
-            int max = wordCounts.values().stream()
-                    .max(Integer::compareTo)
-                    .orElse(0);
-
-            mostFrequentWords = wordCounts.entrySet().stream()
-                    .filter(entry -> entry.getValue() == max)
-                    .map(Map.Entry::getKey)
-                    .collect(Collectors.toList());
-        }
+        List<String> mostFrequentWords = wordCounts.entrySet().stream()
+                .filter(entry -> entry.getValue() == max)
+                .map(Map.Entry::getKey)
+                .collect(Collectors.toList());
 
         if (mostFrequentWords.isEmpty()) return null;
 
         String correctAnswer = mostFrequentWords.get(random.nextInt(mostFrequentWords.size()));
-
-        String questionText = QuestionType.TYPE2.getText().
-                replace("<nome_documento>", fileName.replace(".txt", ""));
+        String questionText = QuestionType.TYPE2.getText()
+                .replace("<nome_documento>", fileName.replace(".txt", ""));
 
         Set<String> randomAnswer = new HashSet<>();
         randomAnswer.add(correctAnswer);
 
-        List<String> words = wordCounts.keySet().stream().collect(Collectors.toList());
+        List<String> words = new ArrayList<>(wordCounts.keySet());
 
         while(randomAnswer.size() < 4) {
-
             String word = words.get(random.nextInt(words.size()));
             randomAnswer.add(word);
         }
@@ -134,12 +149,17 @@ public class CreateQuestions {
         return new Question(questionText, correctAnswer, randomAnswer);
     }
 
+    /**
+     * Crea una domanda di tipo 3:
+     * Trova le parole comuni a tutti i file scelti,
+     * seleziona una parola corretta casuale tra queste e genera risposte errate.
+     *
+     * @return una {@link Question} con testo, risposta corretta e risposte sbagliate
+     */
     private Question createQuestionType3() {
-
         List<Set<String>> wordSets = choosenFiles.stream()
                 .map(f -> fileAnalysis.get(f).keySet())
                 .collect(Collectors.toList());
-
 
         Set<String> commonWords = new HashSet<>(wordSets.get(0));
         wordSets.stream().skip(1).forEach(commonWords::retainAll);
@@ -158,9 +178,14 @@ public class CreateQuestions {
         return new Question(QuestionType.TYPE3.getText(), correctAnswer, answers);
     }
 
-
+    /**
+     * Crea una domanda di tipo 4:
+     * Tra le parole comuni a tutti i file, seleziona quella con la frequenza massima
+     * in uno qualsiasi dei file come risposta corretta e genera risposte errate.
+     *
+     * @return una {@link Question} con testo, risposta corretta e risposte sbagliate
+     */
     private Question createQuestionType4() {
-
         List<Set<String>> wordSets = choosenFiles.stream()
                 .map(f -> fileAnalysis.get(f).keySet())
                 .collect(Collectors.toList());
@@ -168,37 +193,39 @@ public class CreateQuestions {
         Set<String> commonWords = new HashSet<>(wordSets.get(0));
         wordSets.stream().skip(1).forEach(commonWords::retainAll);
 
-        List<String> listCommonWords = new ArrayList<>(commonWords);
+        Map<String,Integer> maxForCommonWords = commonWords.stream().collect(
+                Collectors.toMap(
+                        parola -> parola,
+                        parola -> fileAnalysis.values().stream()
+                                .mapToInt(mappa -> mappa.getOrDefault(parola, 0))
+                                .max()
+                                .orElse(0)
+                )
+        );
 
-       Map<String,Integer> maxFOrCommonWords = new HashMap<>();
+        Optional<String> optionalCorrectAnswer = maxForCommonWords.entrySet().stream()
+                .max(Comparator.comparingInt(Map.Entry::getValue))
+                .map(Map.Entry::getKey);
 
-       maxFOrCommonWords = commonWords.stream().collect(
-               Collectors.toMap(
+        if (optionalCorrectAnswer.isPresent()){
+            String correctAnswer = optionalCorrectAnswer.get();
 
-                       parola-> parola,//chiave
-                       parola-> fileAnalysis.values().stream().mapToInt( mappa -> mappa.getOrDefault( parola,0)).max().orElse(0) //valore mi serve l int max per ogni parola
-               )
-       );
-
-       Optional<String> optionalCorrectAnswer = maxFOrCommonWords.entrySet().stream()
-               .max(Comparator.comparingInt(coppia -> coppia.getValue())).map( Map.Entry::getKey);
-
-
-
-
-       if (optionalCorrectAnswer.isPresent()){
-           String correctAnswer = optionalCorrectAnswer.get();
-
-           Set<String> Answer = new HashSet<>();
-           Answer.add(correctAnswer);
-           randomAnswerType3_4(Answer);
-           return new Question(QuestionType.TYPE4.getText(), correctAnswer, Answer);
-       }
-       return null;
+            Set<String> answer = new HashSet<>();
+            answer.add(correctAnswer);
+            randomAnswerType3_4(answer);
+            return new Question(QuestionType.TYPE4.getText(), correctAnswer, answer);
+        }
+        return null;
     }
 
+    /**
+     * Genera risposte errate per le domande di tipo 3 e 4,
+     * pescando parole casuali da un file scelto a caso.
+     *
+     * @param answers set delle risposte già presenti (inclusa quella corretta)
+     * @return il set di risposte aggiornato con risposte errate
+     */
     private Set<String> randomAnswerType3_4(Set<String> answers) {
-
         int random = new Random().nextInt(choosenFiles.size());
         List<String> allWords = new ArrayList<>(fileAnalysis.get(choosenFiles.get(random)).keySet());
         Random rand = new Random();
@@ -209,19 +236,22 @@ public class CreateQuestions {
     }
 
     /**
-     * Prende parole a caso dalla mappa per mostrare le risposte sbagliate.
+     * Metodo placeholder per ottenere parole casuali escluse quelle corrette.
+     * Da implementare se necessario.
+     *
      * @param correctWord parola corretta da escludere
-     * @return un set di 3 stringhe
+     * @return un set di 3 parole casuali (attualmente null)
      */
     private Set<String> getRandomWord(String correctWord) {
         return null;
     }
 
     /**
-     * Ottiene dalla mappa il numero di occorrenze della parola nel file.
-     * @param word parola scelta casualmente dal sistema
-     * @param file file scelto casualmente dal sistema
-     * @return risposta corretta di una domanda di Type1
+     * Restituisce il numero di occorrenze di una parola in un file.
+     *
+     * @param word parola da cercare
+     * @param file nome del file in cui cercare
+     * @return numero di occorrenze della parola nel file, 0 se non presente
      */
     private int getCorrectAnswer(String word, String file) {
         return fileAnalysis.getOrDefault(file, Collections.emptyMap())
