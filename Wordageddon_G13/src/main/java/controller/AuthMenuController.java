@@ -94,7 +94,7 @@ public class AuthMenuController {
         User user = dao.checkCredentials(username, password);
 
         if (user != null) {
-            showAlert("Login Successful", "Benvenuto, " + user.getUsername() + "!");
+            showAlert("Login Successful", "Welcome, " + user.getUsername() + "!");
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/MainMenuView.fxml"));
                 Parent mainMenuRoot = loader.load();
