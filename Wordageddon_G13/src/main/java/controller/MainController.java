@@ -341,8 +341,7 @@ public class MainController implements Initializable {
         }
 
         fa.setOnSucceeded(e -> {
-            showMessage("Analisi completata.", Alert.AlertType.INFORMATION);
-            System.out.println("MAPPA:\n" + fa.getValue());
+
             fa.reset();
         });
 
