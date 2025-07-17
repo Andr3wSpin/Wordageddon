@@ -2,6 +2,7 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.image.*?>
 
 <BorderPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="controller.AuthMenuController"
@@ -25,8 +26,14 @@
             <TextField fx:id="nomeUtenteTF" promptText="User name"
                        style="-fx-background-radius: 10; -fx-background-color: #eeeeee; -fx-padding: 10;" />
 
-            <TextField fx:id="passwordTF" promptText="Password"
-                       style="-fx-background-radius: 10; -fx-background-color: #eeeeee; -fx-padding: 10;" />
+            <!-- Contenedor para el campo de contraseña + botón mostrar -->
+            <HBox alignment="CENTER_LEFT" spacing="5">
+                <PasswordField fx:id="passwordPF" promptText="Password"
+                               style="-fx-background-radius: 10; -fx-background-color: #eeeeee; -fx-padding: 10;" 
+                               HBox.hgrow="ALWAYS" />
+                <ToggleButton fx:id="showPasswordBtn" text="👁"
+                              style="-fx-background-radius: 10;" />
+            </HBox>
 
             <Button fx:id="loginButton" text="Login" onAction="#handleLoginButtonAction"
                     style="-fx-background-color: #0f3460; -fx-text-fill: white; -fx-font-size: 16px; -fx-background-radius: 10; -fx-padding: 10 20;" />
