@@ -77,7 +77,7 @@ public class TextMenuController {
         this.files = game.getChoosenFiles();
 
         int totalSeconds = game.getDifficuty().getReadTimePerFile() * 60 * files.size();
-        
+
         timer = new Timer(totalSeconds);
 
         setupCircleTimer(totalSeconds);
