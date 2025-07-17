@@ -16,7 +16,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<StackPane id="GameView" prefHeight="800.0" prefWidth="1400.0" style="-fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #1a1a2e, #16213e, #0f3460);" xmlns="http://javafx.com/javafx/8.0.411" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ProfileViewController">
+<StackPane id="GameView" prefHeight="800.0" prefWidth="1400.0" style="-fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #1a1a2e, #16213e, #0f3460);" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ProfileViewController">
    <children>
       <MediaView fx:id="MediaViewWallPaper" fitHeight="800.0" fitWidth="1400.0" />
       <VBox alignment="CENTER" prefHeight="400.0" prefWidth="800.0" spacing="30.0">
@@ -54,6 +54,9 @@
                            </cursor>
                         </StackPane>
                      </graphic>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
                   </Button>
                   <Button fx:id="ChangeDataButton" mnemonicParsing="false" onAction="#ChangeDataButton" onMouseEntered="#hoverButtonChangeInfoEntred" onMouseExited="#hoverButtonChangeInfoExit" prefHeight="50.0" prefWidth="215.0" style="-fx-border-color: red; -fx-background-color: red; -fx-text-fill: white; -fx-font-family: &quot;Microsoft YaHei&quot;; -fx-font-size: 20; -fx-border-radius: 20; -fx-background-radius: 15;">
                      <graphic>
@@ -75,6 +78,9 @@
                            </cursor>
                         </StackPane>
                      </graphic>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
                   </Button>
                   <Button fx:id="ChangeDataButton1" mnemonicParsing="false" onAction="#deleteAccount" onMouseEntered="#hoverButtonDeleteEntred" onMouseExited="#hoverButtonDeleteExit" prefHeight="50.0" prefWidth="215.0" style="-fx-border-color: red; -fx-background-color: red; -fx-text-fill: white; -fx-font-family: &quot;Microsoft YaHei&quot;; -fx-font-size: 20; -fx-border-radius: 20; -fx-background-radius: 15;">
                      <graphic>
@@ -96,6 +102,9 @@
                            </children>
                         </StackPane>
                      </graphic>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
                   </Button>
                </children>
             </HBox>

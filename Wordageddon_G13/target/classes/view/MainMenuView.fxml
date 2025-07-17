@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="root" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MainController">
+<BorderPane fx:id="root" xmlns="http://javafx.com/javafx/ 8.0.411" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MainController">
    <top>
       <HBox fx:id="NavigationBar" alignment="CENTER" prefHeight="64.0" prefWidth="814.0" spacing="40.0" style="-fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #1a1a2e, #16213e, #0f3460), radial-gradient(radius 100%, transparent, #00000066);" BorderPane.alignment="CENTER">
          <children>
@@ -76,6 +76,9 @@
                      </cursor>
                   </StackPane>
                </graphic>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
             </Button>
             <Button fx:id="Button_RemoveFiles" mnemonicParsing="false" onAction="#button_RemoveFiles" prefHeight="30.0" prefWidth="190.0" style="-fx-border-color: red; -fx-background-color: red; -fx-text-fill: white; -fx-font-family: &quot;Microsoft YaHei&quot;; -fx-font-size: 20; -fx-border-radius: 20; -fx-background-radius: 15;">
                <graphic>
@@ -97,6 +100,9 @@
                      </cursor>
                   </StackPane>
                </graphic>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
             </Button>
             <Button fx:id="Button_StartAnalisys" mnemonicParsing="false" onAction="#button_StartAnalisys" prefHeight="25.0" prefWidth="190.0" style="-fx-border-color: red; -fx-background-color: red; -fx-text-fill: white; -fx-font-family: &quot;Microsoft YaHei&quot;; -fx-font-size: 20; -fx-border-radius: 20; -fx-background-radius: 15;">
                <graphic>
@@ -118,6 +124,9 @@
                      </cursor>
                   </StackPane>
                </graphic>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
             </Button>
          </children>
       </VBox>
@@ -131,7 +140,10 @@
                </font>
             </Label>
             <TextArea fx:id="areaStopWords" prefHeight="375.0" prefWidth="175.0" wrapText="true" />
-            <Button fx:id="button_loadStopwords" mnemonicParsing="false" onAction="#loadStopWords" style="-fx-border-color: red; -fx-background-color: red; -fx-text-fill: white; -fx-font-family: &quot;Microsoft YaHei&quot;; -fx-font-size: 14; -fx-font-weight: bold; -fx-border-radius: 20; -fx-background-radius: 15;" text="Load StopWords" />
+            <Button fx:id="button_loadStopwords" mnemonicParsing="false" onAction="#loadStopWords" prefHeight="30.0" prefWidth="181.0" style="-fx-border-color: red; -fx-background-color: red; -fx-text-fill: white; -fx-font-family: &quot;Microsoft YaHei&quot;; -fx-font-size: 14; -fx-font-weight: bold; -fx-border-radius: 20; -fx-background-radius: 15;" text="Saved  StopWords">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></Button>
          </children>
          <padding>
             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />

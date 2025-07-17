@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
@@ -7,49 +8,52 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane  prefHeight="800.0" prefWidth="1400.0" style="-fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #1a1a2e, #16213e, #0f3460);" xmlns="http://javafx.com/javafx/8.0.411" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.game_controllers.ResultMenuController">
+<Pane prefHeight="800.0" prefWidth="1400.0" style="-fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #1a1a2e, #16213e, #0f3460);" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.game_controllers.ResultMenuController">
     <children>
-        <Label layoutX="363.0" layoutY="25.0" text="Partita terminata" textFill="#f70000">
+        <Label layoutX="568.0" layoutY="71.0" text="Partita terminata" textFill="#f70000">
             <font>
-                <Font name="System Bold" size="32.0" />
+                <Font name="System Bold" size="40.0" />
             </font>
         </Label>
-        <Label layoutX="65.0" layoutY="93.0" prefHeight="21.0" prefWidth="166.0" text="Risposte corrette:" textFill="WHITE">
+        <Label layoutX="322.0" layoutY="610.0" prefHeight="21.0" prefWidth="166.0" text="Risposte corrette:" textFill="WHITE">
          <font>
             <Font name="System Bold" size="15.0" />
          </font></Label>
-        <Label layoutX="394.0" layoutY="93.0" text="Risposte errate:" textFill="WHITE">
+        <Label layoutX="651.0" layoutY="610.0" text="Risposte errate:" textFill="WHITE">
          <font>
             <Font name="System Bold" size="15.0" />
          </font></Label>
-        <Label layoutX="674.0" layoutY="93.0" text="Risposte non date:" textFill="WHITE">
+        <Label layoutX="931.0" layoutY="610.0" text="Risposte non date:" textFill="WHITE">
          <font>
             <Font name="System Bold" size="15.0" />
          </font></Label>
         <Label layoutX="394.0" layoutY="161.0" text="Punteggio totale:" />
-        <Label fx:id="correctAnswersLabel" layoutX="193.0" layoutY="93.0" style="-fx-font-weight: bold;" text="Label" textFill="WHITE">
+        <Label fx:id="correctAnswersLabel" layoutX="450.0" layoutY="610.0" style="-fx-font-weight: bold;" text="Label" textFill="WHITE">
          <font>
             <Font size="15.0" />
          </font></Label>
-        <Label fx:id="wrongAnswersLabel" layoutX="508.0" layoutY="93.0" text="Label" textFill="WHITE">
+        <Label fx:id="wrongAnswersLabel" layoutX="765.0" layoutY="610.0" text="Label" textFill="WHITE">
          <font>
             <Font name="System Bold" size="15.0" />
          </font></Label>
-        <Label fx:id="noAnswersLabel" layoutX="830.0" layoutY="93.0" text="Label" textFill="WHITE">
+        <Label fx:id="noAnswersLabel" layoutX="1087.0" layoutY="610.0" text="Label" textFill="WHITE">
          <font>
             <Font name="System Bold" size="15.0" />
          </font></Label>
         <Label fx:id="pointsLabel" layoutX="515.0" layoutY="161.0" text="Label" />
-        <TableView fx:id="resultsTableView" layoutY="192.0" prefHeight="397.0" prefWidth="902.0">
+        <TableView fx:id="resultsTableView" layoutX="249.0" layoutY="178.0" prefHeight="397.0" prefWidth="902.0">
             <columns>
                 <TableColumn fx:id="questionColumn" prefWidth="587.0" text="Domanda" />
                 <TableColumn fx:id="resultColumn" minWidth="0.0" prefWidth="133.0" text="Esito" />
                 <TableColumn fx:id="correctAnswer" minWidth="0.0" prefWidth="180.0" text="Risposta corretta" />
             </columns>
         </TableView>
-        <Button fx:id="mainMenuButton" layoutX="756.0" layoutY="605.0" mnemonicParsing="false" onAction="#goToMenu" prefHeight="31.0" prefWidth="139.0" style="-fx-background-color: red; -fx-background-radius: 10;" text="Main Menu" textFill="WHITE">
+        <Button fx:id="mainMenuButton" layoutX="1082.0" layoutY="676.0" mnemonicParsing="false" onAction="#goToMenu" prefHeight="31.0" prefWidth="139.0" style="-fx-background-color: red; -fx-background-radius: 10; -fx-font-weight: bold; -fx-font-size: 15;" text="Main Menu" textFill="WHITE">
          <font>
             <Font size="15.0" />
-         </font></Button>
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Button>
     </children>
 </Pane>

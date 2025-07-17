@@ -2,9 +2,8 @@ package controller;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import model.User;
@@ -15,8 +14,6 @@ import java.io.IOException;
 import javafx.event.ActionEvent;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 
 /**
  * Controller per il menu di autenticazione.
@@ -24,44 +21,50 @@ import javafx.scene.control.Alert.AlertType;
  */
 public class AuthMenuController {
 
-
     @FXML
     private Pane loginBtn;
-
 
     @FXML
     private TextField nomeUtenteTF;
 
+    @FXML
+    private PasswordField passwordPF;
 
     @FXML
-    private TextField passwordTF;
+    private ToggleButton showPasswordBtn;
 
+    private TextField passwordVisibleTF;
 
     @FXML
     private Label wordaggedonLabel;
-
 
     @FXML
     private Button loginButton;
 
     /**
-     * Mostra una finestra di dialogo con un messaggio informativo.
-     *
-     * @param title   Titolo della finestra di dialogo.
-     * @param message Contenuto del messaggio da mostrare.
+     * Inizializza il controller. Sincronizza i campi password visibile/nascosta.
      */
-    private void showAlert(String title, String message) {
-        Alert alert = new Alert(AlertType.INFORMATION);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
+    @FXML
+    public void initialize() {
+        passwordVisibleTF = new TextField();
+        passwordVisibleTF.setPromptText("Password");
+        passwordVisibleTF.setStyle("-fx-background-radius: 10; -fx-background-color: #eeeeee; -fx-padding: 10;");
+
+        // Inserisce il campo visibile accanto a quello nascosto nel layout
+        HBox parent = (HBox) passwordPF.getParent();
+        parent.getChildren().add(0, passwordVisibleTF);
+
+        // Binding di visibilità e gestione layout
+        passwordVisibleTF.managedProperty().bind(showPasswordBtn.selectedProperty());
+        passwordVisibleTF.visibleProperty().bind(showPasswordBtn.selectedProperty());
+
+        passwordPF.managedProperty().bind(showPasswordBtn.selectedProperty().not());
+        passwordPF.visibleProperty().bind(showPasswordBtn.selectedProperty().not());
+
+        // Sincronizza il testo tra i due campi
+        passwordVisibleTF.textProperty().bindBidirectional(passwordPF.textProperty());
     }
 
-    /**
-     * Gestisce il click sul bottone "Registrati".
-     * Carica e visualizza la schermata di registrazione.
-     */
     @FXML
     private void handleRegisterClick() {
         try {
@@ -73,24 +76,14 @@ public class AuthMenuController {
             stage.show();
         } catch (IOException e) {
             System.err.println(e.getMessage());
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Errore");
-            alert.setHeaderText(null);
-            alert.setContentText("Errore nel caricamento della pagina di registrazione.");
-            alert.showAndWait();
+            showAlert("Errore", "Errore nel caricamento della pagina di registrazione.");
         }
     }
 
-    /**
-     * Gestisce l'evento di login dell'utente.
-     * Verifica le credenziali tramite il DAO e in caso di successo carica il menu principale.
-     *
-     * @param event Evento generato dal click sul bottone di login.
-     */
     @FXML
     private void handleLoginButtonAction(ActionEvent event) {
         String username = nomeUtenteTF.getText();
-        String password = passwordTF.getText();
+        String password = showPasswordBtn.isSelected() ? passwordVisibleTF.getText() : passwordPF.getText();
 
         if (username.isEmpty() || password.isEmpty()) {
             showAlert("Campi mancanti", "Per favore inserisci username e password.");
@@ -101,7 +94,7 @@ public class AuthMenuController {
         User user = dao.checkCredentials(username, password);
 
         if (user != null) {
-            showAlert("Login Successful", "Welcome, " + user.getUsername() + "!");
+            showAlert("Login Successful", "Benvenuto, " + user.getUsername() + "!");
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/MainMenuView.fxml"));
                 Parent mainMenuRoot = loader.load();
@@ -120,5 +113,13 @@ public class AuthMenuController {
         } else {
             showAlert("Login fallito", "Username o password errati.");
         }
+    }
+
+    private void showAlert(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 }
