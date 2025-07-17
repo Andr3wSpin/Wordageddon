@@ -119,6 +119,7 @@ public class MainController implements Initializable {
         if (user.getType() != UserType.ADMIN) {
             NavigationBarItem_Admin.setManaged(false);
             NavigationBarItem_Admin.setVisible(false);
+            NavigationBarItem_Admin.setDisable(true);
         }
 
         loadGamePage();

@@ -9,6 +9,7 @@ model\User.class
 controller\AuthMenuController.class
 controller\AdminController.class
 model\files_management\FileAnalysis$1.class
+model\questions_management\CreateQuestions$1.class
 model\files_management\FileAnalysis.class
 model\files_management\FileManager.class
 mychat\wordageddon_g13\SecondaryController.class
