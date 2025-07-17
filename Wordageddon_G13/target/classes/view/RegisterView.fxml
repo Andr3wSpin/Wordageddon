@@ -25,8 +25,16 @@
             <TextField fx:id="nomeUtenteTF" promptText="User name"
                        style="-fx-background-radius: 10; -fx-background-color: #eeeeee; -fx-padding: 10;" />
 
-            <TextField fx:id="passwordTF" promptText="Password"
-                       style="-fx-background-radius: 10; -fx-background-color: #eeeeee; -fx-padding: 10;" />
+            <HBox alignment="CENTER_LEFT" spacing="5">
+                <PasswordField fx:id="passwordPF" promptText="Password"
+                               style="-fx-background-radius: 10; -fx-background-color: #eeeeee; -fx-padding: 10;" 
+                               HBox.hgrow="ALWAYS" />
+                <TextField fx:id="passwordTF" promptText="Password"
+                           style="-fx-background-radius: 10; -fx-background-color: #eeeeee; -fx-padding: 10;"
+                           visible="false" managed="false" HBox.hgrow="ALWAYS" />
+                <ToggleButton fx:id="showPasswordBtn" text="👁"
+                              style="-fx-background-radius: 10;" />
+            </HBox>
 
             <CheckBox fx:id="adminCheckBox" text="Registra come admin"
                       style="-fx-text-fill: white; -fx-font-size: 14px;" />
