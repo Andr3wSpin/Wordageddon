@@ -16,7 +16,6 @@
     </top>
 
     <center>
-<<<<<<< HEAD
         <VBox alignment="CENTER" spacing="20" maxWidth="400"
               style="-fx-background-color: rgba(255,255,255,0.05); -fx-background-radius: 20; -fx-padding: 40;">
 
@@ -35,21 +34,6 @@
             <Label text="Ancora non sei registrato?"
                    style="-fx-text-fill: white; -fx-font-size: 14px; -fx-underline: true;"
                    onMouseClicked="#handleRegisterClick" />
-=======
-        <VBox alignment="CENTER" maxWidth="400" spacing="20" style="-fx-background-color: rgba(255,255,255,0.05); -fx-background-radius: 20; -fx-padding: 40;">
-           <children>
-   
-               <Label style="-fx-text-fill: white; -fx-font-size: 28px; -fx-font-weight: bold;" text="Sign-In" />
-   
-               <TextField fx:id="nomeUtenteTF" promptText="User name" style="-fx-background-radius: 10; -fx-background-color: #eeeeee; -fx-padding: 10;" />
-   
-               <TextField fx:id="passwordTF" promptText="Password" style="-fx-background-radius: 10; -fx-background-color: #eeeeee; -fx-padding: 10;" />
-   
-               <Button fx:id="loginButton" onAction="#handleLoginButtonAction" style="-fx-background-color: #0f3460; -fx-text-fill: white; -fx-font-size: 16px; -fx-background-radius: 10; -fx-padding: 10 20;" text="Login" />
-   
-               <Label onMouseClicked="#handleRegisterClick" style="-fx-text-fill: white; -fx-font-size: 14px; -fx-underline: true;" text="Not registered yet? Sign up!" />
-           </children>
->>>>>>> 8d5d4833be057fc5b75b29fdc53917ef197ec206
 
         </VBox>
     </center>
