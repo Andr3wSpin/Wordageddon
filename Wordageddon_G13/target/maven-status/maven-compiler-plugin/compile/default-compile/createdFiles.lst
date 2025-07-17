@@ -4,7 +4,6 @@ controller\ProfileViewController.class
 model\Timer.class
 controller\game_controllers\ResultMenuController.class
 model\enums\QuestionType.class
-mychat\wordageddon_g13\App.class
 model\User.class
 controller\AuthMenuController.class
 controller\AdminController.class
@@ -12,12 +11,10 @@ model\files_management\FileAnalysis$1.class
 model\questions_management\CreateQuestions$1.class
 model\files_management\FileAnalysis.class
 model\files_management\FileManager.class
-mychat\wordageddon_g13\SecondaryController.class
 model\enums\UserType.class
 controller\StartGameMenuController$1.class
 controller\ScoreController.class
 controller\RegisterController.class
-mychat\wordageddon_g13\PrimaryController.class
 controller\MainController.class
 model\files_management\FileAnalysisData.class
 model\questions_management\CreateQuestions.class

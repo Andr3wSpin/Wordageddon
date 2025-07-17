@@ -9,7 +9,7 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<Pane prefHeight="800.0" prefWidth="1400.0" style="-fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #1a1a2e, #16213e, #0f3460);" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.game_controllers.TextMenuController">
+<Pane prefHeight="800.0" prefWidth="1400.0" style="-fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #1a1a2e, #16213e, #0f3460);" xmlns="http://javafx.com/javafx/ 8.0.411" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.game_controllers.TextMenuController">
    <children>
       <TextArea fx:id="textArea" layoutX="33.0" layoutY="28.0" prefHeight="615.0" prefWidth="1145.0" />
       <HBox alignment="CENTER" layoutX="148.0" layoutY="643.0" prefHeight="142.0" prefWidth="966.0" spacing="150.0">
