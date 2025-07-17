@@ -142,7 +142,7 @@ public class ScoreController implements Initializable {
         List<String> leaderboardEntries = accesDB.leaderBoard(diff);
 
         for (String string : leaderboardEntries) {
-            String[] parts = string.split("-");
+            String[] parts = string.split(";");
             ObservableList<String> row = FXCollections.observableArrayList(parts);
             data.add(row);
         }
