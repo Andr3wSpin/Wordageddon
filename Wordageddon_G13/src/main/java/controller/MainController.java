@@ -99,7 +99,7 @@ public class MainController implements Initializable {
             fa = fa.readAnalysis();
             System.out.println("ANALISI LETTA:\n" + fa.getAnalysis());
             System.out.println("Stop Words \n" + fa.getStopwords());
-            areaStopWords.setText( fa.getStopwords().toString()  );
+          if(!fa.getStopwords().isEmpty())  areaStopWords.setText( fa.getStopwords().toString()  );
         } catch (IOException e) {
             showMessage(e.getMessage(), Alert.AlertType.ERROR);
         }
