@@ -6,6 +6,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.control.CheckBox;
 
@@ -34,6 +35,9 @@ public class RegisterController {
     @FXML
     private CheckBox adminCheckBox;
 
+    @FXML
+    private Button registerButton;
+
     private WordageddonDAOSQLite dao = new WordageddonDAOSQLite();
 
     /**
@@ -52,7 +56,7 @@ public class RegisterController {
 
         // Controlla se i campi sono vuoti
         if (username.isEmpty() || password.isEmpty()) {
-            showAlert(AlertType.ERROR, "Per favore completa tutti i campi.");
+            showAlert(AlertType.ERROR, "Per favore compila tutti i campi.");
             return;
         }
 
