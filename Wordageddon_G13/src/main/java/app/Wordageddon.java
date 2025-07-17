@@ -1,6 +1,7 @@
 package app;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -21,6 +22,7 @@ public class Wordageddon extends Application {
         scene = new Scene(loadFXML("AuthView"));
         stage.setScene(scene);
         stage.setResizable(false);
+        stage.setOnCloseRequest(event -> Platform.exit());
         stage.show();
     }
 

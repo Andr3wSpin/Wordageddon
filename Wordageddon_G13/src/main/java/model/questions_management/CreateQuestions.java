@@ -119,34 +119,28 @@ public class CreateQuestions {
         String fileName = choosenFiles.get(randomFile);
 
         Map<String, Integer> wordCounts = fileAnalysis.get(fileName);
-        if (wordCounts == null || wordCounts.isEmpty()) return null;
+        if (wordCounts == null || wordCounts.size() < 4) return null;
 
-        int max = wordCounts.values().stream()
-                .max(Integer::compareTo)
-                .orElse(0);
+        List<String> wordList = new ArrayList<>(wordCounts.keySet());
 
-        List<String> mostFrequentWords = wordCounts.entrySet().stream()
-                .filter(entry -> entry.getValue() == max)
-                .map(Map.Entry::getKey)
-                .collect(Collectors.toList());
+        // Assicurati di avere almeno 4 parole distinte
+        Set<String> selectedWords = new HashSet<>();
+        while (selectedWords.size() < 4) {
+            String word = wordList.get(random.nextInt(wordList.size()));
+            selectedWords.add(word);
+        }
 
-        if (mostFrequentWords.isEmpty()) return null;
+        // Trova la parola con frequenza massima tra le 4 selezionate
+        String correctAnswer = selectedWords.stream()
+                .max(Comparator.comparingInt(wordCounts::get))
+                .orElse(null);
 
-        String correctAnswer = mostFrequentWords.get(random.nextInt(mostFrequentWords.size()));
+        if (correctAnswer == null) return null;
+
         String questionText = QuestionType.TYPE2.getText()
                 .replace("<nome_documento>", fileName.replace(".txt", ""));
 
-        Set<String> randomAnswer = new HashSet<>();
-        randomAnswer.add(correctAnswer);
-
-        List<String> words = new ArrayList<>(wordCounts.keySet());
-
-        while(randomAnswer.size() < 4) {
-            String word = words.get(random.nextInt(words.size()));
-            randomAnswer.add(word);
-        }
-
-        return new Question(questionText, correctAnswer, randomAnswer);
+        return new Question(questionText, correctAnswer, selectedWords);
     }
 
     /**
