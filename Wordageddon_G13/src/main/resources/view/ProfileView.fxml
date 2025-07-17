@@ -32,7 +32,7 @@
                   <Font name="Microsoft YaHei Bold" size="60.0" />
                </font>
             </Text>
-            <Text fx:id="textField_NomeUser" fill="#f7f7f7" strokeType="OUTSIDE" strokeWidth="0.0" text="nomeUeser" textAlignment="CENTER" wrappingWidth="361.97078704833984">
+            <Text fx:id="textField_NomeUser" fill="#f7f7f7" strokeType="OUTSIDE" strokeWidth="0.0" text="nomeUser" textAlignment="CENTER" wrappingWidth="361.97078704833984">
                <font>
                   <Font name="Microsoft YaHei Bold" size="45.0" />
                </font>
@@ -61,7 +61,7 @@
                         </StackPane>
                      </graphic>
                   </Button>
-                  <Button fx:id="ChangeDataButton" mnemonicParsing="false" onAction="#ChangeDataButton" prefHeight="50.0" prefWidth="215.0" style="-fx-border-color: red; -fx-background-color: red; -fx-text-fill: white; -fx-font-family: &quot;Microsoft YaHei&quot;; -fx-font-size: 20; -fx-border-radius: 20; -fx-background-radius: 15;">
+                  <Button fx:id="ChangeInfoButton" mnemonicParsing="false" onAction="#ChangeInfoButton" prefHeight="50.0" prefWidth="215.0" style="-fx-border-color: red; -fx-background-color: red; -fx-text-fill: white; -fx-font-family: &quot;Microsoft YaHei&quot;; -fx-font-size: 20; -fx-border-radius: 20; -fx-background-radius: 15;">
                      <graphic>
                         <StackPane alignment="CENTER_LEFT" prefHeight="33.0" prefWidth="104.0">
                            <children>
@@ -70,12 +70,7 @@
                                     <Image url="@../assets/editProfile.png" />
                                  </image>
                               </ImageView>
-                              <Label fx:id="Label_ChangeData" alignment="CENTER" prefHeight="27.0" prefWidth="251.0" style="-fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 20;" text="Change  Data">
-                                 <padding>
-                                    <Insets left="20.0" />
-                                 </padding>
-                              </Label>
-                              <Label fx:id="Label_ChangeData1" alignment="CENTER" layoutX="10.0" layoutY="14.0" prefHeight="27.0" prefWidth="251.0" style="-fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 20;" text="Change  Data">
+                              <Label fx:id="Label_ChangeInfo" alignment="CENTER" prefHeight="27.0" prefWidth="251.0" style="-fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 20;" text="Change  info">
                                  <padding>
                                     <Insets left="20.0" />
                                  </padding>
@@ -87,7 +82,7 @@
                         </StackPane>
                      </graphic>
                   </Button>
-                  <Button fx:id="ChangeDataButton1" mnemonicParsing="false" onAction="#deleteAccount" prefHeight="50.0" prefWidth="215.0" style="-fx-border-color: red; -fx-background-color: red; -fx-text-fill: white; -fx-font-family: &quot;Microsoft YaHei&quot;; -fx-font-size: 20; -fx-border-radius: 20; -fx-background-radius: 15;">
+                  <Button fx:id="deleteAccountBtn" mnemonicParsing="false" onAction="#deleteAccount" prefHeight="50.0" prefWidth="215.0" style="-fx-border-color: red; -fx-background-color: red; -fx-text-fill: white; -fx-font-family: &quot;Microsoft YaHei&quot;; -fx-font-size: 20; -fx-border-radius: 20; -fx-background-radius: 15;">
                      <graphic>
                         <StackPane fx:id="deleteAccountButton" alignment="CENTER_LEFT" prefHeight="33.0" prefWidth="104.0">
                            <cursor>
