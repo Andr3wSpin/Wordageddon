@@ -32,7 +32,7 @@
                   <Font name="Microsoft YaHei Bold" size="60.0" />
                </font>
             </Text>
-            <Text fx:id="textField_NomeUser" fill="#f7f7f7" strokeType="OUTSIDE" strokeWidth="0.0" text="nomeUeser" textAlignment="CENTER" wrappingWidth="361.97078704833984">
+            <Text fx:id="textField_NomeUser" fill="#f7f7f7" strokeType="OUTSIDE" strokeWidth="0.0" text="nomeUser" textAlignment="CENTER" wrappingWidth="361.97078704833984">
                <font>
                   <Font name="Microsoft YaHei Bold" size="45.0" />
                </font>
@@ -70,12 +70,7 @@
                                     <Image url="@../assets/editProfile.png" />
                                  </image>
                               </ImageView>
-                              <Label fx:id="Label_ChangeData" alignment="CENTER" prefHeight="27.0" prefWidth="251.0" style="-fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 20;" text="Change  Data">
-                                 <padding>
-                                    <Insets left="20.0" />
-                                 </padding>
-                              </Label>
-                              <Label fx:id="Label_ChangeData1" alignment="CENTER" layoutX="10.0" layoutY="14.0" prefHeight="27.0" prefWidth="251.0" style="-fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 20;" text="Change  Data">
+                              <Label fx:id="Label_ChangeData" alignment="CENTER" prefHeight="27.0" prefWidth="251.0" style="-fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 20;" text="Change  info ">
                                  <padding>
                                     <Insets left="20.0" />
                                  </padding>
