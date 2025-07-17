@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.text.*?>
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
@@ -14,11 +11,11 @@
                 <Font size="24.0" />
             </font>
         </Label>
-        <Label layoutX="14.0" layoutY="93.0" text="Risposte Risposte corrette:" />
-        <Label layoutX="400.0" layoutY="93.0" text="Risposte errate:" />
+        <Label layoutX="65.0" layoutY="93.0" prefHeight="21.0" prefWidth="122.0" text="Risposte corrette:" />
+        <Label layoutX="394.0" layoutY="93.0" text="Risposte errate:" />
         <Label layoutX="700.0" layoutY="93.0" text="Risposte non date:" />
         <Label layoutX="394.0" layoutY="161.0" text="Punteggio totale:" />
-        <Label fx:id="correctAnswersLabel" layoutX="196.0" layoutY="93.0" text="Label" />
+        <Label fx:id="correctAnswersLabel" layoutX="187.0" layoutY="93.0" text="Label" />
         <Label fx:id="wrongAnswersLabel" layoutX="508.0" layoutY="93.0" text="Label" />
         <Label fx:id="noAnswersLabel" layoutX="830.0" layoutY="93.0" text="Label" />
         <Label fx:id="pointsLabel" layoutX="515.0" layoutY="161.0" text="Label" />

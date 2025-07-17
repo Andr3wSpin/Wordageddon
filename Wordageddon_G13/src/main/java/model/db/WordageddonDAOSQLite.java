@@ -167,7 +167,7 @@ public class WordageddonDAOSQLite implements WordageddonDAO {
                 while (rs.next()) {
                     String username = rs.getString("username");
                     int maxScore = rs.getInt("max_score");
-                    leaderBoardEntries.add(username + " - " + maxScore);
+                    leaderBoardEntries.add(username + " ; " + maxScore);
                 }
             }
 

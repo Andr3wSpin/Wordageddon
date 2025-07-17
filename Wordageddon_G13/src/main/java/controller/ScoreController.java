@@ -73,6 +73,7 @@ public class ScoreController implements Initializable {
         hardButton.setToggleGroup(diffToggleGroup);
         diffToggleGroup.selectToggle(null);
         showLeaderboard(Difficulty.EASY);
+        diffToggleGroup.selectToggle(easyButton);
     }
 
     /**
@@ -142,7 +143,7 @@ public class ScoreController implements Initializable {
         List<String> leaderboardEntries = accesDB.leaderBoard(diff);
 
         for (String string : leaderboardEntries) {
-            String[] parts = string.split("-");
+            String[] parts = string.split(";");
             ObservableList<String> row = FXCollections.observableArrayList(parts);
             data.add(row);
         }
