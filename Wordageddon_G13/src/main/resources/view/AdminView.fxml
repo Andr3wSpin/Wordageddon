@@ -10,9 +10,9 @@
    <children>
       <BorderPane prefHeight="200.0" prefWidth="200.0">
          <center>
-            <ScrollPane fx:id="scrollView" prefHeight="617.0" prefWidth="811.0" style="-fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #1a1a2e, #16213e, #0f3460), radial-gradient(radius 100%, transparent, #00000066);" BorderPane.alignment="CENTER">
+            <ScrollPane fx:id="scrollView" prefHeight="800.0" prefWidth="811.0" style="-fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #1a1a2e, #16213e, #0f3460), radial-gradient(radius 100%, transparent, #00000066);" BorderPane.alignment="CENTER">
                <content>
-                  <FlowPane fx:id="fileContainer" hgap="10.0" prefHeight="617.0" prefWidth="771.0" prefWrapLength="700.0" style="-fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #1a1a2e, #16213e, #0f3460), radial-gradient(radius 100%, transparent, #00000066);" vgap="10.0">
+                  <FlowPane fx:id="fileContainer" hgap="10.0" prefHeight="800.0" prefWidth="771.0" prefWrapLength="700.0" style="-fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #1a1a2e, #16213e, #0f3460), radial-gradient(radius 100%, transparent, #00000066);" vgap="10.0">
                      <padding>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </padding>
