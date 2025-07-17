@@ -13,19 +13,11 @@ import java.util.function.Consumer;
  */
 public class Timer {
 
-    /**
-     * Timeline di JavaFX che gestisce il conto alla rovescia.
-     */
+
     private Timeline timeline;
 
-    /**
-     * Tempo totale del timer in secondi.
-     */
     private int timeInSeconds;
 
-    /**
-     * Tempo rimanente in secondi.
-     */
     private int remainingSeconds;
 
     /**
@@ -58,14 +50,14 @@ public class Timer {
     }
 
     /**
-     * Avvia o riprende il timer.
+     * Avvia il timer.
      */
     public void start() {
         timeline.play();
     }
 
     /**
-     * Ferma (pausa) il timer.
+     * Ferma il timer.
      */
     public void stop() {
         timeline.pause();
